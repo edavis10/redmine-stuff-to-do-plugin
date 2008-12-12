@@ -29,7 +29,7 @@ spec_prereq = :noop
 task :noop do
 end
 
-task :default => :spec
+task :default => [:spec, :features]
 task :stats => "spec:statsetup"
 
 desc "Run all specs in spec directory (excluding plugin specs)"
