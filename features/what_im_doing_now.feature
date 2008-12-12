@@ -20,3 +20,14 @@ Feature: What I'm doing now
     Then I should see "What's recommended to do next"
     And I should see a list of tasks called "recommended"
     And I should see a row for 10 recommended tasks
+
+  Scenario: See a list of all assigned tasks
+    Given there are 30 issues assigned to me
+    And there are 5 next issues
+    And there are 10 issues not assigned to me
+    And I am logged in
+    And I am on the stuff to do page
+    Then I should see "What's available"
+    And I should see a list of tasks called "available"
+    And I should see a row for 30 available tasks
+    And I should not see the next issue in the available task list

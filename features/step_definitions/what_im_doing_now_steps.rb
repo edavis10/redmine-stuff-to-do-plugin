@@ -26,9 +26,23 @@ Given /there are (\d+) next issues/ do |number|
   NextIssue.destroy_all
   Issue.destroy_all
   number.to_i.times do |n|
-    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status)
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user)
     issue.save false # Skip all the extra associations Redmine uses
     NextIssue.create! :user => @current_user, :issue => issue
+  end
+end
+
+Given /^there are (\d+) issues assigned to me$/ do |number|
+  number.to_i.times do |n|
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user)
+    issue.save false # Skip all the extra associations Redmine uses
+  end
+end
+
+Given /^there are (\d+) issues not assigned to me$/ do |number|
+  number.to_i.times do |n|
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => nil)
+    issue.save false # Skip all the extra associations Redmine uses
   end
 end
 
