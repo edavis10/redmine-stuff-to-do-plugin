@@ -4,6 +4,10 @@
 
 <ul id="doing-now">
   <% @doing_now.each do |item| %>
-  <li class="now"><%= h item.issue.subject %></li>
+  <li class="now">
+    <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
+    - <%= h(item.issue.project.name) %> -
+    <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
+  </li>
   <% end %>
 </ul>
