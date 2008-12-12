@@ -47,8 +47,8 @@ Given /^there are (\d+) issues not assigned to me$/ do |number|
 end
 
 
-Then /^I should see a list of tasks called "doing-now"$/ do
-  response.should have_tag("ul#doing-now")
+Then /^I should see a list of tasks called "(.*)"$/ do |named|
+  response.should have_tag("ul##{named}")
 end
 
 Then /^I should see a row for (\d+) to do now tasks$/ do |number|
@@ -68,10 +68,6 @@ end
 # Then /^I should see the issue title in the row$/ do
 #   response.should  have_tag("li", 'Issue 1 Title')
 # end
-
-Then /^I should see a list of tasks called "recommended"$/ do
-  response.should have_tag("ul#recommended")
-end
 
 Then /^I should see a row for (\d+) recommended tasks$/ do |number|
   response.should have_tag("ul#recommended") do
