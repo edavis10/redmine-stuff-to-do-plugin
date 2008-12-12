@@ -1,3 +1,9 @@
 <h1><%= l(:stuff_to_do_title) %></h1>
 
 <h2><%= l(:stuff_to_do_what_im_doing_now) %></h2>
+
+<ul id="doing-now">
+  <% @doing_now.each do |item| %>
+  <li class="now"><%= h item.issue.subject %></li>
+  <% end %>
+</ul>
