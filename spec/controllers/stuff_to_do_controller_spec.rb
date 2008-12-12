@@ -19,11 +19,19 @@ describe StuffToDoController, '#index' do
   it 'should set @doing_now to the top 5 issues for the current user' do
     stuff = []
     5.times { stuff << mock('stuff') }
-    NextIssue.should_receive(:find).with(:all, { :conditions => ['user_id = ?', @current_user.id], :limit => 5, :order => 'position ASC' }).and_return(stuff)
+    NextIssue.should_receive(:doing_now).with(@current_user).and_return(stuff)
     get :index
     assigns[:doing_now].should have(5).things
   end
-  
+
+  it 'should set @recommended to the next 10 issues for the current user' do
+    stuff = []
+    10.times { stuff << mock('stuff') }
+    NextIssue.should_receive(:recommended).with(@current_user).and_return(stuff)
+    get :index
+    assigns[:recommended].should have(10).things
+  end
+
 end
 
 # TODO: Test unauthenticated
