@@ -1,5 +1,12 @@
 require 'redmine'
 
+Dir[File.join(directory,'vendor','plugins','*')].each do |dir|
+  path = File.join(dir, 'lib')
+  $LOAD_PATH << path
+  Dependencies.load_paths << path
+  Dependencies.load_once_paths.delete(path)
+end
+
 Redmine::Plugin.register :stuff_to_do_plugin do
   name 'Stuff To Do Plugin'
   author 'Eric Davis'
@@ -10,4 +17,3 @@ Redmine::Plugin.register :stuff_to_do_plugin do
   
 
 end
-
