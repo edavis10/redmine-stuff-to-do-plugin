@@ -8,6 +8,7 @@ Dir[File.expand_path(File.dirname(__FILE__)) + "/lib/tasks/**/*.rake"].sort.each
 
 # Modifided from the RSpec on Rails plugins
 PLUGIN_ROOT = File.expand_path(File.dirname(__FILE__))
+REDMINE_ROOT = File.expand_path(File.dirname(__FILE__) + '/../../../')
 REDMINE_APP = File.expand_path(File.dirname(__FILE__) + '/../../../app')
 REDMINE_LIB = File.expand_path(File.dirname(__FILE__) + '/../../../lib')
 
@@ -15,6 +16,9 @@ require 'rake'
 require 'rake/clean'
 require 'rake/rdoctask'
 require 'spec/rake/spectask'
+
+$:.unshift(REDMINE_ROOT + '/vendor/plugins/cucumber/lib')
+require 'cucumber/rake/task'
 
 PROJECT_NAME = 'stuff_to_to_plugin'
 REDMINE_PROJECT_NAME = 'redmine-stuff-to-do'
@@ -62,6 +66,11 @@ namespace :spec do
       t.spec_files = FileList["spec/#{sub}/**/*_spec.rb"]
     end
   end
+end
+
+# TODO: Requires webrat to be installed as a plugin....
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "--format pretty"
 end
 
 desc 'Generate documentation for the Budget plugin.'
