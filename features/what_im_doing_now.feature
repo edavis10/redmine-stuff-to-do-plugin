@@ -30,4 +30,3 @@ Feature: What I'm doing now
     Then I should see "What's available"
     And I should see a list of tasks called "available"
     And I should see a row for 30 "available" tasks
-    And I should not see the next issue in the available task list
