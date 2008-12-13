@@ -1,7 +1,7 @@
 Feature: What I'm doing now
-  In order to work on a task
-  user
-  wants to have a prioritized list of their tasks to do now.
+  As a user with issues to work on
+  I want to see a prioritized list of what to work on
+  So I can work on the most important issue next
 
   Scenario: See a prioritized list of tasks to do now
     Given there are 5 next issues
