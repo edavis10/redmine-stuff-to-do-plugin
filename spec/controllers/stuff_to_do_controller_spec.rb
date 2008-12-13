@@ -4,6 +4,7 @@ describe StuffToDoController, '#index' do
   before(:each) do
     @current_user = mock_model(User, :admin? => false, :logged? => true)
     User.stub!(:current).and_return(@current_user)
+    NextIssue.stub!(:available)
   end
   
   it 'should be successful' do
@@ -30,6 +31,14 @@ describe StuffToDoController, '#index' do
     NextIssue.should_receive(:recommended).with(@current_user).and_return(stuff)
     get :index
     assigns[:recommended].should have(10).things
+  end
+  
+  it 'should set @available to the assigned issues that are not next issues for the current user' do
+    stuff = []
+    6.times { stuff << mock('stuff') }
+    NextIssue.should_receive(:available).with(@current_user).and_return(stuff)
+    get :index
+    assigns[:available].should have(6).things
   end
 
 end
