@@ -19,4 +19,13 @@ class NextIssue < ActiveRecord::Base
       :order => 'position ASC'
     }
   }
+  
+  def self.available(user)
+    issues = Issue.find(:all,
+                        :include => :status,
+                        :conditions => ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?",user.id, false ])
+    next_issues = NextIssue.find(:all, :conditions => { :user_id => user.id }).collect(&:issue)
+
+    return issues - next_issues
+  end
 end
