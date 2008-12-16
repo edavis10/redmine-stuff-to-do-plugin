@@ -1,7 +1,7 @@
 class NextIssue < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
-  acts_as_list
+  acts_as_list :scope => :user
   
   named_scope :doing_now, lambda { |user|
     {
