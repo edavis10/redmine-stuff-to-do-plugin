@@ -22,7 +22,7 @@ module StuffToDoIssuePatch
   
   module InstanceMethods
     def update_next_issues
-      NextIssue.closing_issue(self)
+      NextIssue.closing_issue(self) if self.closed?
       return true
     end
   end    

@@ -16,9 +16,17 @@ describe Issue, 'after_save' do
 end
 
 describe Issue, 'update_next_issues' do
-  it 'should call NextIssue#closing_issue' do
+  it 'should call NextIssue#closing_issue if the issue is closed' do
     issue = Issue.new
+    issue.should_receive(:closed?).and_return(true)
     NextIssue.should_receive(:closing_issue).with(issue)
+    issue.update_next_issues
+  end
+
+  it 'should not call NextIssue#closing_issue if the issue is open' do
+    issue = Issue.new
+    issue.should_receive(:closed?).and_return(false)
+    NextIssue.should_not_receive(:closing_issue)
     issue.update_next_issues
   end
 
@@ -26,6 +34,7 @@ describe Issue, 'update_next_issues' do
     NextIssue.stub!(:closing_issue)
 
     issue = Issue.new
+    issue.stub!(:closed?).and_return(false)
     issue.update_next_issues.should be_true
   end
 end
