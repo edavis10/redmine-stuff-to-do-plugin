@@ -7,7 +7,7 @@
 
     <ul id="doing-now">
       <% @doing_now.each do |item| %>
-      <li class="issue">
+      <li class="issue" id="issue_<%= item.issue.id %>">
         <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
         - <%= h(item.issue.project.name) %> -
         <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
@@ -22,7 +22,7 @@
 
     <ul id="recommended">
       <% @recommended.each do |item| %>
-      <li class="issue">
+      <li class="issue" id="issue_<%= item.issue.id %>">
         <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
         - <%= h(item.issue.project.name) %> -
         <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
@@ -40,7 +40,7 @@
   <div id="available-pane">
     <ul id="available">
       <% @available.each do |issue| %>
-      <li class="issue">
+      <li class="issue" id="issue_<%= issue.id %>">
         <%= link_to('#' + issue.id.to_s, :controller => 'issues', :action => 'show', :id => issue) %>
         - <%= h(issue.project.name) %> -
         <%= link_to(h(issue.subject), :controller => 'issues', :action => 'show', :id => issue) %>
@@ -53,6 +53,29 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
   <%= javascript_include_tag 'jquery-1.2.6.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery-ui.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_tag("jQuery.noConflict();") %>
   <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
+
+<%# TODO: Move to js file after dev %>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+    jQuery("#available").sortable({ 
+        connectWith: ["#doing-now", "#recommended"], 
+        update : function () {
+            console.log('ava');
+            console.log(jQuery("#doing-now").sortable('serialize'));
+            console.log(jQuery("#recommended").sortable('serialize'));
+        }
+
+    }); 
+    jQuery("#doing-now").sortable({ 
+        connectWith: ["#available", "#recommended"], 
+    });  
+
+    jQuery("#recommended").sortable({ 
+        connectWith: ["#available", "#doing-now"],
+    });  
+});
+</script>
 <% end %>
