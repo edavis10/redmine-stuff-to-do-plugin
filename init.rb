@@ -7,6 +7,8 @@ Dir[File.join(directory,'vendor','plugins','*')].each do |dir|
   Dependencies.load_once_paths.delete(path)
 end
 
+require_dependency 'stuff_to_do_issue_patch.rb'
+
 Redmine::Plugin.register :stuff_to_do_plugin do
   name 'Stuff To Do Plugin'
   author 'Eric Davis'
