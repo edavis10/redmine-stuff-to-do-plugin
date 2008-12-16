@@ -16,25 +16,33 @@ describe Issue, 'after_save' do
 end
 
 describe Issue, 'update_next_issues' do
+  before(:each) do
+    @issue = Issue.new
+    @issue.stub!(:reload)
+    @issue.stub!(:closed?).and_return(false)
+  end
+  
+  it 'should reload the issue to clear the cache holding its status' do
+    @issue.should_receive(:reload)
+    @issue.stub!(:closed?).and_return(true)
+    @issue.update_next_issues
+  end
+  
   it 'should call NextIssue#closing_issue if the issue is closed' do
-    issue = Issue.new
-    issue.should_receive(:closed?).and_return(true)
-    NextIssue.should_receive(:closing_issue).with(issue)
-    issue.update_next_issues
+    @issue.should_receive(:closed?).and_return(true)
+    NextIssue.should_receive(:closing_issue).with(@issue)
+    @issue.update_next_issues
   end
 
   it 'should not call NextIssue#closing_issue if the issue is open' do
-    issue = Issue.new
-    issue.should_receive(:closed?).and_return(false)
+    @issue.should_receive(:closed?).and_return(false)
     NextIssue.should_not_receive(:closing_issue)
-    issue.update_next_issues
+    @issue.update_next_issues
   end
 
   it 'should return true for the callbacks' do
     NextIssue.stub!(:closing_issue)
 
-    issue = Issue.new
-    issue.stub!(:closed?).and_return(false)
-    issue.update_next_issues.should be_true
+    @issue.update_next_issues.should be_true
   end
 end

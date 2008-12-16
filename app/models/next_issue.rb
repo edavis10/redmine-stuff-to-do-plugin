@@ -28,4 +28,13 @@ class NextIssue < ActiveRecord::Base
 
     return issues - next_issues
   end
+  
+  def self.closing_issue(issue)
+    return false unless issue.closed?
+    NextIssue.find(:all, :conditions => { :issue_id => issue.id }).each do |next_issue|
+      next_issue.destroy
+    end
+    
+    return true
+  end
 end

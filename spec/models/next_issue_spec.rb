@@ -51,3 +51,27 @@ describe NextIssue, '#available' do
     available.should eql(issues)
   end
 end
+
+
+describe NextIssue, '#closing_issue' do
+  before(:each) do
+    @issue = mock_model(Issue)
+    @issue.stub!(:closed?).and_return(true)
+  end
+  
+  it 'should do nothing if the issue is still open' do
+    @issue.should_receive(:closed?).and_return(false)
+    NextIssue.closing_issue(@issue)
+  end
+
+  it 'should delete all NextIssues for the closed issue' do
+    next_issue_one = mock_model(NextIssue, :issue_id => @issue.id)
+    next_issue_one.should_receive(:destroy).and_return(true)
+    next_issue_two = mock_model(NextIssue, :issue_id => @issue.id)
+    next_issue_two.should_receive(:destroy).and_return(true)
+    next_issues = [next_issue_one, next_issue_two]
+    NextIssue.should_receive(:find).with(:all, { :conditions => { :issue_id => @issue.id }}).and_return(next_issues)
+
+    NextIssue.closing_issue(@issue)
+  end
+end
