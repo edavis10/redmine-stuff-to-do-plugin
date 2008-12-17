@@ -31,36 +31,54 @@
 <%# TODO: Move to js file after dev %>
 <script type="text/javascript">
 jQuery(document).ready(function(){
+    attachSortables();
+});
+
+function attachSortables() {
     jQuery("#available").sortable({ 
         connectWith: ["#doing-now", "#recommended"], 
         update : function () {
             console.log('ava');
-            console.log(jQuery("#doing-now").sortable('serialize'));
-            console.log(jQuery("#recommended").sortable('serialize'));
-            data = jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
-            jQuery.post('/stuff_to_do/reorder.js', data, function(response) {
-                jQuery('.splitcontentleft').html(response);
-
-                // Reattach sortables
-                jQuery("#doing-now").sortable({ 
-                    connectWith: ["#available", "#recommended"], 
-                });  
-
-                jQuery("#recommended").sortable({ 
-                    connectWith: ["#available", "#doing-now"],
-                })
-            });
-
+            saveOrder();
         }
 
     }); 
     jQuery("#doing-now").sortable({ 
         connectWith: ["#available", "#recommended"], 
+        update : function () {
+            console.log('doi');
+            saveOrder();
+        }
     });  
 
     jQuery("#recommended").sortable({ 
         connectWith: ["#available", "#doing-now"],
+        update : function () {
+            console.log('rec');
+            saveOrder();
+        }
     });  
-});
+
+}
+
+function saveOrder() {
+    data = jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
+    jQuery.post('/stuff_to_do/reorder.js', data, function(response) {
+        jQuery('.splitcontentleft').html(response);
+        attachSortables();
+    });
+
+}
+
+function checkRecommended() {
+    if (jQuery('#recommended li').length >= 10) {
+        jQuery("#available").sortable('disable');
+        jQuery("#doing-now").sortable('disable');
+    } else {
+        jQuery("#available").sortable('enable');
+        jQuery("#doing-now").sortable('enable');
+    }
+}
+
 </script>
 <% end %>
