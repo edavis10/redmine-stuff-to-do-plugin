@@ -39,8 +39,16 @@ class NextIssue < ActiveRecord::Base
   end
   
   def self.reorder_list(user, issue_ids)
+    issue_ids.map! {|issue_id| issue_id.to_i }
     list = NextIssue.find_all_by_user_id_and_issue_id(user.id, issue_ids)
     next_issues_found = list.collect { |next_issue| next_issue.issue_id.to_i }
+    
+    # Remove NextIssues that are not in the issue_ids
+    removed_issues = next_issues_found - issue_ids
+    removed_issues.each do |issue_id|
+      NextIssue.destroy(issue_id)
+    end
+    
     issue_ids.each do |issue_id|
       if existing_list_position = next_issues_found.index(issue_id.to_i)
         position = issue_ids.index(issue_id) + 1  # acts_as_list is 1 based
