@@ -75,3 +75,49 @@ describe NextIssue, '#closing_issue' do
     NextIssue.closing_issue(@issue)
   end
 end
+
+describe NextIssue, '#reorder_list' do
+  it 'should require a user_id' do
+    lambda { 
+      NextIssue.reorder_list
+    }.should raise_error
+    
+  end
+
+  it 'should require an array of issue ids' do
+    user = mock_model(User)
+    lambda { 
+      NextIssue.reorder_list(user)
+    }.should raise_error
+  end
+  
+  it 'should find all the next issues' do
+    user = mock_model(User)
+    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    next_issues = []
+    issue_ids.each do |id|
+      next_issues << mock_model(NextIssue, :issue_id => id, :insert_at => true)
+    end
+    
+    NextIssue.should_receive(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.reorder_list(user, issue_ids)
+  end
+
+  
+  it 'should save the positions of the issues to the database' do
+    user = mock_model(User)
+    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    next_issues = []
+    issue_ids.each_with_index do |id, array_position|
+      next_issue = mock_model(NextIssue, :issue_id => id)
+      next_issue.should_receive(:insert_at).with(array_position + 1)
+      next_issues << next_issue
+    end
+    
+    NextIssue.stub!(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.reorder_list(user, issue_ids)
+    
+  end
+  
+  it 'should destroy any NextIssues that are not in the list'
+end

@@ -37,4 +37,11 @@ class NextIssue < ActiveRecord::Base
     
     return true
   end
+  
+  def self.reorder_list(user, issue_ids)
+    list = NextIssue.find_all_by_user_id_and_issue_id(user.id, issue_ids)
+    list.each_with_index do |next_issue, array_position|
+      next_issue.insert_at(array_position + 1) # acts_as_list is 1 based
+    end
+  end
 end
