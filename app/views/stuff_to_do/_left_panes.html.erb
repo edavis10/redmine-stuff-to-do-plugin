@@ -1,0 +1,31 @@
+
+  <div id="doing-now-pane">
+    <h3><%= l(:stuff_to_do_what_im_doing_now) %></h3>
+
+    <ul id="doing-now">
+      <% @doing_now.each do |item| %>
+      <li class="issue" id="issue_<%= item.issue.id %>">
+        <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
+        - <%= h(item.issue.project.name) %> -
+        <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <h3><%= l(:stuff_to_do_what_is_recommended) %></h3>
+
+  <div id="recommended-pane">
+
+    <ul id="recommended">
+      <% @recommended.each do |item| %>
+      <li class="issue" id="issue_<%= item.issue.id %>">
+        <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
+        - <%= h(item.issue.project.name) %> -
+        <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+

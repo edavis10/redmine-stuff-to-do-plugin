@@ -7,9 +7,11 @@ class StuffToDoController < ApplicationController
   
   def reorder
     NextIssue.reorder_list(User.current, params[:issue])
+    @doing_now = NextIssue.doing_now(User.current)
+    @recommended = NextIssue.recommended(User.current)
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
-      format.js
+      format.js { render :partial => 'left_panes', :layout => false}
     end
   end
 end
