@@ -24,7 +24,8 @@
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
   <%= javascript_include_tag 'jquery-1.2.6.min.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'jquery-ui.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'ui/ui.core.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'ui/ui.sortable.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_tag("jQuery.noConflict();") %>
   <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
 
@@ -37,25 +38,46 @@ jQuery(document).ready(function(){
 function attachSortables() {
     jQuery("#available").sortable({ 
         connectWith: ["#doing-now", "#recommended"], 
-        update : function () {
+        dropOnEmpty: true,
+        update : function (event, ui) {
             console.log('ava');
-            saveOrder();
+            if (allowRecommended()) {
+                saveOrder();
+            } else {
+                jQuery("#available").sortable('cancel');            
+            }
         }
 
     }); 
     jQuery("#doing-now").sortable({ 
         connectWith: ["#available", "#recommended"], 
-        update : function () {
+        dropOnEmpty: true,
+        update : function (event, ui) {
             console.log('doi');
-            saveOrder();
+            // Don't allow the available to update unless there are free slots.
+            // But allow it to update from it's own sorting and alow what I'm doing now
+            fromAvailable = (ui.sender != null && ui.sender.attr('id') == "available")
+            if (allowRecommended() || !fromAvailable) {
+                saveOrder();
+            } else {
+                jQuery("#available").sortable('cancel');
+            }
         }
     });  
 
     jQuery("#recommended").sortable({ 
         connectWith: ["#available", "#doing-now"],
-        update : function () {
+        dropOnEmpty: true,
+        update : function (event, ui) {
             console.log('rec');
-            saveOrder();
+            // Don't allow the available to update unless there are free slots.
+            // But allow it to update from it's own sorting and alow what I'm doing now
+            fromAvailable = (ui.sender != null && ui.sender.attr('id') == "available")
+            if (allowRecommended() || !fromAvailable) {
+                saveOrder();
+            } else {
+                jQuery("#available").sortable('cancel');
+            }
         }
     });  
 
@@ -70,13 +92,12 @@ function saveOrder() {
 
 }
 
-function checkRecommended() {
-    if (jQuery('#recommended li').length >= 10) {
-        jQuery("#available").sortable('disable');
-        jQuery("#doing-now").sortable('disable');
+function allowRecommended() {
+    // Is +1 because there is a placeholder inserted
+    if (jQuery('#recommended li').length > 11) {
+        return false;
     } else {
-        jQuery("#available").sortable('enable');
-        jQuery("#doing-now").sortable('enable');
+        return true;
     }
 }
 
