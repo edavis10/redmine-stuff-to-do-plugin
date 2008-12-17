@@ -109,7 +109,7 @@ describe NextIssue, '#reorder_list' do
     issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
     next_issues = []
     issue_ids.each_with_index do |id, array_position|
-      next_issue = mock_model(NextIssue, :issue_id => id)
+      next_issue = mock_model(NextIssue, :issue_id => id, :id => id)
       next_issue.should_receive(:insert_at).with(array_position + 1)
       next_issues << next_issue
     end
@@ -117,6 +117,26 @@ describe NextIssue, '#reorder_list' do
     NextIssue.stub!(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
     NextIssue.reorder_list(user, issue_ids)
     
+  end
+  
+  it 'should add new NextIssue that are in the list but not in the database' do
+    user = mock_model(User)
+    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    next_issues = []
+    issue_ids.each_with_index do |id, array_position|
+      next_issues << mock_model(NextIssue, :issue_id => id, :insert_at => true) unless id == "820"
+    end
+
+    next_issue_for_820 = NextIssue.new
+    next_issue_for_820.should_receive(:issue_id=).with('820')
+    next_issue_for_820.should_receive(:user_id=).with(user.id)
+    next_issue_for_820.should_receive(:save).and_return(true)
+    position = issue_ids.index("820") + 1
+    next_issue_for_820.should_receive(:insert_at).with(position)
+    NextIssue.should_receive(:new).and_return(next_issue_for_820)
+    
+    NextIssue.stub!(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.reorder_list(user, issue_ids)
   end
   
   it 'should destroy any NextIssues that are not in the list'
