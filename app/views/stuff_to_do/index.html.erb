@@ -66,6 +66,11 @@ jQuery(document).ready(function(){
             console.log('ava');
             console.log(jQuery("#doing-now").sortable('serialize'));
             console.log(jQuery("#recommended").sortable('serialize'));
+            data = jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
+            jQuery.post('/stuff_to_do/reorder', data, function(response) {
+
+            });
+
         }
 
     }); 
