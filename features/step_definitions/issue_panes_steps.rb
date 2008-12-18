@@ -49,11 +49,11 @@ end
 
 
 Then /^I should see a list of tasks called "(.*)"$/ do |named|
-  response.should have_tag("ul##{named}")
+  response.should have_tag("ol##{named}")
 end
 
 Then /^I should see a row for (\d+) "(.*)" tasks$/ do |number, named|
-  response.should have_tag("ul##{named}") do
+  response.should have_tag("ol##{named}") do
     with_tag("li.issue", :minimum => number.to_i, :maximum => number.to_i)
   end
 end

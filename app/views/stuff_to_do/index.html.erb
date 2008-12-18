@@ -9,7 +9,7 @@
   <h3><%= l(:stuff_to_do_what_is_available) %></h3>
 
   <div id="available-pane">
-    <ul id="available">
+    <ol id="available">
       <% @available.each do |issue| %>
       <li class="issue" id="issue_<%= issue.id %>">
         <%= link_to('#' + issue.id.to_s, :controller => 'issues', :action => 'show', :id => issue) %>
@@ -17,7 +17,7 @@
         <%= link_to(h(issue.subject), :controller => 'issues', :action => 'show', :id => issue) %>
       </li>
       <% end %>
-    </ul>
+    </ol>
   </div>
 </div>
 
