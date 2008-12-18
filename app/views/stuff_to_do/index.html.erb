@@ -45,7 +45,7 @@ function attachSortables() {
     jQuery("#doing-now").sortable({ 
         connectWith: ["#available", "#recommended"], 
         dropOnEmpty: true,
-        update : function (event, ui) {
+        stop : function (event, ui) {
             // Don't allow the available to update unless there are free slots.
             // But allow it to update from it's own sorting and alow what I'm doing now
             fromAvailable = (ui.sender != null && ui.sender.attr('id') == "available")
@@ -60,7 +60,7 @@ function attachSortables() {
     jQuery("#recommended").sortable({ 
         connectWith: ["#available", "#doing-now"],
         dropOnEmpty: true,
-        update : function (event, ui) {
+        stop : function (event, ui) {
             // Don't allow the available to update unless there are free slots.
             // But allow it to update from it's own sorting and alow what I'm doing now
             fromAvailable = (ui.sender != null && ui.sender.attr('id') == "available")
