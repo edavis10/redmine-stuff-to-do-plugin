@@ -99,7 +99,7 @@ describe NextIssue, '#reorder_list' do
       next_issues << mock_model(NextIssue, :issue_id => id, :insert_at => true)
     end
     
-    NextIssue.should_receive(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.should_receive(:find_all_by_user_id).with(user.id).and_return(next_issues)
     NextIssue.reorder_list(user, issue_ids)
   end
 
@@ -114,7 +114,7 @@ describe NextIssue, '#reorder_list' do
       next_issues << next_issue
     end
     
-    NextIssue.stub!(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
     NextIssue.reorder_list(user, issue_ids)
     
   end
@@ -135,7 +135,7 @@ describe NextIssue, '#reorder_list' do
     next_issue_for_820.should_receive(:insert_at).with(position)
     NextIssue.should_receive(:new).and_return(next_issue_for_820)
     
-    NextIssue.stub!(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
     NextIssue.reorder_list(user, issue_ids)
   end
   
@@ -147,11 +147,12 @@ describe NextIssue, '#reorder_list' do
       next_issues << mock_model(NextIssue, :issue_id => id, :insert_at => true)
     end
 
-    extra_next_issue = mock_model(NextIssue, :issue_id => '999')
-    NextIssue.should_receive(:destroy).with(999).and_return(true)
+    extra_next_issue = mock_model(NextIssue, :issue_id => 999)
+    extra_next_issue.should_receive(:destroy).and_return(true)
+    NextIssue.should_receive(:find_by_user_id_and_issue_id).with(user.id, extra_next_issue.issue_id).and_return(extra_next_issue)
     next_issues << extra_next_issue
     
-    NextIssue.stub!(:find_all_by_user_id_and_issue_id).with(user.id, issue_ids).and_return(next_issues)
+    NextIssue.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
     NextIssue.reorder_list(user, issue_ids)
 
   end
