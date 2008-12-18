@@ -34,6 +34,10 @@
 <script type="text/javascript">
 jQuery(document).ready(function(){
     attachSortables();
+
+    jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show();  });
+    jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
+
 });
 
 function attachSortables() {
