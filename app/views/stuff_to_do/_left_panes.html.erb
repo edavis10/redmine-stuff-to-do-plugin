@@ -1,6 +1,9 @@
 
-  <div id="doing-now-pane">
-    <h3><%= l(:stuff_to_do_what_im_doing_now) %></h3>
+  <div class="pane" id="doing-now-pane">
+    <h3>
+      <%= l(:stuff_to_do_what_im_doing_now) %>
+      <span class="subtitle"><%= l(:stuff_to_do_text_order_im_doing_it) %></span>
+    </h3>
 
     <ol id="doing-now">
       <% @doing_now.each do |item| %>
@@ -13,9 +16,11 @@
     </ol>
   </div>
 
-  <h3><%= l(:stuff_to_do_what_is_recommended) %></h3>
-
-  <div id="recommended-pane">
+  <div class="pane" id="recommended-pane">
+    <h3>
+      <%= l(:stuff_to_do_what_is_recommended) %>
+      <span class="subtitle"><%= l(:stuff_to_do_text_by_project_manager) %></span>
+    </h3>
 
     <ol id="recommended">
       <% @recommended.each do |item| %>

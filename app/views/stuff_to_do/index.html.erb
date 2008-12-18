@@ -6,9 +6,9 @@
 
 <div class="splitcontentright">
 
-  <h3><%= l(:stuff_to_do_what_is_available) %></h3>
+  <div class="pane" id="available-pane">
+    <h3><%= l(:stuff_to_do_what_is_available) %></h3>
 
-  <div id="available-pane">
     <ol id="available">
       <% @available.each do |issue| %>
       <li class="issue" id="issue_<%= issue.id %>">
@@ -30,6 +30,7 @@
   <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
 
 <%# TODO: Move to js file after dev %>
+<%# TODO: JSUnit test this %>
 <script type="text/javascript">
 jQuery(document).ready(function(){
     attachSortables();

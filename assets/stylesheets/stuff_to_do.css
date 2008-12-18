@@ -1,1 +1,7 @@
 ul#available { overflow-y:scroll; height: 500px; }
+li.issue { cursor: move; }
+div.pane h3 { color: #507AAA; }
+span.subtitle { font-size: smaller; color: #CCCCCC }
+div.pane ol { list-style: none; padding-left: 15px;}
+div.pane ol li { padding: 1px 0; }
+div.pane ol li:hover { background-color:#ffffdd; }
