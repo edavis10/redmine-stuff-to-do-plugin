@@ -39,16 +39,8 @@ function attachSortables() {
     jQuery("#available").sortable({ 
         connectWith: ["#doing-now", "#recommended"], 
         dropOnEmpty: true,
-        update : function (event, ui) {
-            console.log('ava');
-            if (allowRecommended()) {
-                saveOrder();
-            } else {
-                jQuery("#available").sortable('cancel');            
-            }
-        }
-
     }); 
+
     jQuery("#doing-now").sortable({ 
         connectWith: ["#available", "#recommended"], 
         dropOnEmpty: true,
