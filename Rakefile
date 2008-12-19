@@ -73,6 +73,14 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "--format pretty"
 end
 
+namespace :features do
+  Cucumber::Rake::Task.new(:rcov) do |t|
+    t.cucumber_opts = "--format pretty" 
+    t.rcov = true
+    t.rcov_opts << ["--rails", "--sort=coverage", "--exclude '/var/lib/gems,spec,#{REDMINE_APP},#{REDMINE_LIB},step_definitions,features/support'"]
+  end
+end
+
 desc 'Generate documentation for the Budget plugin.'
 Rake::RDocTask.new(:doc) do |rdoc|
   rdoc.rdoc_dir = 'doc'
