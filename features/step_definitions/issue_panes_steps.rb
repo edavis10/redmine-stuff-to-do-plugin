@@ -32,6 +32,11 @@ Given /^I am logged in as an administrator$/ do
   User.stubs(:current).returns(@current_user)
 end
 
+Given /^I am logged in as a user$/ do
+  @current_user.stubs(:admin?).returns(false)
+  User.stubs(:current).returns(@current_user)
+end
+
 Given /^I am on the stuff to do page$/ do
   visit "/stuff_to_do"
 end
@@ -81,6 +86,12 @@ Given /^there are (\d+) issues not assigned to (\w+)$/ do |number, user_name|
   end
 end
 
+When /^I go to the stuff to do page for (\w+)$/ do |user_name|
+  user = User.find_by_login(user_name)
+  user.should_not be_nil
+  visit "/stuff_to_do", :get, :user_id => user.id
+end
+
 When /^I submit the form "user_switch"$/ do
   submit_form("user_switch")
 end
@@ -122,6 +133,13 @@ Then /should be redirected to the stuff to do page$/ do
   response.should redirect_to('/stuff_to_do')
 end
 
+Then /^I should get a 403 error$/ do
+  response.code.should eql('403')
+end
+
+Then /^see the 403 error page$/ do
+  response.should render_template("common/403")
+end
 
 # TODO: Redmine needs so much built up, this test is unresponable (issue > project > custom fields, custom values, trackers)
 # Then /^I should see the issue title in the row$/ do

@@ -1,5 +1,9 @@
 <h1><%= l(:stuff_to_do_title) %></h1>
 
+<div class="flash error" style="display:none">
+
+</div>
+
 <% if User.current.admin? %>
 <div class="user">
   <% form_tag({ :controller => 'stuff_to_do', :action => 'index'}, :method => :get, :id => 'user_switch' ) do  %>
@@ -94,10 +98,17 @@ function attachSortables() {
 
 function saveOrder() {
     data = 'user_id=' + user_id + '&' + jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
-    jQuery.post('/stuff_to_do/reorder.js', data, function(response) {
-        jQuery('.splitcontentleft').html(response);
-        attachSortables();
-    });
+    jQuery.ajax({
+        type: "POST",
+        url: '/stuff_to_do/reorder.js',
+        data: data,
+        success: function(response) {
+            jQuery('.splitcontentleft').html(response);
+            attachSortables();
+        },
+        error: function(response) {
+            jQuery("div.error").html("Error saving lists.  Please refresh the page and try again.").show();
+        }});
 
 }
 

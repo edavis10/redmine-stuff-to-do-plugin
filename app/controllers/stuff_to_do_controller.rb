@@ -22,8 +22,12 @@ class StuffToDoController < ApplicationController
   private
   
   def get_user
-    if params[:user_id] && User.current.admin?
-      @user = User.find(params[:user_id])
+    if params[:user_id] && params[:user_id] != User.current.id.to_s
+      if User.current.admin?
+        @user = User.find(params[:user_id])
+      else
+        render_403
+      end
     else
       @user = User.current  
     end
