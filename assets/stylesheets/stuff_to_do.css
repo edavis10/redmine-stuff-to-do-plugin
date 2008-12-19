@@ -6,3 +6,4 @@ div.pane ol { list-style: none; padding-left: 15px;}
 div.pane ol li { padding: 1px 0; }
 div.pane ol li:hover { background-color:#ffffdd; }
 div.pane ol li.empty-list { background-color:#FFFFEE; padding:100px; text-align:center; font-style:italic; }
+div.user { float:right; }

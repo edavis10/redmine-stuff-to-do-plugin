@@ -5,6 +5,8 @@ class StuffToDoController < ApplicationController
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
     @available = NextIssue.available(@user)
+    
+    @users = User.active
   end
   
   def reorder

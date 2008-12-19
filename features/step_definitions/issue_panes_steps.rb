@@ -18,7 +18,7 @@ Before do
 end
 
 Given /^there is another user named (\w+)$/ do |name|
-  @other_user = User.new(:mail => 'other_user@example.com', :firstname => name, :lastname => 'Test')
+  @other_user = User.new(:mail => "#{name.downcase}@example.com", :firstname => name, :lastname => 'Test')
   @other_user.login = name
   @other_user.save!
 end
@@ -81,6 +81,10 @@ Given /^there are (\d+) issues not assigned to (\w+)$/ do |number, user_name|
   end
 end
 
+When /^I submit the form "user_switch"$/ do
+  submit_form("user_switch")
+end
+
 
 Then /^I should see a list of tasks called "(.*)"$/ do |named|
   response.should have_tag("ol##{named}")
@@ -95,6 +99,29 @@ end
 Then /^I should see a row for each task to do now$/ do
   response.should have_tag("li")
 end
+
+Then /^there should be a select field called "(\w+)"$/ do |element_name|
+  response.should have_tag("select##{element_name}")
+end
+
+Then /^(\w+) should be in the select field$/ do |user_name|
+  response.should have_tag("option", :text => /#{user_name}/)
+end
+
+Then /^(\w+) should be selected$/ do |user_name|
+  response.should have_tag("option[selected=selected]", :text => /#{user_name}/)
+end
+
+Then /^I should be the stuff to do page$/ do
+  response.should be_success
+  response.request.url.should match(/stuff_to_do/)
+end
+
+Then /should be redirected to the stuff to do page$/ do
+  response.should be_redirect
+  response.should redirect_to('/stuff_to_do')
+end
+
 
 # TODO: Redmine needs so much built up, this test is unresponable (issue > project > custom fields, custom values, trackers)
 # Then /^I should see the issue title in the row$/ do
