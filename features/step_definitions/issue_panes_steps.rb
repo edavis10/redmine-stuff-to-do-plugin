@@ -17,15 +17,32 @@ Before do
   @new_status = IssueStatus.create!(:name => 'New', :is_closed => false)
 end
 
-Given /I am logged in/ do
+Given /^there is another user named (\w+)$/ do |name|
+  @other_user = User.new(:mail => 'other_user@example.com', :firstname => name, :lastname => 'Test')
+  @other_user.login = name
+  @other_user.save!
+end
+
+Given /^I am logged in$/ do
   User.stubs(:current).returns(@current_user)
 end
 
-Given /I am on the stuff to do page/ do
+Given /^I am logged in as an administrator$/ do
+  @current_user.stubs(:admin?).returns(true)
+  User.stubs(:current).returns(@current_user)
+end
+
+Given /^I am on the stuff to do page$/ do
   visit "/stuff_to_do"
 end
 
-Given /there are (\d+) next issues/ do |number|
+Given /^I am on the stuff to do page for (\w+)$/ do |user_name|
+  user = User.find_by_login(user_name)
+  user.should_not be_nil
+  visit "/stuff_to_do", :get, :user_id => user.id
+end
+
+Given /^there are (\d+) next issues$/ do |number|
   number.to_i.times do |n|
     issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user)
     issue.save false # Skip all the extra associations Redmine uses
@@ -33,14 +50,31 @@ Given /there are (\d+) next issues/ do |number|
   end
 end
 
-Given /^there are (\d+) issues assigned to me$/ do |number|
+Given /^there are (\d+) next issues for (\w+)/ do |number, user_name|
+  user = User.find_by_login(user_name)
+  user.should_not be_nil
+
   number.to_i.times do |n|
-    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user)
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => user)
+    issue.save false # Skip all the extra associations Redmine uses
+    NextIssue.create! :user => user, :issue => issue
+  end
+end
+
+Given /^there are (\d+) issues assigned to (\w+)$/ do |number, user_name|
+  if user_name.match(/me/i)
+    user = @current_user
+  else
+    user = User.find_by_login(user_name)
+  end
+
+  number.to_i.times do |n|
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => user)
     issue.save false # Skip all the extra associations Redmine uses
   end
 end
 
-Given /^there are (\d+) issues not assigned to me$/ do |number|
+Given /^there are (\d+) issues not assigned to (\w+)$/ do |number, user_name|
   number.to_i.times do |n|
     issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => nil)
     issue.save false # Skip all the extra associations Redmine uses
