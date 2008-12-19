@@ -28,6 +28,7 @@
   <%= javascript_include_tag 'ui/ui.sortable.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_tag("jQuery.noConflict();") %>
   <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_tag("var user_id = #{@user.id};") %>
 
 <%# TODO: Move to js file after dev %>
 <%# TODO: JSUnit test this %>
@@ -79,7 +80,7 @@ function attachSortables() {
 }
 
 function saveOrder() {
-    data = jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
+    data = 'user_id=' + user_id + '&' + jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
     jQuery.post('/stuff_to_do/reorder.js', data, function(response) {
         jQuery('.splitcontentleft').html(response);
         attachSortables();
