@@ -85,6 +85,13 @@ function updateList(ui) {
         saveOrder();
     } else {
         jQuery("#available").sortable('cancel');
+
+        jQuery("div.error")
+        .html("Only 15 issues can be added for a user.  To add another issues, please remove one from the doing now or the recommended pane.")
+        .show()
+        .animate({opacity: 1.0}, 6000)
+        .fadeOut("slow");
+
     }
 }
 
