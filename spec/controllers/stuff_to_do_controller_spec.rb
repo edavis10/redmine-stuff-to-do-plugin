@@ -92,4 +92,49 @@ describe StuffToDoController, '#index for another user as an administrator' do
 
 end
 
-# TODO: Test unauthenticated
+describe StuffToDoController, '#index for another user as a user' do
+  def get_index
+    get :index, :user_id => @viewed_user.id
+  end
+  
+  before(:each) do
+    @current_user = mock_model(User, :admin? => false, :logged? => true)
+    User.stub!(:current).and_return(@current_user)
+    @viewed_user = mock_model(User)
+  end
+
+  it 'should not be successful' do
+    get_index
+    response.should_not be_success
+  end
+  
+  it 'should return a 403 status code' do
+    get_index
+    response.code.should eql("403")
+  end
+  
+  it 'should display the standard unauthorized page' do
+    get_index
+    response.should render_template('common/403')
+  end
+
+end
+
+describe StuffToDoController, '#index with an unauthenticated user' do
+  it 'should not be successful' do
+    get :index
+    response.should_not be_success
+  end
+  
+  it 'should return a 403 status code' do
+    get :index
+    response.code.should eql("403")
+  end
+  
+  it 'should display the standard unauthorized page' do
+    get :index
+    response.should render_template('common/403')
+  end
+
+end
+
