@@ -1,3 +1,4 @@
+# NextIssue relates a user to an issue at a specific postition in a list
 class NextIssue < ActiveRecord::Base
   belongs_to :issue
   belongs_to :user
@@ -20,6 +21,12 @@ class NextIssue < ActiveRecord::Base
     }
   }
   
+  # Finds the issues that are available to be added for a user.  Available means:
+  #
+  # * Open Issue
+  # * Assigned to User
+  # * Is not already in the NextIssue list
+  #
   def self.available(user)
     issues = Issue.find(:all,
                         :include => :status,
@@ -29,6 +36,7 @@ class NextIssue < ActiveRecord::Base
     return issues - next_issues
   end
   
+  # Callback used to destroy all NextIssues when an issue is removed
   def self.closing_issue(issue)
     return false unless issue.closed?
     NextIssue.find(:all, :conditions => { :issue_id => issue.id }).each do |next_issue|
@@ -38,6 +46,9 @@ class NextIssue < ActiveRecord::Base
     return true
   end
   
+  # Reorders the list of NextIssues for +user+ to be in the order of
+  # +issue_ids+.  New NextIssues will be created and if needed and old
+  # NextIssues will be removed if they are unassigned.
   def self.reorder_list(user, issue_ids)
     issue_ids.map! {|issue_id| issue_id.to_i }
     list = NextIssue.find_all_by_user_id(user.id)

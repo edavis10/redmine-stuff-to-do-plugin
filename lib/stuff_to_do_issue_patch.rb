@@ -21,6 +21,8 @@ module StuffToDoIssuePatch
   end
   
   module InstanceMethods
+    # When an issue is closed, NextIssue#closing_issue will be called to
+    # update the set of NextIssues
     def update_next_issues
       self.reload
       NextIssue.closing_issue(self) if self.closed?
