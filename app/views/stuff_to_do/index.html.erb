@@ -67,33 +67,25 @@ function attachSortables() {
     jQuery("#doing-now").sortable({ 
         connectWith: ["#available", "#recommended"], 
         dropOnEmpty: true,
-        update : function (event, ui) {
-            // Don't allow the available to update unless there are free slots.
-            // But allow it to update from it's own sorting and alow what I'm doing now
-            fromAvailable = (ui.sender != null && ui.sender.attr('id') == "available")
-            if (allowRecommended() || !fromAvailable) {
-                saveOrder();
-            } else {
-                jQuery("#available").sortable('cancel');
-            }
-        }
+        update : function (event, ui) { updateList(ui); }
     });  
 
     jQuery("#recommended").sortable({ 
         connectWith: ["#available", "#doing-now"],
         dropOnEmpty: true,
-        update : function (event, ui) {
-            // Don't allow the available to update unless there are free slots.
-            // But allow it to update from it's own sorting and alow what I'm doing now
-            fromAvailable = (ui.sender != null && ui.sender.attr('id') == "available")
-            if (allowRecommended() || !fromAvailable) {
-                saveOrder();
-            } else {
-                jQuery("#available").sortable('cancel');
-            }
-        }
+        update : function (event, ui) { updateList(ui); }
     });  
 
+}
+
+function updateList(ui) {
+    // Don't allow the available to update unless there are free slots.
+    // But allow it to update from it's own sorting and alow what I'm doing now
+    if (allowRecommended() || !fromAvailable(ui)) {
+        saveOrder();
+    } else {
+        jQuery("#available").sortable('cancel');
+    }
 }
 
 function saveOrder() {
@@ -121,5 +113,8 @@ function allowRecommended() {
     }
 }
 
+function fromAvailable(ui) {
+    return (ui.sender != null && ui.sender.attr('id') == "available");
+}
 </script>
 <% end %>
