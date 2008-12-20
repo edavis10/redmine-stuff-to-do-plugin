@@ -50,6 +50,7 @@ class NextIssue < ActiveRecord::Base
   # +issue_ids+.  New NextIssues will be created and if needed and old
   # NextIssues will be removed if they are unassigned.
   def self.reorder_list(user, issue_ids)
+    issue_ids ||= []
     issue_ids.map! {|issue_id| issue_id.to_i }
     list = NextIssue.find_all_by_user_id(user.id)
     next_issues_found = list.collect { |next_issue| next_issue.issue_id.to_i }

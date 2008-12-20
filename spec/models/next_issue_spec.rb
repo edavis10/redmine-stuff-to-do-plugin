@@ -156,4 +156,19 @@ describe NextIssue, '#reorder_list' do
     NextIssue.reorder_list(user, issue_ids)
 
   end
+  
+  it 'should destroy all NextIssues if the list is empty' do
+    user = mock_model(User)
+    issue_ids = nil
+    next_issues = []
+
+    extra_next_issue = mock_model(NextIssue, :issue_id => 999)
+    extra_next_issue.should_receive(:destroy).and_return(true)
+    NextIssue.should_receive(:find_by_user_id_and_issue_id).with(user.id, extra_next_issue.issue_id).and_return(extra_next_issue)
+    next_issues << extra_next_issue
+    
+    NextIssue.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
+    NextIssue.reorder_list(user, issue_ids)
+    
+  end
 end
