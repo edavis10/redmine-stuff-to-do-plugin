@@ -61,18 +61,21 @@ jQuery(document).ready(function(){
 function attachSortables() {
     jQuery("#available").sortable({ 
         connectWith: ["#doing-now", "#recommended"], 
+        placeholder: 'drop-accepted',
         dropOnEmpty: true
     }); 
 
     jQuery("#doing-now").sortable({ 
         connectWith: ["#available", "#recommended"], 
         dropOnEmpty: true,
+        placeholder: 'drop-accepted',
         update : function (event, ui) { updateList(ui); }
     });  
 
     jQuery("#recommended").sortable({ 
         connectWith: ["#available", "#doing-now"],
         dropOnEmpty: true,
+        placeholder: 'drop-accepted',
         update : function (event, ui) { updateList(ui); }
     });  
 
