@@ -113,7 +113,7 @@ function saveOrder() {
 
 function allowRecommended() {
     // Is +1 because there is a placeholder inserted
-    if (jQuery('#recommended li').length > 11) {
+    if ((jQuery('#doing-now li').length + jQuery('#recommended li').length) > 16) {
         return false;
     } else {
         return true;
