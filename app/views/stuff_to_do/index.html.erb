@@ -81,7 +81,7 @@ function attachSortables() {
 function updateList(ui) {
     // Don't allow the available to update unless there are free slots.
     // But allow it to update from it's own sorting and alow what I'm doing now
-    if (allowRecommended() || !fromAvailable(ui)) {
+    if (openSlots() || !fromAvailable(ui)) {
         saveOrder();
     } else {
         jQuery("#available").sortable('cancel');
@@ -111,7 +111,7 @@ function saveOrder() {
 
 }
 
-function allowRecommended() {
+function openSlots() {
     // Is +1 because there is a placeholder inserted
     if ((jQuery('#doing-now li').length + jQuery('#recommended li').length) > 16) {
         return false;
