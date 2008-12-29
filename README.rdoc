@@ -1,3 +1,57 @@
-= Stuff To Do Plugin
+= Redmine Stuff To Do Plugin
 
-Description goes here
+The Stuff To Do plugin allows a user to order and prioritize the issues they are doing into a specific order. It will also allow other privileged users to reorder the user's workload.
+
+== Features
+
+* Sorting and prioritizing of cross-project To Do lists
+* Easy to use drag and drop interface
+* Editing other user lists for Administrators
+
+== Getting the plugin
+
+A copy of the plugin can be downloaded from {Little Stream Software}[https://projects.littlestreamsoftware.com/projects/list_files/redmine-stuff-to-do] or from {GitHub}[http://github.com/edavis10/redmine-stuff-to-do/tree/master]
+
+
+== Installation and Setup
+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
+2. Run the plugin migrations +rake db:migrate_plugins+
+3. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+4. Login and click the Stuff To Do link in the top left menu
+
+== Usage
+
+There are three panes that can be sorted:
+
+=== What I'm doing now
+
+This pane lists the next 5 issues a user is supposed to be working on.  These issues should be the *most* important issues assigned to the user.  As the user closes an issue, the items lower in the list will rise up and fill in this pane.
+
+=== What's recommended to do next
+
+This pane lists up to 10 extra tasks for the user.  These tasks are used as overflow for the What I'm doing now.
+
+=== What's available
+
+This pane lists all the open issues that are assigned to the user.  They are the pool of issues that a user can draw on as they work on issues.
+
+=== Workflow
+
+The standard workflow for this plugin is as follows:
+
+1. A user will drag issues from the What's Available pane to the What I'm doing now and What's recommended to do next
+2. Once 15 issues have been dragged (5 Now, 10 Next) the user would prioritize and sort the issues in order of importance
+3. The user would use the rest of Redmine and work on the #1 issue
+4. Once the #1 issue is complete (or blocked) the user would continue and work on the #2 issue
+
+If the user is an Administrator, they have the permission to edit other users' lists.  This allows them to act as the system Project Manager.
+
+== License
+
+This plugin is licensed under the GNU GPL v2.  See COPYRIGHT.txt and GPL.txt for details.
+
+== Project help
+
+If you need help you can contact the maintainer at his email address (See CREDITS.txt) or create an issue in the Bug Tracker.  The bug tracker is located at  https://projects.littlestreamsoftware.com
+
