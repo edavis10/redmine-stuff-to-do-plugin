@@ -9,3 +9,32 @@ div.pane ol li.empty-list { background-color:#FFFFEE; padding:100px; text-align:
 div.user { float:right; }
 
 .drop-accepted { background-color:#FFFFEE; height: 16px; width: 100%; border: 1px solid #000000; }
+
+/* Port of the issue coloring on the alternate.css theme */
+.odd.priority-5, .odd.priority-5:hover { color: #900; font-weight: bold; }
+.odd.priority-5 { background: #ffc4c4; }
+.even.priority-5, .even.priority-5:hover { color: #900; font-weight: bold; }
+.even.priority-5 { background: #ffd4d4; }
+.priority-5 a, .priority-5:hover a { color: #900; }
+.odd.priority-5 , .even.priority-5  { border-color: #ffb4b4; }
+
+.odd.priority-4, .odd.priority-4:hover { color: #900; }
+.odd.priority-4 { background: #ffc4c4; }
+.even.priority-4, .even.priority-4:hover { color: #900; }
+.even.priority-4 { background: #ffd4d4; }
+.priority-4 a { color: #900; }
+.odd.priority-4 , .even.priority-4  { border-color: #ffb4b4; }
+
+.odd.priority-3, .odd.priority-3:hover { color: #900; }
+.odd.priority-3 { background: #fee; }
+.even.priority-3, .even.priority-3:hover { color: #900; }
+.even.priority-3 { background: #fff2f2; }
+.priority-3 a { color: #900; }
+.odd.priority-3 , .even.priority-3  { border-color: #fcc; }
+
+.odd.priority-1, .odd.priority-1:hover { color: #559; }
+.odd.priority-1 { background: #eaf7ff; }
+.even.priority-1, .even.priority-1:hover { color: #559; }
+.even.priority-1 { background: #f2faff; }
+.priority-1 a { color: #559; }
+.odd.priority-1, .even.priority-1 { border-color: #add7f3; }
