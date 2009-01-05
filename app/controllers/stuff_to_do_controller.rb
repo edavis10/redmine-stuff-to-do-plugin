@@ -14,9 +14,11 @@ class StuffToDoController < ApplicationController
     NextIssue.reorder_list(@user, params[:issue])
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
+    @available = NextIssue.available(@user)
+
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'left_panes', :layout => false}
+      format.js { render :partial => 'panes', :layout => false}
     end
   end
   

@@ -185,9 +185,9 @@ describe StuffToDoController, '#reorder with the js format' do
     response.should be_success
   end
   
-  it 'should be render the left panes' do
+  it 'should be render the panes' do
     post_reorder
-    response.should render_template('stuff_to_do/_left_panes')
+    response.should render_template('stuff_to_do/_panes')
   end
   
   it 'should reorder the Next Issues' do
@@ -256,9 +256,9 @@ describe StuffToDoController, '#reorder for another user as an administrator wit
     response.should be_success
   end
   
-  it 'should be render the left panes' do
+  it 'should be render the panes' do
     post_reorder
-    response.should render_template('stuff_to_do/_left_panes')
+    response.should render_template('stuff_to_do/_panes')
   end
   
   it 'should reorder the Next Issues' do
