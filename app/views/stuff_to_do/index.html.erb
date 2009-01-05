@@ -26,9 +26,7 @@
 
     <ol id="available">
       <% unless @available.empty? %>
-      <% @available.each do |issue| %>
-      <%= render :partial => 'issue', :object => issue %>
-      <% end %>
+      <%= render :partial => 'issue', :collection => @available %>
       <% else %>
       <li class="empty-list">
         Drag issues here to remove them from a list.

@@ -7,9 +7,7 @@
 
     <ol id="doing-now">
       <% unless @doing_now.empty? %>
-      <% @doing_now.each do |item| %>
-      <%= render :partial => 'issue', :object => item.issue %>
-      <% end %>
+      <%= render :partial => 'issue', :collection => @doing_now.collect(&:issue) %>
       <% else %>
       <li class="empty-list">
         Drag issues here to create a new list.
@@ -25,9 +23,7 @@
     </h3>
 
     <ol id="recommended">
-      <% @recommended.each do |item| %>
-      <%= render :partial => 'issue', :object => item.issue %>
-      <% end %>
+      <%= render :partial => 'issue', :collection => @recommended.collect(&:issue) %>
     </ol>
   </div>
 
