@@ -6,4 +6,8 @@ module StuffToDoHelper
 
     progress_bar(total / divisor, opts)
   end
+  
+  def total_estimates(issues)
+    issues.collect(&:estimated_hours).compact.sum
+  end
 end

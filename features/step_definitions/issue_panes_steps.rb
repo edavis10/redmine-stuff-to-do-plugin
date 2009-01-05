@@ -49,7 +49,7 @@ end
 
 Given /^there are (\d+) next issues$/ do |number|
   number.to_i.times do |n|
-    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user, :done_ratio => 50)
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user, :done_ratio => 50, :estimated_hours => 3)
     issue.save false # Skip all the extra associations Redmine uses
     NextIssue.create! :user => @current_user, :issue => issue
   end
@@ -150,6 +150,10 @@ Then /^I should see a progress graph, "([\w-]+)", at (\d+)%$/ do |css, amount|
       with_tag("td.todo[style='width: #{left}%;']")
     end
   end
+end
+
+Then /^I should see a "(\d+) hours" for "([\w-]+)"$/ do |hours, css|
+  response.should have_tag("##{css}", /#{hours}/)
 end
 
 

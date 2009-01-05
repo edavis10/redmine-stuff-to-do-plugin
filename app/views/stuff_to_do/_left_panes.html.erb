@@ -19,6 +19,10 @@
       <%= progress_bar_sum(@doing_now.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
     </div>
 
+    <div id="doing-now-estimates">
+      <%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(@doing_now.collect(&:issue)) %>
+    </div>
+
   </div>
 
   <div class="pane" id="recommended-pane">
