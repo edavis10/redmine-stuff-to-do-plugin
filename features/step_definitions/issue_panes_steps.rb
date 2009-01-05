@@ -49,7 +49,7 @@ end
 
 Given /^there are (\d+) next issues$/ do |number|
   number.to_i.times do |n|
-    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user)
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => @current_user, :done_ratio => 50)
     issue.save false # Skip all the extra associations Redmine uses
     NextIssue.create! :user => @current_user, :issue => issue
   end
@@ -140,6 +140,16 @@ end
 Then /^see the 403 error page$/ do
   response.should render_template("common/403")
 end
+
+Then /^I should see a progress graph, "(\w+-\w*)", at (\d+)%$/ do |css, amount|
+  response.should have_tag("##{css}") do
+    with_tag("table.progress") do
+      with_tag("td.closed[style='width: 50%;']")
+      with_tag("td.todo[style='width: 50%;']")
+    end
+  end
+end
+
 
 # TODO: Redmine needs so much built up, this test is unresponable (issue > project > custom fields, custom values, trackers)
 # Then /^I should see the issue title in the row$/ do

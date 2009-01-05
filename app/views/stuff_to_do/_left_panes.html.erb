@@ -14,6 +14,11 @@
       </li>
       <% end %>
     </ol>
+
+    <div id="total-progress">
+      <%= progress_bar_sum(@doing_now.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+    </div>
+
   </div>
 
   <div class="pane" id="recommended-pane">

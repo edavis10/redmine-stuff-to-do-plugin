@@ -13,6 +13,14 @@ Feature: What I'm doing now
     And I should see a row for 5 "doing-now" tasks
     And I should see the issue title in the row
 
+  Scenario: See the a total progress below the What I'm doing now pane
+    Given there are 5 next issues
+    And I am logged in
+    And I am on the stuff to do page
+
+    Then I should see "Total Progress"
+    And I should see a progress graph, "total-progress", at 50%
+
   Scenario: See a prioritized list of recommended tasks
     Given there are 15 next issues
     And I am logged in

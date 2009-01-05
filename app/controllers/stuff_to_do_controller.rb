@@ -1,5 +1,6 @@
 class StuffToDoController < ApplicationController
   before_filter :get_user
+  helper :stuff_to_do
   
   def index
     @doing_now = NextIssue.doing_now(@user)
