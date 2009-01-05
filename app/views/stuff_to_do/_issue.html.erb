@@ -1,0 +1,5 @@
+      <li class="issue" id="issue_<%= issue.id %>">
+        <%= link_to('#' + issue.id.to_s, :controller => 'issues', :action => 'show', :id => issue) %>
+        - <%= h(issue.project.name) %> -
+        <%= link_to(h(issue.subject), :controller => 'issues', :action => 'show', :id => issue) %>
+      </li>

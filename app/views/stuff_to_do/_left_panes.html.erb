@@ -8,11 +8,7 @@
     <ol id="doing-now">
       <% unless @doing_now.empty? %>
       <% @doing_now.each do |item| %>
-      <li class="issue" id="issue_<%= item.issue.id %>">
-        <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
-        - <%= h(item.issue.project.name) %> -
-        <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
-      </li>
+      <%= render :partial => 'issue', :object => item.issue %>
       <% end %>
       <% else %>
       <li class="empty-list">
@@ -30,11 +26,7 @@
 
     <ol id="recommended">
       <% @recommended.each do |item| %>
-      <li class="issue" id="issue_<%= item.issue.id %>">
-        <%= link_to('#' + item.issue.id.to_s, :controller => 'issues', :action => 'show', :id => item.issue) %>
-        - <%= h(item.issue.project.name) %> -
-        <%= link_to(h(item.issue.subject), :controller => 'issues', :action => 'show', :id => item.issue) %>
-      </li>
+      <%= render :partial => 'issue', :object => item.issue %>
       <% end %>
     </ol>
   </div>
