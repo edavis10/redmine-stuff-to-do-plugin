@@ -38,6 +38,10 @@
     <div id="recommended-total-progress">
       <%= progress_bar_sum(@recommended.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
     </div>
+
+    <div id="recommended-estimates">
+      <%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(@recommended.collect(&:issue)) %>
+    </div>
   </div>
 
 

@@ -45,6 +45,14 @@ Feature: What I'm doing now
     Then I should see "Total Progress"
     And I should see a progress graph, "recommended-total-progress", at 50%
 
+  Scenario: See the total estimates below the Whats Recommended to do next pane
+    Given there are 15 next issues
+    And I am logged in
+    And I am on the stuff to do page
+
+    Then I should see "Total Estimates"
+    And I should see a "30 hours" for "recommended-estimates"
+
   Scenario: See a list of all assigned tasks
     Given there are 30 issues assigned to me
     And there are 5 next issues
@@ -62,3 +70,12 @@ Feature: What I'm doing now
 
     Then I should see "Total Progress"
     And I should see a progress graph, "available-total-progress", at 0%
+
+  Scenario: See the total estimates below the Whats Available pane
+    Given there are 30 issues assigned to me
+    And I am logged in
+    And I am on the stuff to do page
+
+    Then I should see "Total Estimates"
+    And I should see a "30 hours" for "available-estimates"
+

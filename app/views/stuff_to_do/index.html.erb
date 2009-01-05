@@ -37,6 +37,11 @@
     <div id="available-total-progress">
       <%= progress_bar_sum(@available, :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
     </div>
+
+    <div id="available-estimates">
+      <%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(@available) %>
+    </div>
+
   </div>
 </div>
 

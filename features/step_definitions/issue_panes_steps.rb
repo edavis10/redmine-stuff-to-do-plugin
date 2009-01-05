@@ -74,7 +74,7 @@ Given /^there are (\d+) issues assigned to (\w+)$/ do |number, user_name|
   end
 
   number.to_i.times do |n|
-    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => user)
+    issue = Issue.new(:project => @project, :subject => "Issue #{number}", :description => "Description #{number}", :priority => @low_priority, :status => @new_status, :assigned_to => user, :estimated_hours => 1)
     issue.save false # Skip all the extra associations Redmine uses
   end
 end
