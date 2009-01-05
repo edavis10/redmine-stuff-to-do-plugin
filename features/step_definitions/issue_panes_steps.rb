@@ -141,11 +141,13 @@ Then /^see the 403 error page$/ do
   response.should render_template("common/403")
 end
 
-Then /^I should see a progress graph, "(\w+-\w*)", at (\d+)%$/ do |css, amount|
+Then /^I should see a progress graph, "([\w-]+)", at (\d+)%$/ do |css, amount|
+  left = 100 - amount.to_i
+
   response.should have_tag("##{css}") do
     with_tag("table.progress") do
-      with_tag("td.closed[style='width: 50%;']")
-      with_tag("td.todo[style='width: 50%;']")
+      with_tag("td.closed[style='width: #{amount}%;']") unless amount == '0'
+      with_tag("td.todo[style='width: #{left}%;']")
     end
   end
 end

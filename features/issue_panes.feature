@@ -19,7 +19,7 @@ Feature: What I'm doing now
     And I am on the stuff to do page
 
     Then I should see "Total Progress"
-    And I should see a progress graph, "total-progress", at 50%
+    And I should see a progress graph, "doing-now-total-progress", at 50%
 
   Scenario: See a prioritized list of recommended tasks
     Given there are 15 next issues
@@ -28,6 +28,14 @@ Feature: What I'm doing now
     Then I should see "What's recommended to do next"
     And I should see a list of tasks called "recommended"
     And I should see a row for 10 "recommended" tasks
+
+  Scenario: See the a total progress below the Whats Recommended to do next pane
+    Given there are 15 next issues
+    And I am logged in
+    And I am on the stuff to do page
+
+    Then I should see "Total Progress"
+    And I should see a progress graph, "recommended-total-progress", at 50%
 
   Scenario: See a list of all assigned tasks
     Given there are 30 issues assigned to me
@@ -38,3 +46,11 @@ Feature: What I'm doing now
     Then I should see "What's available"
     And I should see a list of tasks called "available"
     And I should see a row for 30 "available" tasks
+
+  Scenario: See the a total progress below the What's Available pane
+    Given there are 30 issues assigned to me
+    And I am logged in
+    And I am on the stuff to do page
+
+    Then I should see "Total Progress"
+    And I should see a progress graph, "available-total-progress", at 0%

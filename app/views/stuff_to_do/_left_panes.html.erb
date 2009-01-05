@@ -15,7 +15,7 @@
       <% end %>
     </ol>
 
-    <div id="total-progress">
+    <div id="doing-now-total-progress">
       <%= progress_bar_sum(@doing_now.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
     </div>
 
@@ -30,6 +30,10 @@
     <ol id="recommended">
       <%= render :partial => 'issue', :collection => @recommended.collect(&:issue) %>
     </ol>
+
+    <div id="recommended-total-progress">
+      <%= progress_bar_sum(@recommended.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+    </div>
   </div>
 
 
