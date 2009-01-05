@@ -14,6 +14,10 @@ div.issue-details { position:relative; display:inline; float:left; width:71%; ma
 div.estimate { position:relative; float:left; display: inline; width: 6%; margin: 0; text-align: center; }
 div.progress { position:relative; float:left; display:inline; width: 17%; margin: 0 0 0 .5%; }
 
+div.pane-summary { text-align: right; }
+div.pane-summary p { font-size: 80% }
+div.pane-summary table.progress { float: right; margin: 1px 6px;}
+
 /* Port of the issue coloring on the alternate.css theme */
 .odd.priority-5, .odd.priority-5:hover { color: #900; font-weight: bold; }
 .odd.priority-5 { background: #ffc4c4; }
