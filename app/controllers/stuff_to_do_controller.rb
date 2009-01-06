@@ -40,10 +40,6 @@ class StuffToDoController < ApplicationController
   end
   
   def filters_for_view
-    {
-      :users => User.active,
-      :priorities => Enumeration::get_values('IPRI'),
-      :statuses => IssueStatus.find(:all)
-    }
+    NextIssueFilter.new
   end
 end
