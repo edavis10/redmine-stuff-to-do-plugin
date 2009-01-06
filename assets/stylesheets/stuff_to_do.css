@@ -1,4 +1,4 @@
-ul#available { overflow-y:scroll; height: 500px; }
+ol#available { overflow-y:scroll; height: 500px; }
 li.issue { cursor: move; }
 div.pane h3 { color: #507AAA; }
 span.subtitle { font-size: smaller; color: #CCCCCC }
