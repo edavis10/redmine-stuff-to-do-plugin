@@ -1,0 +1,15 @@
+<fieldset>
+<legend><%= l(:stuff_to_do_label_project_manager_emails) %></legend>
+<p>
+  <%= l(:stuff_to_do_text_settings) %>
+</p>
+
+<p>
+  <label><%= l(:stuff_to_do_label_threshold) %></label><%= text_field_tag 'settings[threshold]', @settings['threshold'] %>
+</p>
+
+<p>
+  <label><%= l(:stuff_to_do_label_email_to) %></label><%= text_field_tag 'settings[email_to]', @settings['email_to'] %>
+</p>
+
+</fieldset>
