@@ -27,12 +27,28 @@ class NextIssue < ActiveRecord::Base
   # * Assigned to User
   # * Is not already in the NextIssue list
   #
-  def self.available(user)
-    issues = Issue.find(:all,
-                        :include => :status,
-                        :conditions => ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?",user.id, false ])
+  def self.available(filter)
+    if filter.nil?
+      return []
+    elsif filter[:user]
+      user = filter[:user]
+      issues = Issue.find(:all,
+                          :include => :status,
+                          :conditions => ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?",user.id, false ])
+    elsif filter[:status]
+      status = filter[:status]
+      issues = Issue.find(:all,
+                          :include => :status,
+                          :conditions => ["#{IssueStatus.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", status.id, false ])
+    elsif filter[:priority]
+      priority = filter[:priority]
+      issues = Issue.find(:all,
+                          :include => [:status, :priority],
+                          :conditions => ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", priority.id, false ])
+    end
     next_issues = NextIssue.find(:all, :conditions => { :user_id => user.id }).collect(&:issue)
 
+    
     return issues - next_issues
   end
   

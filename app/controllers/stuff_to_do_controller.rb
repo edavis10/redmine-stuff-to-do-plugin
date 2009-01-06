@@ -5,7 +5,7 @@ class StuffToDoController < ApplicationController
   def index
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
-    @available = NextIssue.available(@user)
+    @available = NextIssue.available( :user => @user )
     
     @users = User.active
     @filters = filters_for_view
@@ -15,7 +15,7 @@ class StuffToDoController < ApplicationController
     NextIssue.reorder_list(@user, params[:issue])
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
-    @available = NextIssue.available(@user)
+    @available = NextIssue.available( :user => @user )
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
@@ -24,7 +24,7 @@ class StuffToDoController < ApplicationController
   end
   
   def available_issues
-    @available = NextIssue.available(@user)
+    @available = NextIssue.available(get_filters)
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
@@ -50,5 +50,21 @@ class StuffToDoController < ApplicationController
   
   def filters_for_view
     NextIssueFilter.new
+  end
+  
+  def get_filters
+    return nil unless params[:filter]
+
+    id = params[:filter].split('-')[-1]
+
+    if params[:filter].match(/users/)
+      return { :user => User.find_by_id(id) }
+    elsif params[:filter].match(/priorities/)
+      return { :priority => Enumeration.find_by_id(id) }
+    elsif params[:filter].match(/statuses/)
+      return { :status => IssueStatus.find_by_id(id) }
+    else
+      return nil
+    end
   end
 end
