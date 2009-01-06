@@ -23,6 +23,15 @@ class StuffToDoController < ApplicationController
     end
   end
   
+  def available_issues
+    @available = NextIssue.available(@user)
+
+    respond_to do |format|
+      format.html { redirect_to :action => 'index'}
+      format.js { render :partial => 'right_panes', :layout => false}
+    end
+  end
+  
   private
   
   def get_user

@@ -1,0 +1,24 @@
+  <div class="pane" id="available-pane">
+    <h3><%= l(:stuff_to_do_what_is_available) %></h3>
+
+    <ol id="available">
+      <% unless @available.empty? %>
+      <%= render :partial => 'issue', :collection => @available %>
+      <% else %>
+      <li class="empty-list">
+        Drag issues here to remove them from a list.
+      </li>
+      <% end %>
+    </ol>
+
+    <div class="pane-summary">
+      <div id="available-total-progress">
+        <%= progress_bar_sum(@available, :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+      </div>
+
+      <div id="available-estimates">
+        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(@available) %></p>
+      </div>
+    </div>
+
+  </div>

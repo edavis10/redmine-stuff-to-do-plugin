@@ -15,7 +15,7 @@
   <% end %>
 
   <div class="filter">
-    <% form_tag() do %>
+    <% form_tag({}, :id => 'filter_form') do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
     <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
     <% end %>
@@ -43,6 +43,20 @@ jQuery(document).ready(function(){
     jQuery("#user_id").change(function() {  jQuery("form#user_switch").submit();  });
     jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show();  });
     jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
+
+    jQuery("#filter").change(function() {
+        jQuery.ajax({
+            type: "GET",
+            url: '/stuff_to_do/available_issues.js',
+            data: jQuery('#filter').serialize(),
+            success: function(response) {
+                jQuery('#available-pane').html(response);
+                attachSortables();
+            },
+            error: function(response) {
+                jQuery("div.error").html("Error filtering pane.  Please refresh the page.").show();
+            }});
+    });
 
 });
 
