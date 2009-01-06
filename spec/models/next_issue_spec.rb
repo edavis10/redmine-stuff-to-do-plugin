@@ -65,15 +65,51 @@ describe NextIssue, '#closing_issue' do
   end
 
   it 'should delete all NextIssues for the closed issue' do
-    next_issue_one = mock_model(NextIssue, :issue_id => @issue.id)
+    next_issue_one = mock_model(NextIssue, :issue_id => @issue.id, :user_id => nil)
     next_issue_one.should_receive(:destroy).and_return(true)
-    next_issue_two = mock_model(NextIssue, :issue_id => @issue.id)
+    next_issue_two = mock_model(NextIssue, :issue_id => @issue.id, :user_id => nil)
     next_issue_two.should_receive(:destroy).and_return(true)
     next_issues = [next_issue_one, next_issue_two]
     NextIssue.should_receive(:find).with(:all, { :conditions => { :issue_id => @issue.id }}).and_return(next_issues)
 
     NextIssue.closing_issue(@issue)
   end
+end
+
+describe NextIssue, '#closing_issue' do
+  before(:each) do
+    @issue = mock_model(Issue)
+    @issue.stub!(:closed?).and_return(true)
+
+    @user = mock_model(User)
+    @next_issue_one = mock_model(NextIssue, :issue_id => @issue.id, :user_id => @user.id)
+    @next_issue_one.should_receive(:destroy).and_return(true)
+    @next_issue_two = mock_model(NextIssue, :issue_id => @issue.id, :user_id => @user.id)
+    @next_issue_two.should_receive(:destroy).and_return(true)
+    @next_issues = [@next_issue_one, @next_issue_two]
+    NextIssue.stub!(:find).and_return(@next_issues)
+    @number_of_next_issues = 4
+    NextIssue.stub!(:count).with(:conditions => { :user_id => @user.id }).and_return(@number_of_next_issues)
+  end
+  
+  it 'should deliver a NextIssueMailer notification if the NextIssues are below the threshold' do
+    Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues + 1 })
+    NextIssueMailer.should_receive(:deliver_recommended_below_threshold)
+    NextIssue.closing_issue(@issue)
+  end
+
+  it 'should deliver a NextIssueMailer notification if the NextIssues are at the threshold' do
+    Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues })
+    NextIssueMailer.should_receive(:deliver_recommended_below_threshold)
+    NextIssue.closing_issue(@issue)
+  end
+
+  it 'should not deliver any NextIssueMailer notification if the NextIssues are above the threshold' do
+    Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues - 1 })
+    NextIssueMailer.should_not_receive(:deliver_recommended_below_threshold)
+    NextIssue.closing_issue(@issue)
+  end
+  
 end
 
 describe NextIssue, '#reorder_list' do

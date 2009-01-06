@@ -36,11 +36,24 @@ class NextIssue < ActiveRecord::Base
     return issues - next_issues
   end
   
-  # Callback used to destroy all NextIssues when an issue is removed
+  # Callback used to destroy all NextIssues when an issue is removed and
+  # send an email if a user is below the What's Recommend threshold
   def self.closing_issue(issue)
     return false unless issue.closed?
+    user_ids = []
     NextIssue.find(:all, :conditions => { :issue_id => issue.id }).each do |next_issue|
+      user_ids << next_issue.user_id if next_issue.user_id
       next_issue.destroy
+    end
+
+    # Deliver an email for each user who is below the threshold
+    user_ids.uniq.each do |user_id|
+      count = NextIssue.count(:conditions => { :user_id => user_id})
+      threshold = Setting.plugin_stuff_to_do_plugin['threshold']
+
+      if threshold && threshold.to_i >= count
+        NextIssueMailer.deliver_recommended_below_threshold
+      end
     end
     
     return true
