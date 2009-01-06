@@ -17,7 +17,7 @@
   <div class="filter">
     <% form_tag() do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
-    <%= select_tag("filter", filter_options(@filters)) %>
+    <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
     <% end %>
   </div>
 </div>

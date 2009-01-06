@@ -11,13 +11,13 @@ module StuffToDoHelper
     issues.collect(&:estimated_hours).compact.sum
   end
   
-  def filter_options(filters)
+  def filter_options(filters, selected = nil)
     html = ''
     filters.each do |filter_group, options|
       next unless [:users, :priorities, :statuses].include?(filter_group)
       
       html << content_tag(:optgroup,
-                          options_for_select(options.collect { |item| [item.to_s, filter_group.to_s + '-' + item.id.to_s]}),
+                          options_for_select(options.collect { |item| [item.to_s, filter_group.to_s + '-' + item.id.to_s]}, selected),
                           :label => filter_group.to_s.capitalize )
     end
     
