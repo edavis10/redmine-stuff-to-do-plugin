@@ -12,6 +12,8 @@ require_dependency 'stuff_to_do_issue_patch.rb'
 Redmine::Plugin.register :stuff_to_do_plugin do
   name 'Stuff To Do Plugin'
   author 'Eric Davis'
+  url 'https://projects.littlestreamsoftware.com/projects/show/redmine-stuff-to-do'
+  author_url 'http://www.littlestreamsoftware.com'
   description "The Stuff To Do plugin allows a user to order and prioritize the issues they are doing into a specific order. It will also allow other privilged users to reorder the user's workload."
   version '0.1.0'
 
