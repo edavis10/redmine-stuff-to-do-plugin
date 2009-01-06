@@ -79,8 +79,8 @@ Feature: What I'm doing now
     Then I should see "Total Estimates"
     And I should see a "30 hours" for "available-estimates"
 
-  Scenario: See a drop down to change the current filter
-    Given I am logged in
+  Scenario: Administrators should see a drop down to change the current filter
+    Given I am logged in as an administrator
     And I am on the stuff to do page
 
     Then I should see "Filter"

@@ -1,5 +1,6 @@
 class StuffToDoController < ApplicationController
   before_filter :get_user
+  before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
   
   def index

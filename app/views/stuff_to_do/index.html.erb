@@ -12,7 +12,6 @@
     <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
     <% end %>
   </div>
-  <% end %>
 
   <div class="filter">
     <% form_tag({}, :id => 'filter_form') do %>
@@ -20,6 +19,7 @@
     <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
     <% end %>
   </div>
+  <% end %>
 </div>
 <div style="clear:right;"></div>
 
