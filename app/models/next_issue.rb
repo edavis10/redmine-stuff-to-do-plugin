@@ -52,7 +52,8 @@ class NextIssue < ActiveRecord::Base
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
 
       if threshold && threshold.to_i >= count
-        NextIssueMailer.deliver_recommended_below_threshold
+        user = User.find_by_id(user_id)
+        NextIssueMailer.deliver_recommended_below_threshold(user, count)
       end
     end
     

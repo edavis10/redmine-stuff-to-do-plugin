@@ -94,13 +94,15 @@ describe NextIssue, '#closing_issue' do
   
   it 'should deliver a NextIssueMailer notification if the NextIssues are below the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues + 1 })
-    NextIssueMailer.should_receive(:deliver_recommended_below_threshold)
+    User.should_receive(:find_by_id).with(@user.id).and_return(@user)
+    NextIssueMailer.should_receive(:deliver_recommended_below_threshold).with(@user, 4)
     NextIssue.closing_issue(@issue)
   end
 
   it 'should deliver a NextIssueMailer notification if the NextIssues are at the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues })
-    NextIssueMailer.should_receive(:deliver_recommended_below_threshold)
+    User.should_receive(:find_by_id).with(@user.id).and_return(@user)
+    NextIssueMailer.should_receive(:deliver_recommended_below_threshold).with(@user, 4)
     NextIssue.closing_issue(@issue)
   end
 
