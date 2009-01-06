@@ -8,6 +8,7 @@ class StuffToDoController < ApplicationController
     @available = NextIssue.available(@user)
     
     @users = User.active
+    @filters = filters_for_view
   end
   
   def reorder
@@ -36,5 +37,13 @@ class StuffToDoController < ApplicationController
     else
       @user = User.current  
     end
+  end
+  
+  def filters_for_view
+    {
+      :users => User.active,
+      :priorities => Enumeration::get_values('IPRI'),
+      :statuses => IssueStatus.find(:all)
+    }
   end
 end

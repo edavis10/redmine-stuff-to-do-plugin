@@ -123,6 +123,12 @@ Then /^(\w+) should be selected$/ do |user_name|
   response.should have_tag("option[selected=selected]", :text => /#{user_name}/)
 end
 
+Then /^"(\w+)" should be an option group in the select field "(\w+)"$/ do |option_value, field|
+  response.should have_tag("select##{field}") do
+    with_tag("optgroup", :label => /#{option_value}/)
+  end
+end
+
 Then /^I should be the stuff to do page$/ do
   response.should be_success
   response.request.url.should match(/stuff_to_do/)

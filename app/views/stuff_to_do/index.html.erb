@@ -15,6 +15,15 @@
 <div style="clear:right;"></div>
 <% end %>
 
+<div>
+  <% form_tag() do %>
+  <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
+  <%= select_tag("filter", filter_options(@filters)) %>
+  <% end %>
+
+  
+</div>
+
 <%= render :partial => 'panes' %>
 
 <% content_for :header_tags do %>
