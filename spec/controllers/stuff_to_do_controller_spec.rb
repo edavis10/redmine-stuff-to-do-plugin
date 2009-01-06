@@ -333,53 +333,41 @@ describe StuffToDoController, '#reorder with an unauthenticated user' do
 end
 
 describe StuffToDoController, '#filters_for_view (private)' do
-  it 'should return a Hash' do
-    controller.send(:filters_for_view).should be_an_instance_of(Hash)
+  it 'should return a NextIssueFilter' do
+    controller.send(:filters_for_view).should be_an_instance_of(NextIssueFilter)
   end
 
-  it 'should contain a key for Users' do
-    controller.send(:filters_for_view).keys.should include(:users)
-  end
-
-  it 'should include all the users in Users' do
+  it 'should include all the Users in users' do
     @user1 = mock_model(User)
     @user2 = mock_model(User)
     users = [@user1, @user2]
     User.should_receive(:active).and_return(users)
 
     filters = controller.send(:filters_for_view)
-    filters[:users].should include(@user1)
-    filters[:users].should include(@user2)
+    filters.users.should include(@user1)
+    filters.users.should include(@user2)
   end
 
-  it 'should contain a key for Priorities' do
-    controller.send(:filters_for_view).keys.should include(:priorities)
-  end
-
-  it 'should include all the priorities in Priorities' do
+  it 'should include all the IssuePriorities in priorities' do
     @priority1 = mock_model(Enumeration)
     @priority2 = mock_model(Enumeration)
     priorities = [@priority1, @priority2]
     Enumeration.should_receive(:get_values).with('IPRI').and_return(priorities)
 
     filters = controller.send(:filters_for_view)
-    filters[:priorities].should include(@priority1)
-    filters[:priorities].should include(@priority2)
+    filters.priorities.should include(@priority1)
+    filters.priorities.should include(@priority2)
   end
 
-  it 'should contain a key for Statuses' do
-    controller.send(:filters_for_view).keys.should include(:statuses)
-  end
-
-  it 'should include all the status in Statuses' do
+  it 'should include all the IssueStatuses in statuses' do
     @status1 = mock_model(IssueStatus)
     @status2 = mock_model(IssueStatus)
     statuses = [@status1, @status2]
     IssueStatus.should_receive(:find).with(:all).and_return(statuses)
 
     filters = controller.send(:filters_for_view)
-    filters[:statuses].should include(@status1)
-    filters[:statuses].should include(@status2)
+    filters.statuses.should include(@status1)
+    filters.statuses.should include(@status2)
   end
 
 end
