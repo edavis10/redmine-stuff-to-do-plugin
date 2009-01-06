@@ -13,11 +13,11 @@ module StuffToDoHelper
   
   def filter_options(filters)
     html = ''
-    filters.each_pair do |filter_group, options|
+    filters.each do |filter_group, options|
       next unless [:users, :priorities, :statuses].include?(filter_group)
       
       html << content_tag(:optgroup,
-                          options_from_collection_for_select(options, :id, :to_s),
+                          options_for_select(options.collect { |item| [item.to_s, filter_group.to_s + '-' + item.id.to_s]}),
                           :label => filter_group.to_s.capitalize )
     end
     
