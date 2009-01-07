@@ -54,7 +54,7 @@ class StuffToDoController < ApplicationController
   end
   
   def get_filters
-    return nil unless params[:filter]
+    return { :user => @user } unless params[:filter]
 
     id = params[:filter].split('-')[-1]
 
