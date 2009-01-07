@@ -9,6 +9,18 @@ module NextIssueSpecHelper
     
     return issues
   end
+  
+  def next_issues_from_issues(issues, number_of_next_issues = nil)
+    number_of_next_issues ||= issues.size
+    
+    next_issues = []
+    issues.each do |issue|
+      next if next_issues.size >= number_of_next_issues
+      next_issues << mock_model(NextIssue, :issue => issue)
+    end
+    
+    return next_issues
+  end
 end
 
 describe NextIssue, 'associations' do
@@ -37,12 +49,8 @@ describe NextIssue, '#available for user' do
 
   it 'should not include issues that are NextIssues' do
     issues = issue_factory(10, { :assigned_to => @user })
-    
-    next_issues = []
-    issues.each do |issue|
-      # Add in half the issues as NextIssues
-      next_issues << mock_model(NextIssue, :issue => issue) if issue.id.even?
-    end
+    # Add in half the issues as NextIssues
+    next_issues = next_issues_from_issues(issues, issues.size / 2)
     
     Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
@@ -76,12 +84,8 @@ describe NextIssue, '#available for status' do
 
   it 'should not include issues that are NextIssues' do
     issues = issue_factory(10, { :status => @status })
-    
-    next_issues = []
-    issues.each do |issue|
-      # Add in half the issues as NextIssues
-      next_issues << mock_model(NextIssue, :issue => issue) if issue.id.even?
-    end
+    # Add in half the issues as NextIssues
+    next_issues = next_issues_from_issues(issues, issues.size / 2)
     
     Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',@status.id, false ], :include => :status} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
@@ -115,12 +119,8 @@ describe NextIssue, '#available for priority' do
 
   it 'should not include issues that are NextIssues' do
     issues = issue_factory(10, { :priority => @priority })
-
-    next_issues = []
-    issues.each do |issue|
-      # Add in half the issues as NextIssues
-      next_issues << mock_model(NextIssue, :issue => issue) if issue.id.even?
-    end
+    # Add in half the issues as NextIssues
+    next_issues = next_issues_from_issues(issues, issues.size / 2)
     
     Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',@priority.id, false ], :include => [:status, :priority]} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
