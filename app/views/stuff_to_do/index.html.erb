@@ -78,33 +78,16 @@ function attachSortables() {
         connectWith: ["#available", "#recommended"], 
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
-        update : function (event, ui) { updateList(ui); }
+        update : function (event, ui) { saveOrder(ui); }
     });  
 
     jQuery("#recommended").sortable({ 
         connectWith: ["#available", "#doing-now"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
-        update : function (event, ui) { updateList(ui); }
+        update : function (event, ui) { saveOrder(ui); }
     });  
 
-}
-
-function updateList(ui) {
-    // Don't allow the available to update unless there are free slots.
-    // But allow it to update from it's own sorting and alow what I'm doing now
-    if (openSlots() || !fromAvailable(ui)) {
-        saveOrder();
-    } else {
-        jQuery("#available").sortable('cancel');
-
-        jQuery("div.error")
-        .html("Only 15 issues can be added for a user.  To add another issues, please remove one from the doing now or the recommended pane.")
-        .show()
-        .animate({opacity: 1.0}, 6000)
-        .fadeOut("slow");
-
-    }
 }
 
 function saveOrder() {
@@ -124,19 +107,6 @@ function saveOrder() {
             jQuery("div.error").html("Error saving lists.  Please refresh the page and try again.").show();
         }});
 
-}
-
-function openSlots() {
-    // Is +1 because there is a placeholder inserted
-    if ((jQuery('#doing-now li').length + jQuery('#recommended li').length) > 16) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function fromAvailable(ui) {
-    return (ui.sender != null && ui.sender.attr('id') == "available");
 }
 </script>
 <% end %>

@@ -6,7 +6,7 @@ Feature: Manage another users lists as an Administrator
   Scenario: See list of tasks for another user
     Given there is another user named Joe
     And there are 50 issues assigned to Joe
-    And there are 10 next issues for Joe
+    And there are 30 next issues for Joe
     And there are 10 issues not assigned to Joe
     And I am logged in as an administrator
     And I am on the stuff to do page for Joe
@@ -21,7 +21,7 @@ Feature: Manage another users lists as an Administrator
 
     And I should see "What's recommended to do next"
     And I should see a list of tasks called "recommended"
-    And I should see a row for 5 "recommended" tasks
+    And I should see a row for 25 "recommended" tasks
 
 
 

@@ -30,12 +30,12 @@ Feature: What I'm doing now
     And I should see a "15 hours" for "doing-now-estimates"
 
   Scenario: See a prioritized list of recommended tasks
-    Given there are 15 next issues
+    Given there are 35 next issues
     And I am logged in
     And I am on the stuff to do page
     Then I should see "What's recommended to do next"
     And I should see a list of tasks called "recommended"
-    And I should see a row for 10 "recommended" tasks
+    And I should see a row for 30 "recommended" tasks
 
   Scenario: See the a total progress below the Whats Recommended to do next pane
     Given there are 15 next issues

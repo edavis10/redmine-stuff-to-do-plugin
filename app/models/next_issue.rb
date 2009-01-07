@@ -12,10 +12,17 @@ class NextIssue < ActiveRecord::Base
     }
   }
 
+  # TODO: Rails bug
+  #
+  # ActiveRecord ignores :offset if :limit isn't added also.  But since we 
+  # want all the records, we need to provide a limit that will include everything
+  #
+  # http://dev.rubyonrails.org/ticket/7257
+  #
   named_scope :recommended, lambda { |user|
     {
       :conditions => { :user_id => user.id },
-      :limit => 10,
+      :limit => NextIssue.count,
       :offset => 5,
       :order => 'position ASC'
     }
