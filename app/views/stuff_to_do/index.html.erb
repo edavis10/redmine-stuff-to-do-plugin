@@ -108,7 +108,10 @@ function updateList(ui) {
 }
 
 function saveOrder() {
-    data = 'user_id=' + user_id + '&' + jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize')
+    data = 'user_id=' + user_id + '&' + jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize');
+    if (filter != null) {
+        data = data + '&filter=' + filter;
+    }
     jQuery.ajax({
         type: "POST",
         url: '/stuff_to_do/reorder.js',

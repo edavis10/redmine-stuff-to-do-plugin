@@ -16,7 +16,7 @@ class StuffToDoController < ApplicationController
     NextIssue.reorder_list(@user, params[:issue])
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
-    @available = NextIssue.available(@user, :user => @user )
+    @available = NextIssue.available(@user, get_filters )
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}

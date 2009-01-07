@@ -22,3 +22,4 @@
     </div>
 
   </div>
+  <%= javascript_tag("var filter = #{params[:filter].nil? ? 'null' : "'" + params[:filter].to_s + "'" }") %>
