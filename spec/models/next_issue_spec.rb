@@ -33,6 +33,17 @@ describe NextIssue, 'associations' do
   end
 end
 
+describe NextIssue, '#available with no filter' do
+
+  before(:each) do
+    @user = mock_model(User)
+  end
+
+  it 'should find nothing' do
+    NextIssue.available(@user).should be_empty
+  end
+end
+
 describe NextIssue, '#available for user' do
   include NextIssueSpecHelper
 
@@ -136,8 +147,6 @@ describe NextIssue, '#available for priority' do
     available.should eql(issues)
   end
 end
-
-
 
 describe NextIssue, '#closing_issue' do
   before(:each) do
