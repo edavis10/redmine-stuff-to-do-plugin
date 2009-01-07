@@ -97,6 +97,51 @@ describe NextIssue, '#available for status' do
   end
 end
 
+describe NextIssue, '#available for priority' do
+  it 'should find all issues with the priority' do
+    user = mock_model(User)
+    priority = mock_model(Enumeration, :opt => 'IPRI')
+    issues = []
+    10.times do |issue_number|
+      issues << mock_model(Issue, :id => issue_number, :priority => priority)
+    end
+
+    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?', priority.id, false ], :include => [:status, :priority]} ).and_return(issues)
+    NextIssue.available(user, :priority => priority).should eql(issues)
+  end
+
+  it 'should not include issues that are NextIssues' do
+    user = mock_model(User)
+    priority = mock_model(Enumeration, :opt => 'IPRI')
+    issues = []
+    next_issues = []
+    10.times do |issue_number|
+      issue = mock_model(Issue, :id => issue_number, :priority => priority)
+      issues << issue
+      # Add in half the issues as NextIssues
+      next_issues << mock_model(NextIssue, :issue => issue) if issue_number.even?
+    end
+    
+    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',priority.id, false ], :include => [:status, :priority]} ).and_return(issues)
+    NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => user.id }}).and_return(next_issues)
+    NextIssue.available(user, :priority => priority).should eql(issues - next_issues.collect(&:issue))
+  end
+  
+  it 'should only include open issues' do
+    user = mock_model(User)
+    priority = mock_model(Enumeration, :opt => 'IPRI')
+    issues = []
+    10.times do |issue_number|
+      issues << mock_model(Issue, :id => issue_number, :priority => priority)
+    end
+
+    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',priority.id, false ], :include => [:status, :priority] } ).and_return(issues)
+    available = NextIssue.available(user, :priority => priority)
+    available.should have(10).items
+    available.should eql(issues)
+  end
+end
+
 
 
 describe NextIssue, '#closing_issue' do
