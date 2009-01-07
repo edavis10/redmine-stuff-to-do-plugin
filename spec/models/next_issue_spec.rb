@@ -10,7 +10,7 @@ describe NextIssue, 'associations' do
   end
 end
 
-describe NextIssue, '#available' do
+describe NextIssue, '#available for user' do
   it 'should find all assigned issues for the user' do
     user = mock_model(User)
     issues = []
@@ -19,7 +19,7 @@ describe NextIssue, '#available' do
     end
 
     Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',user.id, false ], :include => :status} ).and_return(issues)
-    NextIssue.available(:user => user).should eql(issues)
+    NextIssue.available(user, :user => user).should eql(issues)
   end
 
   it 'should not include issues that are NextIssues' do
@@ -35,7 +35,7 @@ describe NextIssue, '#available' do
     
     Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',user.id, false ], :include => :status} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => user.id }}).and_return(next_issues)
-    NextIssue.available(:user => user).should eql(issues - next_issues.collect(&:issue))
+    NextIssue.available(user, :user => user).should eql(issues - next_issues.collect(&:issue))
   end
   
   it 'should only include open issues' do
@@ -46,11 +46,57 @@ describe NextIssue, '#available' do
     end
 
     Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',user.id, false ], :include => :status } ).and_return(issues)
-    available = NextIssue.available(:user => user)
+    available = NextIssue.available(user, :user => user)
     available.should have(10).items
     available.should eql(issues)
   end
 end
+
+describe NextIssue, '#available for status' do
+  it 'should find all issues with the status' do
+    user = mock_model(User)
+    status = mock_model(IssueStatus)
+    issues = []
+    10.times do |issue_number|
+      issues << mock_model(Issue, :id => issue_number, :status => status)
+    end
+
+    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?', status.id, false ], :include => :status} ).and_return(issues)
+    NextIssue.available(user, :status => status).should eql(issues)
+  end
+
+  it 'should not include issues that are NextIssues' do
+    user = mock_model(User)
+    status = mock_model(IssueStatus)
+    issues = []
+    next_issues = []
+    10.times do |issue_number|
+      issue = mock_model(Issue, :id => issue_number, :status => status)
+      issues << issue
+      # Add in half the issues as NextIssues
+      next_issues << mock_model(NextIssue, :issue => issue) if issue_number.even?
+    end
+    
+    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',status.id, false ], :include => :status} ).and_return(issues)
+    NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => user.id }}).and_return(next_issues)
+    NextIssue.available(user, :status => status).should eql(issues - next_issues.collect(&:issue))
+  end
+  
+  it 'should only include open issues' do
+    user = mock_model(User)
+    status = mock_model(IssueStatus)
+    issues = []
+    10.times do |issue_number|
+      issues << mock_model(Issue, :id => issue_number, :status => status)
+    end
+
+    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',status.id, false ], :include => :status } ).and_return(issues)
+    available = NextIssue.available(user, :status => status)
+    available.should have(10).items
+    available.should eql(issues)
+  end
+end
+
 
 
 describe NextIssue, '#closing_issue' do

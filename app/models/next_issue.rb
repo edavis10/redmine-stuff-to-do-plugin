@@ -21,14 +21,16 @@ class NextIssue < ActiveRecord::Base
     }
   }
   
-  # Finds the issues that are available to be added for a user.  Available means:
+  # Filters the issues that are available to be added for a user.
   #
-  # * Open Issue
-  # * Assigned to User
-  # * Is not already in the NextIssue list
+  # A filter can be:
   #
-  def self.available(filter)
-    if filter.nil?
+  # * :user - issues are assigned to this user
+  # * :status - issues with this status
+  # * :priority - issues with this priority
+  #
+  def self.available(user, filter = { })
+    if filter.nil? || filter.empty?
       return []
     elsif filter[:user]
       user = filter[:user]

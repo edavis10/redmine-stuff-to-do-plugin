@@ -6,7 +6,7 @@ class StuffToDoController < ApplicationController
   def index
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
-    @available = NextIssue.available( :user => @user )
+    @available = NextIssue.available(@user, :user => @user )
     
     @users = User.active
     @filters = filters_for_view
@@ -16,7 +16,7 @@ class StuffToDoController < ApplicationController
     NextIssue.reorder_list(@user, params[:issue])
     @doing_now = NextIssue.doing_now(@user)
     @recommended = NextIssue.recommended(@user)
-    @available = NextIssue.available( :user => @user )
+    @available = NextIssue.available(@user, :user => @user )
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
@@ -25,7 +25,7 @@ class StuffToDoController < ApplicationController
   end
   
   def available_issues
-    @available = NextIssue.available(get_filters)
+    @available = NextIssue.available(@user, get_filters)
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
