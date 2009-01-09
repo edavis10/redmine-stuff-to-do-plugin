@@ -12,7 +12,8 @@ module StuffToDoHelper
   end
   
   def filter_options(filters, selected = nil)
-    html = ''
+    html = options_for_select([[l(:stuff_to_do_label_filter_by), '']]) # Blank
+
     filters.each do |filter_group, options|
       next unless [:users, :priorities, :statuses].include?(filter_group)
       

@@ -7,17 +7,19 @@ jQuery(document).ready(function(){
     jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
 
     jQuery("#filter").change(function() {
-        jQuery.ajax({
-            type: "GET",
-            url: '/stuff_to_do/available_issues.js',
-            data: jQuery('#filter').serialize(),
-            success: function(response) {
-                jQuery('#available-pane').html(response);
-                attachSortables();
-            },
-            error: function(response) {
-                jQuery("div.error").html("Error filtering pane.  Please refresh the page.").show();
-            }});
+        if (jQuery('#filter').val() != '') {
+            jQuery.ajax({
+                type: "GET",
+                url: '/stuff_to_do/available_issues.js',
+                data: jQuery('#filter').serialize(),
+                success: function(response) {
+                    jQuery('#available-pane').html(response);
+                    attachSortables();
+                },
+                error: function(response) {
+                    jQuery("div.error").html("Error filtering pane.  Please refresh the page.").show();
+                }});
+        }
     });
 
 });
