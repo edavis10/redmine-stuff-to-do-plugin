@@ -43,17 +43,20 @@ class NextIssue < ActiveRecord::Base
       user = filter[:user]
       issues = Issue.find(:all,
                           :include => :status,
-                          :conditions => ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?",user.id, false ])
+                          :conditions => ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?",user.id, false ],
+                          :order => 'created_on DESC')
     elsif filter[:status]
       status = filter[:status]
       issues = Issue.find(:all,
                           :include => :status,
-                          :conditions => ["#{IssueStatus.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", status.id, false ])
+                          :conditions => ["#{IssueStatus.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", status.id, false ],
+                          :order => 'created_on DESC')
     elsif filter[:priority]
       priority = filter[:priority]
       issues = Issue.find(:all,
                           :include => [:status, :priority],
-                          :conditions => ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", priority.id, false ])
+                          :conditions => ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", priority.id, false ],
+                          :order => 'created_on DESC')
     end
     next_issues = NextIssue.find(:all, :conditions => { :user_id => user.id }).collect(&:issue)
 

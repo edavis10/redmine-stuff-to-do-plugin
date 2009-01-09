@@ -54,7 +54,7 @@ describe NextIssue, '#available for user' do
   it 'should find all assigned issues for the user' do
     issues = issue_factory(10, { :assigned_to => @user })
 
-    Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status} ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status, :order => 'created_on DESC'} ).and_return(issues)
     NextIssue.available(@user, :user => @user).should eql(issues)
   end
 
@@ -63,7 +63,7 @@ describe NextIssue, '#available for user' do
     # Add in half the issues as NextIssues
     next_issues = next_issues_from_issues(issues, issues.size / 2)
     
-    Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status} ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status, :order => 'created_on DESC'} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
     NextIssue.available(@user, :user => @user).should eql(issues - next_issues.collect(&:issue))
   end
@@ -71,7 +71,7 @@ describe NextIssue, '#available for user' do
   it 'should only include open issues' do
     issues = issue_factory(10, { :assigned_to => @user })
 
-    Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status } ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['assigned_to_id = ? AND issue_statuses.is_closed = ?',@user.id, false ], :include => :status, :order => 'created_on DESC' } ).and_return(issues)
     available = NextIssue.available(@user, :user => @user)
     available.should have(10).items
     available.should eql(issues)
@@ -89,7 +89,7 @@ describe NextIssue, '#available for status' do
   it 'should find all issues with the status' do
     issues = issue_factory(10, { :status => @status })
 
-    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?', @status.id, false ], :include => :status} ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?', @status.id, false ], :include => :status, :order => 'created_on DESC'} ).and_return(issues)
     NextIssue.available(@user, :status => @status).should eql(issues)
   end
 
@@ -98,7 +98,7 @@ describe NextIssue, '#available for status' do
     # Add in half the issues as NextIssues
     next_issues = next_issues_from_issues(issues, issues.size / 2)
     
-    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',@status.id, false ], :include => :status} ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',@status.id, false ], :include => :status, :order => 'created_on DESC'} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
     NextIssue.available(@user, :status => @status).should eql(issues - next_issues.collect(&:issue))
   end
@@ -106,7 +106,7 @@ describe NextIssue, '#available for status' do
   it 'should only include open issues' do
     issues = issue_factory(10, { :status => @status })
 
-    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',@status.id, false ], :include => :status } ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['issue_statuses.id = (?) AND issue_statuses.is_closed = ?',@status.id, false ], :include => :status, :order => 'created_on DESC' } ).and_return(issues)
     available = NextIssue.available(@user, :status => @status)
     available.should have(10).items
     available.should eql(issues)
@@ -124,7 +124,7 @@ describe NextIssue, '#available for priority' do
   it 'should find all issues with the priority' do
     issues = issue_factory(10, { :priority => @priority })
 
-    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?', @priority.id, false ], :include => [:status, :priority]} ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?', @priority.id, false ], :include => [:status, :priority], :order => 'created_on DESC'} ).and_return(issues)
     NextIssue.available(@user, :priority => @priority).should eql(issues)
   end
 
@@ -133,7 +133,7 @@ describe NextIssue, '#available for priority' do
     # Add in half the issues as NextIssues
     next_issues = next_issues_from_issues(issues, issues.size / 2)
     
-    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',@priority.id, false ], :include => [:status, :priority]} ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',@priority.id, false ], :include => [:status, :priority], :order => 'created_on DESC'} ).and_return(issues)
     NextIssue.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
     NextIssue.available(@user, :priority => @priority).should eql(issues - next_issues.collect(&:issue))
   end
@@ -141,7 +141,7 @@ describe NextIssue, '#available for priority' do
   it 'should only include open issues' do
     issues = issue_factory(10, { :priority => @priority })
 
-    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',@priority.id, false ], :include => [:status, :priority] } ).and_return(issues)
+    Issue.should_receive(:find).with(:all, { :conditions => ['enumerations.id = (?) AND issue_statuses.is_closed = ?',@priority.id, false ], :include => [:status, :priority], :order => 'created_on DESC' } ).and_return(issues)
     available = NextIssue.available(@user, :priority => @priority)
     available.should have(10).items
     available.should eql(issues)
