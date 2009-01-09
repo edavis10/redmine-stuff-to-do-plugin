@@ -212,6 +212,25 @@ describe NextIssue, '#closing_issue' do
   
 end
 
+describe NextIssue, '#remove_stale_assignments' do
+  it 'should destroy all NextIssues for an issue except for the currently assigned user' do
+    @user = mock_model(User)
+    @user2 = mock_model(User)
+    @user3 = mock_model(User)
+    
+    @issue = mock_model(Issue, :assigned_to_id => @user.id)
+
+    @next_issue_one = mock_model(NextIssue, :issue_id => @issue.id, :user_id => @user2.id)
+    @next_issue_two = mock_model(NextIssue, :issue_id => @issue.id, :user_id => @user3.id)
+    @next_issues = [@next_issue_one, @next_issue_two]
+    
+    NextIssue.should_receive(:destroy_all).with(['issue_id = (?) AND user_id NOT IN (?)', @issue.id, @issue.assigned_to_id]).and_return(@next_issues)
+
+    NextIssue.remove_stale_assignments(@issue)
+  end
+end
+
+
 describe NextIssue, '#reorder_list' do
   it 'should require a user_id' do
     lambda { 
