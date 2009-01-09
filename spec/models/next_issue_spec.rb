@@ -228,6 +228,23 @@ describe NextIssue, '#remove_stale_assignments' do
 
     NextIssue.remove_stale_assignments(@issue)
   end
+
+  it 'should destroy all NextIssues for an issue if the currently assigned user is blank' do
+    @user = mock_model(User)
+    @user2 = mock_model(User)
+    @user3 = mock_model(User)
+    
+    @issue = mock_model(Issue, :assigned_to_id => nil)
+
+    @next_issue_one = mock_model(NextIssue, :issue_id => @issue.id, :user_id => @user2.id)
+    @next_issue_two = mock_model(NextIssue, :issue_id => @issue.id, :user_id => @user3.id)
+    @next_issues = [@next_issue_one, @next_issue_two]
+
+    NextIssue.should_receive(:destroy_all).with(['issue_id = (?)', @issue.id]).and_return(@next_issues)
+
+    NextIssue.remove_stale_assignments(@issue)
+  end
+
 end
 
 

@@ -90,9 +90,13 @@ class NextIssue < ActiveRecord::Base
   
   # Destroys all +NextIssues+ on an +issue+ that are not the assigned to user
   def self.remove_stale_assignments(issue)
-    NextIssue.destroy_all(['issue_id = (?) AND user_id NOT IN (?)',
-                           issue.id,
-                           issue.assigned_to_id])
+    if issue.assigned_to_id.nil?
+      NextIssue.destroy_all(['issue_id = (?)', issue.id])
+    else
+      NextIssue.destroy_all(['issue_id = (?) AND user_id NOT IN (?)',
+                             issue.id,
+                             issue.assigned_to_id])
+    end
   end
   
   # Reorders the list of NextIssues for +user+ to be in the order of
