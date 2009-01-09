@@ -20,6 +20,7 @@ describe Issue, 'update_next_issues' do
     @issue = Issue.new
     @issue.stub!(:reload)
     @issue.stub!(:closed?).and_return(false)
+    NextIssue.stub!(:remove_stale_assignments)
   end
   
   it 'should reload the issue to clear the cache holding its status' do
@@ -44,5 +45,10 @@ describe Issue, 'update_next_issues' do
     NextIssue.stub!(:closing_issue)
 
     @issue.update_next_issues.should be_true
+  end
+  
+  it 'should call NextIssue#remove_stale_assignments' do
+    NextIssue.should_receive(:remove_stale_assignments).with(@issue)
+    @issue.update_next_issues
   end
 end
