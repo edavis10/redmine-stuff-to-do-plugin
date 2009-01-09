@@ -1,5 +1,5 @@
-ol#available { overflow-y:scroll; height: 500px; }
-ol#recommended { overflow-y:scroll; height: 300px; }
+ol#available { overflow-y:auto; height: 500px; }
+ol#recommended { overflow-y:auto; height: 300px; }
 li.issue { cursor: move; }
 div.pane h3 { color: #507AAA; }
 span.subtitle { font-size: smaller; color: #CCCCCC }
