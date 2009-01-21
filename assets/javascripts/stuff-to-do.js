@@ -10,7 +10,7 @@ jQuery(document).ready(function(){
         if (jQuery('#filter').val() != '') {
             jQuery.ajax({
                 type: "GET",
-                url: '/stuff_to_do/available_issues.js',
+                url: 'stuff_to_do/available_issues.js',
                 data: jQuery('#filter').serialize(),
                 success: function(response) {
                     jQuery('#available-pane').html(response);
@@ -61,7 +61,7 @@ function saveOrder() {
     }
     jQuery.ajax({
         type: "POST",
-        url: '/stuff_to_do/reorder.js',
+        url: 'stuff_to_do/reorder.js',
         data: data,
         success: function(response) {
             jQuery('#panes').html(response);
