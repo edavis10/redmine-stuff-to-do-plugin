@@ -10,7 +10,7 @@
       <%= render :partial => 'issue', :collection => @doing_now.collect(&:issue) %>
       <% else %>
       <li class="empty-list">
-        Drag issues here to create a new list.
+        <%= l(:stuff_to_do_drag_issue_create_list) %>
       </li>
       <% end %>
     </ol>

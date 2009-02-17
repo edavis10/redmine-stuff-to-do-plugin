@@ -6,7 +6,7 @@
       <%= render :partial => 'issue', :collection => @available %>
       <% else %>
       <li class="empty-list">
-        Drag issues here to remove them from a list.
+        <%= l(:stuff_to_do_drag_issue_remove_list) %>
       </li>
       <% end %>
     </ol>
