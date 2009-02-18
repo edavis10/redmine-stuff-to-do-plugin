@@ -352,7 +352,7 @@ describe StuffToDoController, '#filters_for_view (private)' do
     @priority1 = mock_model(Enumeration)
     @priority2 = mock_model(Enumeration)
     priorities = [@priority1, @priority2]
-    Enumeration.should_receive(:get_values).with('IPRI').and_return(priorities)
+    Enumeration.should_receive(:priorities).and_return(priorities)
 
     filters = controller.send(:filters_for_view)
     filters.priorities.should include(@priority1)
