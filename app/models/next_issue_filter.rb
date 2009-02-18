@@ -21,7 +21,7 @@ class NextIssueFilter
   # Wrapper around Redmine's API since Enumerations changed in r2472
   def get_priorites
     if Enumeration.respond_to?(:priorities)
-      return Enumeration::priorities
+      return Enumeration.priorities
     else
       return Enumeration::get_values('IPRI')
     end
