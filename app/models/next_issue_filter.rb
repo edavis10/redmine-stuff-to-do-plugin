@@ -10,9 +10,9 @@ class NextIssueFilter
   end
   
   def each
-    { :users => self.users,
-      :priorities => self.priorities,
-      :statuses => self.statuses}.each do |group, items|
+    { :users => self.users.sort,
+      :priorities => self.priorities.sort,
+      :statuses => self.statuses.sort}.each do |group, items|
       yield group, items
     end
   end
