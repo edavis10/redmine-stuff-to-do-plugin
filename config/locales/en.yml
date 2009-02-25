@@ -1,0 +1,17 @@
+stuff_to_do_title: Stuff To Do
+stuff_to_do_what_im_doing_now: "What I'm doing now"
+stuff_to_do_what_is_recommended: "What's recommended to do next"
+stuff_to_do_what_is_available: "What's available"
+stuff_to_do_text_order_im_doing_it: "In the order I'm doing it"
+stuff_to_do_text_by_project_manager: By the Project Manager
+stuff_to_do_label_view_user_list: "View another user's list:"
+stuff_to_do_text_total_progress: "Total Progress"
+stuff_to_do_text_total_estimates: "Total Estimates"
+stuff_to_do_label_project_manager_emails: Project Manager Emails
+stuff_to_do_label_threshold: Threshold
+stuff_to_do_label_email_to: Email addresses
+stuff_to_do_text_settings: "A email is sent to the Project Manager when a user's Recommended item count reaches the threshold below.  Multiple email recipients can be specified by separating the email addresses with commas."
+stuff_to_do_label_filter: Filter
+stuff_to_do_label_filter_by: Filter by ...
+stuff_to_do_drag_issue_create_list: Drag issues here to create a new list.
+stuff_to_do_drag_issue_remove_list: Drag issues here to remove them from a list.
