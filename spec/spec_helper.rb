@@ -1,7 +1,10 @@
 # This file is copied to ~/spec when you run 'ruby script/generate rspec'
 # from the project root directory.
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../../../../config/environment")
+
+# Allows loading of an environment config based on the environment
+redmine_root = ENV["REDMINE_ROOT"] || File.dirname(__FILE__) + "/../../../.."
+require File.expand_path(redmine_root + "/config/environment")
 require 'spec'
 require 'spec/rails'
 require 'ruby-debug'
