@@ -1,7 +1,5 @@
 Thanks go to the following people for patches and contributions:
 
-Eric Davis of Little Stream Software <edavis AT littlestreamsoftware DOT com>
-- Project Maintainer
-
-Tim Haskins of Copious Creative
-- Project sponsership
+* Eric Davis of Little Stream Software - Project Maintainer
+* Tim Haskins of Copious Creative - Project sponsorship
+* The many translators who have submitted patches
