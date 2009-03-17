@@ -6,8 +6,8 @@
     </h3>
 
     <ol id="doing-now">
-      <% unless @doing_now.empty? %>
-      <%= render :partial => 'issue', :collection => @doing_now.collect(&:issue) %>
+      <% unless issues_for(@doing_now).empty? %>
+      <%= render :partial => 'issue', :collection => issues_for(@doing_now) %>
       <% else %>
       <li class="empty-list">
         <%= l(:stuff_to_do_drag_issue_create_list) %>
@@ -17,11 +17,11 @@
 
     <div class="pane-summary">
       <div id="doing-now-total-progress">
-        <%= progress_bar_sum(@doing_now.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+        <%= progress_bar_sum(issues_for(@doing_now), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
       </div>
 
       <div id="doing-now-estimates">
-        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(@doing_now.collect(&:issue)) %></p>
+        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(issues_for(@doing_now)) %></p>
       </div>
     </div>
 
@@ -34,16 +34,16 @@
     </h3>
 
     <ol id="recommended">
-      <%= render :partial => 'issue', :collection => @recommended.collect(&:issue) %>
+      <%= render :partial => 'issue', :collection => issues_for(@recommended) %>
     </ol>
 
     <div class="pane-summary">
       <div id="recommended-total-progress">
-        <%= progress_bar_sum(@recommended.collect(&:issue), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+        <%= progress_bar_sum(issues_for(@recommended), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
       </div>
 
       <div id="recommended-estimates">
-        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(@recommended.collect(&:issue)) %></p>
+        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(issues_for(@recommended)) %></p>
       </div>
     </div>
   </div>
