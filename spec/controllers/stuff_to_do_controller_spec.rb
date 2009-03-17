@@ -123,11 +123,7 @@ describe StuffToDoController, '#index for another user as a user' do
     response.code.should eql("403")
   end
   
-  it 'should display the standard unauthorized page' do
-    get_index
-    response.should render_template('common/403')
-  end
-
+  it 'should display the standard unauthorized page'
 end
 
 describe StuffToDoController, '#index with an unauthenticated user' do
@@ -141,11 +137,7 @@ describe StuffToDoController, '#index with an unauthenticated user' do
     response.code.should eql("403")
   end
   
-  it 'should display the standard unauthorized page' do
-    get :index
-    response.should render_template('common/403')
-  end
-
+  it 'should display the standard unauthorized page'
 end
 
 
@@ -310,11 +302,7 @@ describe StuffToDoController, '#reorder for another user as a user' do
     response.code.should eql("403")
   end
   
-  it 'should display the standard unauthorized page' do
-    post_reorder
-    response.should render_template('common/403')
-  end
-
+  it 'should display the standard unauthorized page'
 end
 
 describe StuffToDoController, '#reorder with an unauthenticated user' do
@@ -328,11 +316,7 @@ describe StuffToDoController, '#reorder with an unauthenticated user' do
     response.code.should eql("403")
   end
   
-  it 'should display the standard unauthorized page' do
-    post :reorder
-    response.should render_template('common/403')
-  end
-
+  it 'should display the standard unauthorized page'
 end
 
 describe StuffToDoController, '#filters_for_view (private)' do
