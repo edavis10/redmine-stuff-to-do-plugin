@@ -2,7 +2,7 @@
 ENV["RAILS_ENV"] = "test"
 
 # Allows loading of an environment config based on the environment
-redmine_root = ENV["REDMINE_ROOT"] || File.dirname(__FILE__) + "/../../../.."
+redmine_root = ENV["REDMINE_ROOT"] || File.dirname(__FILE__) + "/../../../../.."
 require File.expand_path(redmine_root + "/config/environment")
 require 'cucumber/rails/world'
 Cucumber::Rails.use_transactional_fixtures
