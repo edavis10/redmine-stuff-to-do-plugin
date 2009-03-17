@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe StuffToDoController, '#index' do
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
     NextIssue.stub!(:available)
   end
@@ -58,8 +58,9 @@ describe StuffToDoController, '#index for another user as an administrator' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => true, :logged? => true)
+    @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
+    controller.stub!(:find_current_user).and_return(@current_user)
     @viewed_user = mock_model(User)
     User.stub!(:find).with(@viewed_user.id.to_s).and_return(@viewed_user)
     NextIssue.stub!(:available)
@@ -107,7 +108,7 @@ describe StuffToDoController, '#index for another user as a user' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
     @viewed_user = mock_model(User)
   end
@@ -154,7 +155,7 @@ describe StuffToDoController, '#reorder' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
     @ordered_list = ["500", "100", "300"]
   end
@@ -182,7 +183,7 @@ describe StuffToDoController, '#reorder with the js format' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
     @ordered_list = ["500", "100", "300"]
     NextIssue.stub!(:doing_now).and_return([])
@@ -221,8 +222,9 @@ describe StuffToDoController, '#reorder for another user as an administrator' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => true, :logged? => true)
+    @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
+    controller.stub!(:find_current_user).and_return(@current_user)
     @viewed_user = mock_model(User)
     User.stub!(:find).with(@viewed_user.id.to_s).and_return(@viewed_user)
     @ordered_list = ["500", "100", "300"]
@@ -251,8 +253,9 @@ describe StuffToDoController, '#reorder for another user as an administrator wit
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => true, :logged? => true)
+    @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
+    controller.stub!(:find_current_user).and_return(@current_user)
     @viewed_user = mock_model(User)
     User.stub!(:find).with(@viewed_user.id.to_s).and_return(@viewed_user)
     @ordered_list = ["500", "100", "300"]
@@ -292,7 +295,7 @@ describe StuffToDoController, '#reorder for another user as a user' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
     User.stub!(:current).and_return(@current_user)
     @viewed_user = mock_model(User)
   end
