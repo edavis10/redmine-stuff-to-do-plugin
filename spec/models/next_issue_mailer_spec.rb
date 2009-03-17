@@ -7,7 +7,7 @@ describe NextIssueMailer, 'recommended_below_threshold' do
     Setting.stub!(:plugin_stuff_to_do_plugin).and_return(@settings)
     Setting.stub!(:host_name).and_return('example.com')
     Setting.stub!(:protocol).and_return('https')
-    @user = mock_model(User, :name => "Example User")
+    @user = mock_model(User, :name => "Example User", :id => 100)
     @next_item_count = 2
 
     @mail = NextIssueMailer.create_recommended_below_threshold(@user, @next_item_count)
@@ -24,18 +24,19 @@ describe NextIssueMailer, 'recommended_below_threshold' do
   end
   
   it 'should have the user name in the body' do
-    @mail.body.should match(/#{ @user.name }/)
+    @mail.encoded.should match(/#{ @user.name }/)
   end
 
   it 'should say the threshold amount in the body' do
-    @mail.body.should match(/threshold of 5/)
+    @mail.encoded.should match(/threshold of 5/)
   end
 
   it 'should say the number of NextIssues for the user in the body' do
-    @mail.body.should match(/only 2 recommended items left/)
+    @mail.encoded.should match(/only 2 recommended items left/)
   end
   
   it 'should have a link to the users stuff_to_do page in the body' do
-    @mail.body.should include("https://example.com/stuff_to_do?user_id=#{@user.id}")
+    # '=3D' is the encoded version of '='
+    @mail.encoded.should include("https://example.com/stuff_to_do?user_id=3D#{@user.id}")
   end
 end

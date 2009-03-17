@@ -8,5 +8,9 @@ class NextIssueMailer < Mailer
          :count => number_of_next_items,
          :user => user
          )
+
+    part :content_type => "text/plain", :body => render_message("recommended_below_threshold.erb", body)
+    part :content_type => "text/html", :body => render_message("recommended_below_threshold.text.html.rhtml", body)
+
   end
 end
