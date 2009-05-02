@@ -1,0 +1,17 @@
+stuff_to_do_title: Coisas A Fazer
+stuff_to_do_what_im_doing_now: "O que estou fazendo agora"
+stuff_to_do_what_is_recommended: "O que &eacute; recomendado fazer depois"
+stuff_to_do_what_is_available: "O que h&aacute; disponivel"
+stuff_to_do_text_order_im_doing_it: "Em ordem do que estou fazendo"
+stuff_to_do_text_by_project_manager: Pelo Gerente do Projeto
+stuff_to_do_label_view_user_list: "Ver outra lista do usu&aacute;rio:"
+stuff_to_do_text_total_progress: "Progresso Total"
+stuff_to_do_text_total_estimates: "Estimativa Total"
+stuff_to_do_label_project_manager_emails: Emails Gerente de Projeto
+stuff_to_do_label_threshold: Limiar
+stuff_to_do_label_email_to: Endere&ccedil;os de Email
+stuff_to_do_text_settings: "Um email ser&aacute; enviado para o Gerente de Projeto quando a contagem de item Recomendado ao usu&aacute;rio alcan&ccedil;ar o limiar abaixo. Multiplos recipientes de email pode ser especificado por separar os endere&ccedil;os com virgulas."
+stuff_to_do_label_filter: Filtro
+stuff_to_do_label_filter_by: Filtro por ...
+stuff_to_do_drag_issue_create_list: Solte tickets aqui para criar uma nova lista.
+stuff_to_do_drag_issue_remove_list: Solte tickets aqui para remove-la da lista.
