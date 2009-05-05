@@ -44,7 +44,7 @@ Given /^I am on the stuff to do page for (\w+)$/ do |user_name|
   visit "/stuff_to_do", :get, :user_id => user.id
 end
 
-Given /^there are (\d+) next issues$/ do |number|
+Given /^there are (\d+) issues to do$/ do |number|
   number.to_i.times do |n|
     issue = Issue.make(:project => @project,
                        :tracker => @tracker,
@@ -56,7 +56,7 @@ Given /^there are (\d+) next issues$/ do |number|
   end
 end
 
-Given /^there are (\d+) next issues for (\w+)/ do |number, user_name|
+Given /^there are (\d+) issues to do for (\w+)/ do |number, user_name|
   user = User.find_by_login(user_name)
   user.should_not be_nil
 
