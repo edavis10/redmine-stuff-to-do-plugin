@@ -82,7 +82,7 @@ Issue.blueprint do
 end
 
 # Plugin specific
-NextIssue.blueprint do
+StuffToDo.blueprint do
   user
-  issue
+  stuff
 end

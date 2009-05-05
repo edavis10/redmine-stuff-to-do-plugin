@@ -5,7 +5,7 @@ Before do
   Project.destroy_all
   Enumeration.destroy_all
   IssueStatus.destroy_all
-  NextIssue.destroy_all
+  StuffToDo.destroy_all
   Issue.destroy_all
   Tracker.destroy_all
   @current_user = User.make
@@ -52,7 +52,7 @@ Given /^there are (\d+) next issues$/ do |number|
                        :description => "Description #{number}",
                        :done_ratio => 50,
                        :estimated_hours => 3)
-    NextIssue.make :user => @current_user, :issue => issue
+    StuffToDo.make :user => @current_user, :stuff => issue
   end
 end
 
@@ -69,7 +69,7 @@ Given /^there are (\d+) next issues for (\w+)/ do |number, user_name|
                        :estimated_hours => 3,
                        :assigned_to => user,
                        :author => user)
-    NextIssue.make :user => user, :issue => issue
+    StuffToDo.make :user => user, :stuff => issue
   end
 end
 

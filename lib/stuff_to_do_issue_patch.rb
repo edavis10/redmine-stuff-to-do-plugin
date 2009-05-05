@@ -29,8 +29,8 @@ module StuffToDoIssuePatch
     #   be removed
     def update_next_issues
       self.reload
-      NextIssue.closing_issue(self) if self.closed?
-      NextIssue.remove_stale_assignments(self)
+      StuffToDo.closing_issue(self) if self.closed?
+      StuffToDo.remove_stale_assignments(self)
       return true
     end
   end    

@@ -1,4 +1,4 @@
-      <li class="issue <%= issue_counter.odd? ? "odd" : "even" %> priority-<%= issue.priority.position %>" id="issue_<%= issue.id %>">
+      <li class="issue <%= issue_counter.odd? ? "odd" : "even" %> priority-<%= issue.priority.position %>" id="stuff_<%= issue.id %>">
         <div class="issue-details">
         <%= link_to('#' + issue.id.to_s, :controller => 'issues', :action => 'show', :id => issue) %>
         - <%= h(issue.project.name) %> -

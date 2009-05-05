@@ -20,7 +20,7 @@ describe Issue, 'update_next_issues' do
     @issue = Issue.new
     @issue.stub!(:reload)
     @issue.stub!(:closed?).and_return(false)
-    NextIssue.stub!(:remove_stale_assignments)
+    StuffToDo.stub!(:remove_stale_assignments)
   end
   
   it 'should reload the issue to clear the cache holding its status' do
@@ -29,26 +29,26 @@ describe Issue, 'update_next_issues' do
     @issue.update_next_issues
   end
   
-  it 'should call NextIssue#closing_issue if the issue is closed' do
+  it 'should call StuffToDo#closing_issue if the issue is closed' do
     @issue.should_receive(:closed?).and_return(true)
-    NextIssue.should_receive(:closing_issue).with(@issue)
+    StuffToDo.should_receive(:closing_issue).with(@issue)
     @issue.update_next_issues
   end
 
-  it 'should not call NextIssue#closing_issue if the issue is open' do
+  it 'should not call StuffToDo#closing_issue if the issue is open' do
     @issue.should_receive(:closed?).and_return(false)
-    NextIssue.should_not_receive(:closing_issue)
+    StuffToDo.should_not_receive(:closing_issue)
     @issue.update_next_issues
   end
 
   it 'should return true for the callbacks' do
-    NextIssue.stub!(:closing_issue)
+    StuffToDo.stub!(:closing_issue)
 
     @issue.update_next_issues.should be_true
   end
   
-  it 'should call NextIssue#remove_stale_assignments' do
-    NextIssue.should_receive(:remove_stale_assignments).with(@issue)
+  it 'should call StuffToDo#remove_stale_assignments' do
+    StuffToDo.should_receive(:remove_stale_assignments).with(@issue)
     @issue.update_next_issues
   end
 end

@@ -28,6 +28,6 @@ module StuffToDoHelper
   # Returns the issues for a collection of NextIssues, removing any
   # issues that have been deleted.
   def issues_for(next_issues)
-    return next_issues.collect(&:issue).compact
+    return next_issues.collect(&:stuff).compact
   end
 end

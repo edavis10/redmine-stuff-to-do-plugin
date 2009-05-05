@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe NextIssueMailer, 'recommended_below_threshold' do
+describe StuffToDoMailer, 'recommended_below_threshold' do
 
   before(:each) do
     @settings = {'email_to' => 'user1@example.com,user2@example.com', 'threshold' => '5'}
@@ -10,7 +10,7 @@ describe NextIssueMailer, 'recommended_below_threshold' do
     @user = mock_model(User, :name => "Example User", :id => 100)
     @next_item_count = 2
 
-    @mail = NextIssueMailer.create_recommended_below_threshold(@user, @next_item_count)
+    @mail = StuffToDoMailer.create_recommended_below_threshold(@user, @next_item_count)
   end
   
   it 'should send to the users specified in the Settings' do
@@ -31,7 +31,7 @@ describe NextIssueMailer, 'recommended_below_threshold' do
     @mail.encoded.should match(/threshold of 5/)
   end
 
-  it 'should say the number of NextIssues for the user in the body' do
+  it 'should say the number of StuffToDos for the user in the body' do
     @mail.encoded.should match(/only 2 recommended items left/)
   end
   

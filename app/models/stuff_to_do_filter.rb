@@ -1,4 +1,4 @@
-class NextIssueFilter
+class StuffToDoFilter
   attr_accessor :users
   attr_accessor :priorities
   attr_accessor :statuses

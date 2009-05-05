@@ -1,4 +1,9 @@
-# NextIssue relates a user to an issue at a specific postition in a list
+# StuffToDo relates a user to another object at a specific postition
+# in a list.
+#
+# Supported objects:
+# * Issue
+# * Project
 class StuffToDo < ActiveRecord::Base
   USE = {
     'All' => '0',
@@ -28,7 +33,7 @@ class StuffToDo < ActiveRecord::Base
   named_scope :recommended, lambda { |user|
     {
       :conditions => { :user_id => user.id },
-      :limit => NextIssue.count,
+      :limit => self.count,
       :offset => 5,
       :order => 'position ASC'
     }
@@ -64,7 +69,7 @@ class StuffToDo < ActiveRecord::Base
                           :conditions => ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", priority.id, false ],
                           :order => 'created_on DESC')
     end
-    next_issues = NextIssue.find(:all, :conditions => { :user_id => user.id }).collect(&:issue)
+    next_issues = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
 
     
     return issues - next_issues
@@ -75,19 +80,19 @@ class StuffToDo < ActiveRecord::Base
   def self.closing_issue(issue)
     return false unless issue.closed?
     user_ids = []
-    NextIssue.find(:all, :conditions => { :issue_id => issue.id }).each do |next_issue|
+    self.find(:all, :conditions => { :stuff_id => issue.id }).each do |next_issue|
       user_ids << next_issue.user_id if next_issue.user_id
       next_issue.destroy
     end
 
     # Deliver an email for each user who is below the threshold
     user_ids.uniq.each do |user_id|
-      count = NextIssue.count(:conditions => { :user_id => user_id})
+      count = self.count(:conditions => { :user_id => user_id})
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
 
       if threshold && threshold.to_i >= count
         user = User.find_by_id(user_id)
-        NextIssueMailer.deliver_recommended_below_threshold(user, count)
+        StuffToDoMailer.deliver_recommended_below_threshold(user, count)
       end
     end
     
@@ -97,9 +102,9 @@ class StuffToDo < ActiveRecord::Base
   # Destroys all +NextIssues+ on an +issue+ that are not the assigned to user
   def self.remove_stale_assignments(issue)
     if issue.assigned_to_id.nil?
-      NextIssue.destroy_all(['issue_id = (?)', issue.id])
+      self.destroy_all(['stuff_id = (?)', issue.id])
     else
-      NextIssue.destroy_all(['issue_id = (?) AND user_id NOT IN (?)',
+      self.destroy_all(['stuff_id = (?) AND user_id NOT IN (?)',
                              issue.id,
                              issue.assigned_to_id])
     end
@@ -111,13 +116,13 @@ class StuffToDo < ActiveRecord::Base
   def self.reorder_list(user, issue_ids)
     issue_ids ||= []
     issue_ids.map! {|issue_id| issue_id.to_i }
-    list = NextIssue.find_all_by_user_id(user.id)
-    next_issues_found = list.collect { |next_issue| next_issue.issue_id.to_i }
+    list = self.find_all_by_user_id(user.id)
+    next_issues_found = list.collect { |next_issue| next_issue.stuff_id.to_i }
     
     # Remove NextIssues that are not in the issue_ids
     removed_issues = next_issues_found - issue_ids
     removed_issues.each do |issue_id|
-      removed_next_issue = NextIssue.find_by_user_id_and_issue_id(user.id, issue_id)
+      removed_next_issue = self.find_by_user_id_and_stuff_id(user.id, issue_id)
       removed_next_issue.destroy
     end
     
@@ -128,8 +133,9 @@ class StuffToDo < ActiveRecord::Base
         next_issue.insert_at(position)
       else
         # Not found in list, so create a new NextIssue
-        next_issue = NextIssue.new
-        next_issue.issue_id = issue_id
+        next_issue = self.new
+        next_issue.stuff_id = issue_id
+        next_issue.stuff_type = 'Issue'
         next_issue.user_id = user.id
 
         next_issue.save # TODO: Check return
