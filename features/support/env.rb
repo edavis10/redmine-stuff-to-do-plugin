@@ -15,6 +15,11 @@ require 'webrat/rspec-rails'
 
 require 'ruby-debug'
 
+# Machinist and it's data
+require 'faker'
+require 'machinist'
+require File.expand_path(File.dirname(__FILE__) + '/../../blueprints/blueprint')
+
 # require the entire app if we're running under coverage testing,
 # so we measure 0% covered files in the report
 #
