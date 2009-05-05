@@ -10,7 +10,7 @@ class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
                           :user_id => next_issue.user_id,
                           :position => next_issue.position,
                           :stuff_id => next_issue.issue_id,
-                          :stuff_type => 'NextIssue'
+                          :stuff_type => 'Issue'
                         })
       debugger
     end
@@ -19,7 +19,7 @@ class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
   end
   
   def self.down
-    StuffToDo.find_all_by_stuff_type('NextIssue').each do |stuff_to_do|
+    StuffToDo.find_all_by_stuff_type('Issue').each do |stuff_to_do|
       NextIssue.create!({
                           :user_id => stuff_to_do.user_id,
                           :position => stuff_to_do.position,
