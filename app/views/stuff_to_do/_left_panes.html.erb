@@ -6,8 +6,8 @@
     </h3>
 
     <ol id="doing-now">
-      <% unless issues_for(@doing_now).empty? %>
-      <%= render :partial => 'issue', :collection => issues_for(@doing_now) %>
+      <% unless stuff_for(@doing_now).empty? %>
+      <%= render :partial => 'item', :collection => stuff_for(@doing_now) %>
       <% else %>
       <li class="empty-list">
         <%= l(:stuff_to_do_drag_issue_create_list) %>
@@ -34,7 +34,7 @@
     </h3>
 
     <ol id="recommended">
-      <%= render :partial => 'issue', :collection => issues_for(@recommended) %>
+      <%= render :partial => 'item', :collection => stuff_for(@recommended) %>
     </ol>
 
     <div class="pane-summary">

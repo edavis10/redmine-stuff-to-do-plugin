@@ -127,7 +127,7 @@ end
 
 Then /^I should see a row for (\d+) "(.*)" tasks$/ do |number, named|
   response.should have_tag("ol##{named}") do
-    with_tag("li.issue", :minimum => number.to_i, :maximum => number.to_i)
+    with_tag("li.stuff-to-do-item", :minimum => number.to_i, :maximum => number.to_i)
   end
 end
 

@@ -25,9 +25,15 @@ module StuffToDoHelper
     return html
   end
 
-  # Returns the issues for a collection of NextIssues, removing any
-  # issues that have been deleted.
-  def issues_for(next_issues)
-    return next_issues.collect(&:stuff).compact
+  # Returns the stuff for a collection of StuffToDo items, removing anything
+  # that have been deleted.
+  def stuff_for(stuff_to_do_items)
+    return stuff_to_do_items.collect(&:stuff).compact
+  end
+
+  # Returns the issues for a collection of StuffToDo items, removing anything
+  # that have been deleted or isn't an Issue
+  def issues_for(stuff_to_do_items)
+    return stuff_to_do_items.collect(&:stuff).compact.reject {|item| item.class != Issue }
   end
 end

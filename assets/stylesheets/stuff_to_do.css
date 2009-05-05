@@ -1,6 +1,7 @@
 ol#available { overflow-y:auto; height: 500px; }
 ol#recommended { overflow-y:auto; height: 300px; }
-li.issue { cursor: move; }
+li.issue, li.project { cursor: move; }
+li.project { font-weight: bold; }
 div.pane h3 { color: #507AAA; }
 span.subtitle { font-size: smaller; color: #CCCCCC }
 div.pane ol { list-style: none; padding-left: 15px;}
@@ -11,7 +12,7 @@ div.menu { float:right; text-align: right; }
 
 .drop-accepted { background-color:#FFFFEE; height: 16px; width: 100%; border: 1px solid #000000; }
 
-div.issue-details { position:relative; display:inline; float:left; width:71%; margin: 0 .5%; }
+div.issue-details, div.project-details { position:relative; display:inline; float:left; width:71%; margin: 0 .5%; }
 div.estimate { position:relative; float:left; display: inline; width: 6%; margin: 0; text-align: center; }
 div.progress { position:relative; float:left; display:inline; width: 17%; margin: 0 0 0 .5%; }
 

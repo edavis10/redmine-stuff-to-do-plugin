@@ -3,7 +3,7 @@
 
     <ol id="available">
       <% unless @available.empty? %>
-      <%= render :partial => 'issue', :collection => @available %>
+      <%= render :partial => 'item', :collection => @available %>
       <% else %>
       <li class="empty-list">
         <%= l(:stuff_to_do_drag_issue_remove_list) %>
