@@ -12,7 +12,7 @@ module StuffToDoIssuePatch
       unloadable # Send unloadable so it will not be unloaded in development
 
       after_save :update_next_issues
-      
+      has_many :stuff_to_dos, :as => :stuff
     end
 
   end

@@ -1,12 +1,12 @@
 # NextIssue relates a user to an issue at a specific postition in a list
-class NextIssue < ActiveRecord::Base
+class StuffToDo < ActiveRecord::Base
   USE = {
     'All' => '0',
     'Only Issues' => '1',
     'Only Projects' => '2'
   }
 
-  belongs_to :issue
+  belongs_to :stuff, :polymorphic => true
   belongs_to :user
   acts_as_list :scope => :user
   
