@@ -56,6 +56,14 @@ Given /^there are (\d+) issues to do$/ do |number|
   end
 end
 
+Given /^there are (\d+) projects to do$/ do |number|
+  number.to_i.times do |n|
+    project = Project.make
+    Member.make(:user => @current_user, :project => project)
+    StuffToDo.make :user => @current_user, :stuff => project
+  end
+end
+
 Given /^there are (\d+) issues to do for (\w+)/ do |number, user_name|
   user = User.find_by_login(user_name)
   user.should_not be_nil

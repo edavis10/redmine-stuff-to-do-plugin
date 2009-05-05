@@ -10,6 +10,11 @@ Sham.message { Faker::Company.bs }
 Sham.position {|index| index }
 Sham.single_name { Faker::Internet.domain_word.capitalize }
 
+Sham.permissions(:unique => false) {
+  [
+  ]
+}
+
 # Redmine specific blueprints
 User.blueprint do
   mail
@@ -44,7 +49,7 @@ Member.blueprint do
 end
 
 Role.blueprint do
-  name
+  name { Sham.single_name }
   position
   permissions
 end
