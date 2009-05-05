@@ -19,7 +19,12 @@ Redmine::Plugin.register :stuff_to_do_plugin do
 
   requires_redmine :version_or_higher => '0.8.0'
 
-  settings :default => {'threshold' => '1', 'email_to' => 'example1@example.com,example2@example.com'}, :partial => 'settings/stuff_to_do_settings'
+  settings(:partial => 'settings/stuff_to_do_settings',
+           :default => {
+             'use_as_next_issue' => '0',
+             'threshold' => '1',
+             'email_to' => 'example1@example.com,example2@example.com'
+           })
 
   menu(:top_menu, :stuff_to_do, {:controller => "stuff_to_do", :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? })
 
