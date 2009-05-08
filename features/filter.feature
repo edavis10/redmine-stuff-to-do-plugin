@@ -12,6 +12,6 @@ Feature: Filtering
     And "Users" should be an option group in the select field "filter"
     And "Priorities" should be an option group in the select field "filter"
     And "Statuses" should be an option group in the select field "filter"
-    And "Projects" should be an option group in the select field "filter"
+    And "Projects" should be an option in the select field "filter"
     And "Feature Test" should be selected
 

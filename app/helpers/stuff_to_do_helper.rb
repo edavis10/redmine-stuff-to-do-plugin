@@ -16,10 +16,17 @@ module StuffToDoHelper
 
     filters.each do |filter_group, options|
       next unless [:users, :priorities, :statuses, :projects].include?(filter_group)
-      
-      html << content_tag(:optgroup,
-                          options_for_select(options.collect { |item| [item.to_s, filter_group.to_s + '-' + item.id.to_s]}, selected),
-                          :label => filter_group.to_s.capitalize )
+      if filter_group == :projects
+        # Projects only needs a single item
+        html << content_tag(:option,
+                            filter_group.to_s.capitalize,
+                            :value => 'projects',
+                            :style => 'font-weight: bold')
+      else
+        html << content_tag(:optgroup,
+                            options_for_select(options.collect { |item| [item.to_s, filter_group.to_s + '-' + item.id.to_s]}, selected),
+                            :label => filter_group.to_s.capitalize )
+      end
     end
     
     return html

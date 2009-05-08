@@ -153,6 +153,12 @@ Then /^"(\w+)" should be an option group in the select field "(\w+)"$/ do |optio
   end
 end
 
+Then /^"(\w+)" should be an option in the select field "(\w+)"$/ do |option_value, field|
+  response.should have_tag("select##{field}") do
+    with_tag("option",option_value)
+  end
+end
+
 Then /^I should be the stuff to do page$/ do
   response.should be_success
   response.request.url.should match(/stuff_to_do/)
