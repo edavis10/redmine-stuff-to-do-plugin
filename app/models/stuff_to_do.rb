@@ -113,39 +113,39 @@ class StuffToDo < ActiveRecord::Base
     end
   end
   
-  # Reorders the list of NextIssues for +user+ to be in the order of
-  # +issue_ids+.  New NextIssues will be created and if needed and old
-  # NextIssues will be removed if they are unassigned.
-  def self.reorder_list(user, issue_ids)
-    issue_ids ||= []
-    issue_ids.map! {|issue_id| issue_id.to_i }
+  # Reorders the list of StuffToDo items for +user+ to be in the order of
+  # +ids+.  New StuffToDos will be created if needed and old
+  # StuffToDos will be removed if they are unassigned.
+  def self.reorder_list(user, ids)
+    ids ||= []
+    ids.map! {|id| id.to_i }
     list = self.find_all_by_user_id(user.id)
-    next_issues_found = list.collect { |next_issue| next_issue.stuff_id.to_i }
+    stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
     
-    # Remove NextIssues that are not in the issue_ids
-    removed_issues = next_issues_found - issue_ids
-    removed_issues.each do |issue_id|
-      removed_next_issue = self.find_by_user_id_and_stuff_id(user.id, issue_id)
-      removed_next_issue.destroy
+    # Remove StuffToDos that are not in the +ids+
+    removed = stuff_to_dos_found - ids
+    removed.each do |id|
+      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
+      removed_stuff_to_do.destroy
     end
     
-    issue_ids.each do |issue_id|
-      if existing_list_position = next_issues_found.index(issue_id.to_i)
-        position = issue_ids.index(issue_id) + 1  # acts_as_list is 1 based
-        next_issue = list[existing_list_position]
-        next_issue.insert_at(position)
+    ids.each do |id|
+      if existing_list_position = stuff_to_dos_found.index(id.to_i)
+        position = ids.index(id) + 1  # acts_as_list is 1 based
+        stuff_to_do = list[existing_list_position]
+        stuff_to_do.insert_at(position)
       else
-        # Not found in list, so create a new NextIssue
-        next_issue = self.new
-        next_issue.stuff_id = issue_id
-        next_issue.stuff_type = 'Issue'
-        next_issue.user_id = user.id
+        # Not found in list, so create a new StuffToDo item
+        stuff_to_do = self.new
+        stuff_to_do.stuff_id = id
+        stuff_to_do.stuff_type = 'Issue'
+        stuff_to_do.user_id = user.id
 
-        next_issue.save # TODO: Check return
+        stuff_to_do.save # TODO: Check return
         
         # Have to resave next_issue since acts_as_list automatically moves it
         # to the bottom on create
-        next_issue.insert_at(issue_ids.index(issue_id) + 1)  # acts_as_list is 1 based
+        stuff_to_do.insert_at(ids.index(id) + 1)  # acts_as_list is 1 based
       end
       
     end
