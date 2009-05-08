@@ -68,6 +68,9 @@ class StuffToDo < ActiveRecord::Base
                           :include => [:status, :priority],
                           :conditions => ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", priority.id, false ],
                           :order => 'created_on DESC')
+    elsif filter[:projects]
+      # TODO: remove 'issues' naming
+      issues = Project.active.visible.sort
     end
     next_issues = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
 

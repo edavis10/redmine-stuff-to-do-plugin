@@ -66,6 +66,8 @@ class StuffToDoController < ApplicationController
       return { :priority => Enumeration.find_by_id(id) }
     elsif params[:filter].match(/statuses/)
       return { :status => IssueStatus.find_by_id(id) }
+    elsif params[:filter].match(/projects/)
+      return { :projects => true }
     else
       return nil
     end

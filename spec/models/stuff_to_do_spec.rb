@@ -9,6 +9,15 @@ module StuffToDoSpecHelper
     
     return issues
   end
+
+  def project_factory(number, fields = {})
+    projects = []
+    number.times do |project_number|
+      projects << mock_model(Project, { :id => project_number }.merge(fields))
+    end
+    
+    return projects
+  end
   
   def next_issues_from_issues(issues, number_of_next_issues = nil)
     number_of_next_issues ||= issues.size
@@ -148,6 +157,39 @@ describe StuffToDo, '#available for priority' do
     available = StuffToDo.available(@user, :priority => @priority)
     available.should have(10).items
     available.should eql(issues)
+  end
+end
+
+describe StuffToDo, '#available for project' do
+  include StuffToDoSpecHelper
+
+  before(:each) do
+    @user = mock_model(User)
+    @priority = mock_model(Enumeration, :opt => 'IPRI')
+  end
+
+  it 'should find all active projects visible to the user' do
+    issues = issue_factory(10, { :priority => @priority })
+    projects = project_factory(10)
+    projects.should_receive(:sort).and_return(projects) # No need to test the sort order
+    
+    Project.should_receive(:active).and_return(Project)
+    Project.should_receive(:visible).and_return(projects)
+
+    StuffToDo.available(@user, :projects => true).should eql(projects)
+  end
+
+  it 'should not include projects that are StuffToDos already' do
+    projects = project_factory(10)
+    projects.stub!(:sort).and_return(projects) # No need to test the sort order
+    # Add in half the issues as StuffToDos
+    stuff_to_dos = next_issues_from_issues(projects, projects.size / 2)
+
+    Project.should_receive(:active).and_return(Project)
+    Project.should_receive(:visible).and_return(projects)
+    StuffToDo.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(stuff_to_dos)
+    
+    StuffToDo.available(@user, :projects => true).should eql(projects - stuff_to_dos.collect(&:stuff))
   end
 end
 

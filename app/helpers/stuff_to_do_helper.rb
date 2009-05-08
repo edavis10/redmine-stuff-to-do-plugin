@@ -1,14 +1,16 @@
 module StuffToDoHelper
   def progress_bar_sum(collection, field, opts)
-    total = collection.inject(0) {|sum, n| sum + n.read_attribute(field) }
-    divisor = collection.length
+    issues = remove_non_issues(collection)
+    
+    total = issues.inject(0) {|sum, n| sum + n.read_attribute(field) }
+    divisor = issues.length
     return if divisor.nil? || divisor == 0
 
     progress_bar(total / divisor, opts)
   end
   
   def total_estimates(issues)
-    issues.collect(&:estimated_hours).compact.sum
+    remove_non_issues(issues).collect(&:estimated_hours).compact.sum
   end
   
   def filter_options(filters, selected = nil)
@@ -41,6 +43,10 @@ module StuffToDoHelper
   # Returns the issues for a collection of StuffToDo items, removing anything
   # that have been deleted or isn't an Issue
   def issues_for(stuff_to_do_items)
-    return stuff_to_do_items.collect(&:stuff).compact.reject {|item| item.class != Issue }
+    return remove_non_issues(stuff_to_do_items.collect(&:stuff).compact)
+  end
+
+  def remove_non_issues(stuff_to_do_items)
+    stuff_to_do_items.reject {|item| item.class != Issue }
   end
 end
