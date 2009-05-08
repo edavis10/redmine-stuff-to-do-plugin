@@ -298,91 +298,91 @@ describe StuffToDo, '#reorder_list' do
     
   end
 
-  it 'should require an array of issue ids' do
+  it 'should require an array of  ids' do
     user = mock_model(User)
     lambda { 
       StuffToDo.reorder_list(user)
     }.should raise_error
   end
   
-  it 'should find all the next issues' do
+  it 'should find all the Stuff To Do items' do
     user = mock_model(User)
-    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
-    next_issues = []
-    issue_ids.each do |id|
-      next_issues << mock_model(StuffToDo, :stuff_id => id, :insert_at => true)
+    ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    stuff_to_dos = []
+    ids.each do |id|
+      stuff_to_dos << mock_model(StuffToDo, :stuff_id => id, :insert_at => true)
     end
     
-    StuffToDo.should_receive(:find_all_by_user_id).with(user.id).and_return(next_issues)
-    StuffToDo.reorder_list(user, issue_ids)
+    StuffToDo.should_receive(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.reorder_list(user, ids)
   end
 
   
-  it 'should save the positions of the issues to the database' do
+  it 'should save the positions of the stuff to do items to the database' do
     user = mock_model(User)
-    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
-    next_issues = []
-    issue_ids.each_with_index do |id, array_position|
-      next_issue = mock_model(StuffToDo, :stuff_id => id, :id => id)
-      next_issue.should_receive(:insert_at).with(array_position + 1)
-      next_issues << next_issue
+    ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    stuff_to_dos = []
+    ids.each_with_index do |id, array_position|
+      stuff_to_do = mock_model(StuffToDo, :stuff_id => id, :id => id)
+      stuff_to_do.should_receive(:insert_at).with(array_position + 1)
+      stuff_to_dos << stuff_to_do
     end
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
-    StuffToDo.reorder_list(user, issue_ids)
+    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.reorder_list(user, ids)
     
   end
   
   it 'should add new StuffToDo that are in the list but not in the database' do
     user = mock_model(User)
-    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
-    next_issues = []
-    issue_ids.each_with_index do |id, array_position|
-      next_issues << mock_model(StuffToDo, :stuff_id => id, :insert_at => true) unless id == "820"
+    ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    stuff_to_dos = []
+    ids.each_with_index do |id, array_position|
+      stuff_to_dos << mock_model(StuffToDo, :stuff_id => id, :insert_at => true) unless id == "820"
     end
 
-    next_issue_for_820 = StuffToDo.new
-    next_issue_for_820.should_receive(:stuff_id=).with(820)
-    next_issue_for_820.should_receive(:user_id=).with(user.id)
-    next_issue_for_820.should_receive(:save).and_return(true)
-    position = issue_ids.index("820") + 1
-    next_issue_for_820.should_receive(:insert_at).with(position)
-    StuffToDo.should_receive(:new).and_return(next_issue_for_820)
+    stuff_to_do_for_820 = StuffToDo.new
+    stuff_to_do_for_820.should_receive(:stuff_id=).with(820)
+    stuff_to_do_for_820.should_receive(:user_id=).with(user.id)
+    stuff_to_do_for_820.should_receive(:save).and_return(true)
+    position = ids.index("820") + 1
+    stuff_to_do_for_820.should_receive(:insert_at).with(position)
+    StuffToDo.should_receive(:new).and_return(stuff_to_do_for_820)
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
-    StuffToDo.reorder_list(user, issue_ids)
+    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.reorder_list(user, ids)
   end
   
   it 'should destroy any StuffToDos that are not in the list' do
     user = mock_model(User)
-    issue_ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
-    next_issues = []
-    issue_ids.each_with_index do |id, array_position|
-      next_issues << mock_model(StuffToDo, :stuff_id => id, :insert_at => true)
+    ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    stuff_to_dos = []
+    ids.each_with_index do |id, array_position|
+      stuff_to_dos << mock_model(StuffToDo, :stuff_id => id, :insert_at => true)
     end
 
-    extra_next_issue = mock_model(StuffToDo, :stuff_id => 999)
-    extra_next_issue.should_receive(:destroy).and_return(true)
-    StuffToDo.should_receive(:find_by_user_id_and_stuff_id).with(user.id, extra_next_issue.stuff_id).and_return(extra_next_issue)
-    next_issues << extra_next_issue
+    extra_stuff_to_do = mock_model(StuffToDo, :stuff_id => 999)
+    extra_stuff_to_do.should_receive(:destroy).and_return(true)
+    StuffToDo.should_receive(:find_by_user_id_and_stuff_id).with(user.id, extra_stuff_to_do.stuff_id).and_return(extra_stuff_to_do)
+    stuff_to_dos << extra_stuff_to_do
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
-    StuffToDo.reorder_list(user, issue_ids)
+    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.reorder_list(user, ids)
 
   end
   
   it 'should destroy all StuffToDos if the list is empty' do
     user = mock_model(User)
-    issue_ids = nil
-    next_issues = []
+    ids = nil
+    stuff_to_dos = []
 
-    extra_next_issue = mock_model(StuffToDo, :stuff_id => 999)
-    extra_next_issue.should_receive(:destroy).and_return(true)
-    StuffToDo.should_receive(:find_by_user_id_and_stuff_id).with(user.id, extra_next_issue.stuff_id).and_return(extra_next_issue)
-    next_issues << extra_next_issue
+    extra_stuff_to_do = mock_model(StuffToDo, :stuff_id => 999)
+    extra_stuff_to_do.should_receive(:destroy).and_return(true)
+    StuffToDo.should_receive(:find_by_user_id_and_stuff_id).with(user.id, extra_stuff_to_do.stuff_id).and_return(extra_stuff_to_do)
+    stuff_to_dos << extra_stuff_to_do
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(next_issues)
-    StuffToDo.reorder_list(user, issue_ids)
+    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.reorder_list(user, ids)
     
   end
 end
