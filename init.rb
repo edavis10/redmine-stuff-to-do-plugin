@@ -7,6 +7,15 @@ Dir[File.join(directory,'vendor','plugins','*')].each do |dir|
   Dependencies.load_once_paths.delete(path)
 end
 
+
+# Patches to the Redmine core.
+require 'dispatcher'
+require 'project'
+
+Dispatcher.to_prepare do
+  Project.send(:include, StuffToDoProjectPatch)
+end
+
 require_dependency 'stuff_to_do_issue_patch.rb'
 
 Redmine::Plugin.register :stuff_to_do_plugin do
