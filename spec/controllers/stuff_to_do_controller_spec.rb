@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe StuffToDoController, '#index' do
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [])
     User.stub!(:current).and_return(@current_user)
     StuffToDo.stub!(:available)
   end

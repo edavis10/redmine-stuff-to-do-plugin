@@ -9,8 +9,9 @@ Feature: Filtering
 
     Then I should see "Filter"
     And there should be a select field called "filter"
-    And "User" should be an option group in the select field "filter"
-    And "Priority" should be an option group in the select field "filter"
-    And "Status" should be an option group in the select field "filter"
+    And "Users" should be an option group in the select field "filter"
+    And "Priorities" should be an option group in the select field "filter"
+    And "Statuses" should be an option group in the select field "filter"
+    And "Projects" should be an option group in the select field "filter"
     And "Feature Test" should be selected
 

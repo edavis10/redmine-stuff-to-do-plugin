@@ -2,17 +2,22 @@ class StuffToDoFilter
   attr_accessor :users
   attr_accessor :priorities
   attr_accessor :statuses
+  attr_accessor :projects
   
   def initialize
     self.users = User.active
     self.priorities = get_priorites
     self.statuses = IssueStatus.find(:all)
+    self.projects = Project.visible.active
   end
   
   def each
-    { :users => self.users.sort,
+    {
+      :users => self.users.sort,
       :priorities => self.priorities.sort,
-      :statuses => self.statuses.sort}.each do |group, items|
+      :statuses => self.statuses.sort,
+      :projects => self.projects.sort
+    }.each do |group, items|
       yield group, items
     end
   end

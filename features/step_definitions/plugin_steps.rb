@@ -149,7 +149,7 @@ end
 
 Then /^"(\w+)" should be an option group in the select field "(\w+)"$/ do |option_value, field|
   response.should have_tag("select##{field}") do
-    with_tag("optgroup", :label => /#{option_value}/)
+    with_tag("optgroup[label*=?]",option_value)
   end
 end
 
