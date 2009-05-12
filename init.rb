@@ -32,7 +32,7 @@ Redmine::Plugin.register :stuff_to_do_plugin do
 
   settings(:partial => 'settings/stuff_to_do_settings',
            :default => {
-             'use_as_next_issue' => '0',
+             'use_as_stuff_to_do' => '0',
              'threshold' => '1',
              'email_to' => 'example1@example.com,example2@example.com'
            })
