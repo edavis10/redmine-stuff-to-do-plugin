@@ -78,14 +78,13 @@ class StuffToDo < ActiveRecord::Base
     return issues - next_issues
   end
   
-  # Callback used to destroy all NextIssues when an issue is removed and
+  # Callback used to destroy all StuffToDos when an object is removed and
   # send an email if a user is below the What's Recommend threshold
-  def self.remove_associations_to(issue)
-    return false unless issue.closed?
+  def self.remove_associations_to(associated_object)
     user_ids = []
-    self.find(:all, :conditions => { :stuff_id => issue.id }).each do |next_issue|
-      user_ids << next_issue.user_id if next_issue.user_id
-      next_issue.destroy
+    associated_object.stuff_to_dos.each do |stuff_to_do|
+      user_ids << stuff_to_do.user_id if stuff_to_do.user_id
+      stuff_to_do.destroy
     end
 
     # Deliver an email for each user who is below the threshold

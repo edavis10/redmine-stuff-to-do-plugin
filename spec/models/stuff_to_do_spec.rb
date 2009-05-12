@@ -197,22 +197,30 @@ describe StuffToDo, '#remove_associations_to' do
   before(:each) do
     @issue = mock_model(Issue)
     @issue.stub!(:closed?).and_return(true)
+    @project = mock_model(Project)
+    @project.stub!(:active).and_return(false)
   end
   
-  it 'should do nothing if the issue is still open' do
-    @issue.should_receive(:closed?).and_return(false)
-    StuffToDo.remove_associations_to(@issue)
-  end
-
-  it 'should delete all StuffToDos for the closed issue' do
+  it 'should delete all StuffToDos for a closed issue' do
     next_issue_one = mock_model(StuffToDo, :stuff_id => @issue.id, :user_id => nil)
     next_issue_one.should_receive(:destroy).and_return(true)
     next_issue_two = mock_model(StuffToDo, :stuff_id => @issue.id, :user_id => nil)
     next_issue_two.should_receive(:destroy).and_return(true)
     next_issues = [next_issue_one, next_issue_two]
-    StuffToDo.should_receive(:find).with(:all, { :conditions => { :stuff_id => @issue.id }}).and_return(next_issues)
+    @issue.should_receive(:stuff_to_dos).and_return(next_issues)
 
     StuffToDo.remove_associations_to(@issue)
+  end
+
+  it 'should delete all StuffToDos for a archived project' do
+    next_issue_one = mock_model(StuffToDo, :stuff_id => @project.id, :user_id => nil)
+    next_issue_one.should_receive(:destroy).and_return(true)
+    next_issue_two = mock_model(StuffToDo, :stuff_id => @project.id, :user_id => nil)
+    next_issue_two.should_receive(:destroy).and_return(true)
+    next_issues = [next_issue_one, next_issue_two]
+    @project.should_receive(:stuff_to_dos).and_return(next_issues)
+
+    StuffToDo.remove_associations_to(@project)
   end
 end
 
@@ -227,7 +235,7 @@ describe StuffToDo, '#remove_associations_to' do
     @next_issue_two = mock_model(StuffToDo, :stuff_id => @issue.id, :user_id => @user.id)
     @next_issue_two.should_receive(:destroy).and_return(true)
     @next_issues = [@next_issue_one, @next_issue_two]
-    StuffToDo.stub!(:find).and_return(@next_issues)
+    @issue.stub!(:stuff_to_dos).and_return(@next_issues)
     @number_of_next_issues = 4
     StuffToDo.stub!(:count).with(:conditions => { :user_id => @user.id }).and_return(@number_of_next_issues)
   end
