@@ -118,7 +118,6 @@ class StuffToDo < ActiveRecord::Base
   # StuffToDos will be removed if they are unassigned.
   #
   # Project based ids need to be prefixed with +project+
-  # TODO: Need refactoring badly => Extract method
   def self.reorder_list(user, ids)
     ids ||= []
     id_position_mapping = ids.to_hash
@@ -141,27 +140,34 @@ class StuffToDo < ActiveRecord::Base
   private
 
   def self.reorder_issues(user, issue_ids)
-    # Issues
-    issue_list = self.find_all_by_user_id_and_stuff_type(user.id, 'Issue')
-    issue_stuff_to_dos_found = issue_list.collect { |std| std.stuff_id.to_i }
+    reorder_items('Issue', user, issue_ids)
+  end
+
+  def self.reorder_projects(user, project_ids)
+    reorder_items('Project', user, project_ids)
+  end
+
+  def self.reorder_items(type, user, ids)
+    list = self.find_all_by_user_id_and_stuff_type(user.id, type)
+    stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
     
     # Remove StuffToDos that are not in the +ids+
-    removed = issue_stuff_to_dos_found - issue_ids.values
+    removed = stuff_to_dos_found - ids.values
     removed.each do |id|
       removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
       removed_stuff_to_do.destroy
     end
     
-    issue_ids.each do |position, id|
-      if existing_list_position = issue_stuff_to_dos_found.index(id.to_i)
+    ids.each do |position, id|
+      if existing_list_position = stuff_to_dos_found.index(id.to_i)
         position = position + 1  # acts_as_list is 1 based
-        stuff_to_do = issue_list[existing_list_position]
+        stuff_to_do = list[existing_list_position]
         stuff_to_do.insert_at(position)
       else
         # Not found in list, so create a new StuffToDo item
         stuff_to_do = self.new
         stuff_to_do.stuff_id = id
-        stuff_to_do.stuff_type = 'Issue'
+        stuff_to_do.stuff_type = type
         stuff_to_do.user_id = user.id
 
         stuff_to_do.save # TODO: Check return
@@ -170,42 +176,7 @@ class StuffToDo < ActiveRecord::Base
         # to the bottom on create
         stuff_to_do.insert_at(position + 1)  # acts_as_list is 1 based
       end
-      
     end
-  end
-
-  def self.reorder_projects(user, project_ids)
-    # Projects
-    project_list = self.find_all_by_user_id_and_stuff_type(user.id, 'Project')
-    project_stuff_to_dos_found = project_list.collect { |std| std.stuff_id.to_i }
-    
-    # Remove StuffToDos that are not in the +ids+
-    project_removed = project_stuff_to_dos_found - project_ids.values
-    project_removed.each do |id|
-      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
-      removed_stuff_to_do.destroy
-    end
-    
-    project_ids.each do |position, id|
-      if existing_list_position = project_stuff_to_dos_found.index(id.to_i)
-        position = position + 1  # acts_as_list is 1 based
-        stuff_to_do = project_list[existing_list_position]
-        stuff_to_do.insert_at(position)
-      else
-        # Not found in list, so create a new StuffToDo item
-        stuff_to_do = self.new
-        stuff_to_do.stuff_id = id
-        stuff_to_do.stuff_type = 'Project'
-        stuff_to_do.user_id = user.id
-
-        stuff_to_do.save # TODO: Check return
-        
-        # Have to resave next_issue since acts_as_list automatically moves it
-        # to the bottom on create
-        stuff_to_do.insert_at(position + 1)  # acts_as_list is 1 based
-      end
-      
-    end
-    
+  
   end
 end
