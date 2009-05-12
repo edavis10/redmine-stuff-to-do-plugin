@@ -150,14 +150,9 @@ class StuffToDo < ActiveRecord::Base
   def self.reorder_items(type, user, ids)
     list = self.find_all_by_user_id_and_stuff_type(user.id, type)
     stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
-    
-    # Remove StuffToDos that are not in the +ids+
-    removed = stuff_to_dos_found - ids.values
-    removed.each do |id|
-      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
-      removed_stuff_to_do.destroy
-    end
-    
+
+    remove_missing_records(user, stuff_to_dos_found, ids.values)
+
     ids.each do |position, id|
       if existing_list_position = stuff_to_dos_found.index(id.to_i)
         position = position + 1  # acts_as_list is 1 based
@@ -178,5 +173,15 @@ class StuffToDo < ActiveRecord::Base
       end
     end
   
+  end
+
+  # Destroys saved records that are +ids_found_in_database+ but are
+  # not in +ids_to_use+
+  def self.remove_missing_records(user, ids_found_in_database, ids_to_use)
+    removed = ids_found_in_database - ids_to_use
+    removed.each do |id|
+      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
+      removed_stuff_to_do.destroy
+    end
   end
 end
