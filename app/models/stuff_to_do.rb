@@ -121,7 +121,7 @@ class StuffToDo < ActiveRecord::Base
   # TODO: Need refactoring badly => Extract method
   def self.reorder_list(user, ids)
     ids ||= []
-    id_position_mapping = StuffToDo.array_to_hash(ids)
+    id_position_mapping = ids.to_hash
 
     issue_ids = {}
     project_ids = {}
@@ -136,13 +136,6 @@ class StuffToDo < ActiveRecord::Base
 
     reorder_issues(user, issue_ids)
     reorder_projects(user, project_ids)
-  end
-
-  # converts array to a hash with the key = index in Array
-  def self.array_to_hash(array)
-    Hash[*array.collect {|v|
-           [array.index(v),v]
-         }.flatten]
   end
 
   private
