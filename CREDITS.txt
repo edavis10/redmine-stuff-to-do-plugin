@@ -2,4 +2,5 @@ Thanks go to the following people for patches and contributions:
 
 * Eric Davis of Little Stream Software - Project Maintainer
 * Tim Haskins of Copious Creative - Project sponsorship
+* Bill Tihen of Leysin American School - Project sponsorship
 * The many translators who have submitted patches
