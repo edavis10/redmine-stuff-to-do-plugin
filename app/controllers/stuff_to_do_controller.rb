@@ -8,7 +8,7 @@ class StuffToDoController < ApplicationController
   def index
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
-    @available = StuffToDo.available(@user, :user => @user )
+    @available = StuffToDo.available(@user, default_filters )
     
     @users = User.active
     @filters = filters_for_view
@@ -70,6 +70,17 @@ class StuffToDoController < ApplicationController
       return { :projects => true }
     else
       return nil
+    end
+  end
+
+  def default_filters
+    if StuffToDo.using_issues_as_items?
+      return { :user => @user }
+    elsif StuffToDo.using_projects_as_items?
+      return { :projects => true }
+    else
+      # Edge case
+      return { }
     end
   end
 end

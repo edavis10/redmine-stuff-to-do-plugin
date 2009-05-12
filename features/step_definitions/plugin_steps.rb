@@ -8,6 +8,8 @@ Before do
   StuffToDo.destroy_all
   Issue.destroy_all
   Tracker.destroy_all
+  Setting.stubs(:plugin_stuff_to_do_plugin).returns({'use_as_stuff_to_do' => StuffToDo::USE['All']})
+
   @current_user = User.make
 
   @project = Project.make

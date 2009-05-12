@@ -77,7 +77,17 @@ class StuffToDo < ActiveRecord::Base
     
     return issues - next_issues
   end
-  
+
+  def self.using_projects_as_items?
+    using = USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
+    using == 'All' || using  == 'Only Projects'
+  end
+
+  def self.using_issues_as_items?
+    using = USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
+    using == 'All' || using  == 'Only Issues'
+  end
+
   # Callback used to destroy all StuffToDos when an object is removed and
   # send an email if a user is below the What's Recommend threshold
   def self.remove_associations_to(associated_object)

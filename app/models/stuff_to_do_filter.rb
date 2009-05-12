@@ -10,15 +10,18 @@ class StuffToDoFilter
   end
   
   def each
-    {
-      :users => self.users.sort,
-      :priorities => self.priorities.sort,
-      :statuses => self.statuses.sort
-    }.each do |group, items|
-      yield group, items
+    if StuffToDo.using_issues_as_items?
+      {
+        :users => self.users.sort,
+        :priorities => self.priorities.sort,
+        :statuses => self.statuses.sort
+      }.each do |group, items|
+        yield group, items
+      end
     end
+
     # Finally projects
-    yield :projects
+    yield :projects if StuffToDo.using_projects_as_items?
   end
 
   private

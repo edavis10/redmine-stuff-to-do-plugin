@@ -5,6 +5,7 @@ describe StuffToDoController, '#index' do
     @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [])
     User.stub!(:current).and_return(@current_user)
     StuffToDo.stub!(:available)
+    StuffToDo.stub!(:using_issues_as_items?).and_return(true)
   end
   
   it 'should be successful' do
@@ -64,6 +65,7 @@ describe StuffToDoController, '#index for another user as an administrator' do
     @viewed_user = mock_model(User)
     User.stub!(:find).with(@viewed_user.id.to_s).and_return(@viewed_user)
     StuffToDo.stub!(:available)
+    StuffToDo.stub!(:using_issues_as_items?).and_return(true)
   end
   
   it 'should be successful' do
