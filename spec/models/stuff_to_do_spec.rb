@@ -313,7 +313,8 @@ describe StuffToDo, '#reorder_list' do
       stuff_to_dos << mock_model(StuffToDo, :stuff_id => id, :insert_at => true)
     end
     
-    StuffToDo.should_receive(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Issue').and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Project').and_return([])
     StuffToDo.reorder_list(user, ids)
   end
 
@@ -328,7 +329,8 @@ describe StuffToDo, '#reorder_list' do
       stuff_to_dos << stuff_to_do
     end
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Issue').and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Project').and_return([])
     StuffToDo.reorder_list(user, ids)
     
   end
@@ -349,8 +351,34 @@ describe StuffToDo, '#reorder_list' do
     stuff_to_do_for_820.should_receive(:insert_at).with(position)
     StuffToDo.should_receive(:new).and_return(stuff_to_do_for_820)
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Issue').and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Project').and_return([])
     StuffToDo.reorder_list(user, ids)
+  end
+  
+  it 'should support adding new Project StuffToDo items' do
+    user = mock_model(User)
+    ids = ["598", "709", "746", "1492", "1491", "820", "1094", "1095"]
+    stuff_to_dos = []
+    ids.each_with_index do |id, array_position|
+      stuff_to_do = mock_model(StuffToDo, :stuff_id => id, :id => id)
+      stuff_to_do.should_receive(:insert_at).with(array_position + 1)
+      stuff_to_dos << stuff_to_do
+    end
+
+    # Project 42
+    ids << "project42"
+    new_project_stuff_to_do = mock_model(StuffToDo, :user_id => user.id, :insert_at => ids.size)
+    new_project_stuff_to_do.should_receive(:stuff_id=).with(42)
+    new_project_stuff_to_do.should_receive(:stuff_type=).with('Project')
+    new_project_stuff_to_do.should_receive(:user_id=).with(user.id)
+    new_project_stuff_to_do.should_receive(:save).and_return(true)
+    StuffToDo.should_receive(:new).and_return(new_project_stuff_to_do)
+    
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Issue').and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Project').and_return([])
+    StuffToDo.reorder_list(user, ids)
+    
   end
   
   it 'should destroy any StuffToDos that are not in the list' do
@@ -366,7 +394,8 @@ describe StuffToDo, '#reorder_list' do
     StuffToDo.should_receive(:find_by_user_id_and_stuff_id).with(user.id, extra_stuff_to_do.stuff_id).and_return(extra_stuff_to_do)
     stuff_to_dos << extra_stuff_to_do
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Issue').and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Project').and_return([])
     StuffToDo.reorder_list(user, ids)
 
   end
@@ -381,7 +410,8 @@ describe StuffToDo, '#reorder_list' do
     StuffToDo.should_receive(:find_by_user_id_and_stuff_id).with(user.id, extra_stuff_to_do.stuff_id).and_return(extra_stuff_to_do)
     stuff_to_dos << extra_stuff_to_do
     
-    StuffToDo.stub!(:find_all_by_user_id).with(user.id).and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Issue').and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find_all_by_user_id_and_stuff_type).with(user.id, 'Project').and_return([])
     StuffToDo.reorder_list(user, ids)
     
   end

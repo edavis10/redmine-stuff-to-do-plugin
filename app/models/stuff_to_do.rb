@@ -116,23 +116,39 @@ class StuffToDo < ActiveRecord::Base
   # Reorders the list of StuffToDo items for +user+ to be in the order of
   # +ids+.  New StuffToDos will be created if needed and old
   # StuffToDos will be removed if they are unassigned.
+  #
+  # Project based ids need to be prefixed with +project+
+  # TODO: Need refactoring badly => Extract method
   def self.reorder_list(user, ids)
     ids ||= []
-    ids.map! {|id| id.to_i }
-    list = self.find_all_by_user_id(user.id)
-    stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
+    id_position_mapping = StuffToDo.array_to_hash(ids)
+
+    issue_ids = {}
+    project_ids = {}
+
+    id_position_mapping.each do |key,value|
+      if value.match(/project/i)
+        project_ids[key] = value.sub(/project/i,'').to_i
+      else
+        issue_ids[key] = value.to_i
+      end
+    end
+
+    # Issues
+    issue_list = self.find_all_by_user_id_and_stuff_type(user.id, 'Issue')
+    issue_stuff_to_dos_found = issue_list.collect { |std| std.stuff_id.to_i }
     
     # Remove StuffToDos that are not in the +ids+
-    removed = stuff_to_dos_found - ids
+    removed = issue_stuff_to_dos_found - issue_ids.values
     removed.each do |id|
       removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
       removed_stuff_to_do.destroy
     end
     
-    ids.each do |id|
-      if existing_list_position = stuff_to_dos_found.index(id.to_i)
-        position = ids.index(id) + 1  # acts_as_list is 1 based
-        stuff_to_do = list[existing_list_position]
+    issue_ids.each do |position, id|
+      if existing_list_position = issue_stuff_to_dos_found.index(id.to_i)
+        position = position + 1  # acts_as_list is 1 based
+        stuff_to_do = issue_list[existing_list_position]
         stuff_to_do.insert_at(position)
       else
         # Not found in list, so create a new StuffToDo item
@@ -145,9 +161,49 @@ class StuffToDo < ActiveRecord::Base
         
         # Have to resave next_issue since acts_as_list automatically moves it
         # to the bottom on create
-        stuff_to_do.insert_at(ids.index(id) + 1)  # acts_as_list is 1 based
+        stuff_to_do.insert_at(position + 1)  # acts_as_list is 1 based
       end
       
     end
+
+
+    # Projects
+    project_list = self.find_all_by_user_id_and_stuff_type(user.id, 'Project')
+    project_stuff_to_dos_found = project_list.collect { |std| std.stuff_id.to_i }
+    
+    # Remove StuffToDos that are not in the +ids+
+    project_removed = project_stuff_to_dos_found - project_ids.values
+    project_removed.each do |id|
+      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
+      removed_stuff_to_do.destroy
+    end
+    
+    project_ids.each do |position, id|
+      if existing_list_position = project_stuff_to_dos_found.index(id.to_i)
+        position = position + 1  # acts_as_list is 1 based
+        stuff_to_do = project_list[existing_list_position]
+        stuff_to_do.insert_at(position)
+      else
+        # Not found in list, so create a new StuffToDo item
+        stuff_to_do = self.new
+        stuff_to_do.stuff_id = id
+        stuff_to_do.stuff_type = 'Project'
+        stuff_to_do.user_id = user.id
+
+        stuff_to_do.save # TODO: Check return
+        
+        # Have to resave next_issue since acts_as_list automatically moves it
+        # to the bottom on create
+        stuff_to_do.insert_at(position + 1)  # acts_as_list is 1 based
+      end
+      
+    end
+  end
+
+  # converts array to a hash with the key = index in Array
+  def self.array_to_hash(array)
+    Hash[*array.collect {|v|
+           [array.index(v),v]
+         }.flatten]
   end
 end

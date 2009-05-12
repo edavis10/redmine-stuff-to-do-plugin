@@ -1,4 +1,4 @@
-      <li class="stuff-to-do-item project <%= project_counter.odd? ? "odd" : "even" %>" id="stuff_<%= project.id %>">
+      <li class="stuff-to-do-item project <%= project_counter.odd? ? "odd" : "even" %>" id="stuff_project<%= project.id %>">
         <div class="project-details">
         <%= link_to(h(project.name), :controller => 'projects', :action => 'show', :id => project) %>
         </div>
