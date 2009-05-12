@@ -134,6 +134,20 @@ class StuffToDo < ActiveRecord::Base
       end
     end
 
+    reorder_issues(user, issue_ids)
+    reorder_projects(user, project_ids)
+  end
+
+  # converts array to a hash with the key = index in Array
+  def self.array_to_hash(array)
+    Hash[*array.collect {|v|
+           [array.index(v),v]
+         }.flatten]
+  end
+
+  private
+
+  def self.reorder_issues(user, issue_ids)
     # Issues
     issue_list = self.find_all_by_user_id_and_stuff_type(user.id, 'Issue')
     issue_stuff_to_dos_found = issue_list.collect { |std| std.stuff_id.to_i }
@@ -165,18 +179,7 @@ class StuffToDo < ActiveRecord::Base
       end
       
     end
-
-    reorder_projects(user, project_ids)
   end
-
-  # converts array to a hash with the key = index in Array
-  def self.array_to_hash(array)
-    Hash[*array.collect {|v|
-           [array.index(v),v]
-         }.flatten]
-  end
-
-  private
 
   def self.reorder_projects(user, project_ids)
     # Projects
