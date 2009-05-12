@@ -19,10 +19,10 @@ module StuffToDoProjectPatch
   module InstanceMethods
     # This will update all StuffToDos assigned to the Project
     #
-    # * When a project is archived, StuffToDo#closing_issue will be called to
-    #   update the set of StuffToDos
+    # * When a project is archived, StuffToDo#remove_associations_to will be
+    #   called to update the set of StuffToDos
     def update_stuff_to_do
-      StuffToDo.closing_issue(self) unless self.active?
+      StuffToDo.remove_associations_to(self) unless self.active?
       return true
     end
 

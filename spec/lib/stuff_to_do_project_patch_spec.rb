@@ -31,19 +31,19 @@ describe Project, 'update_stuff_to_do' do
     @project.is_public = true
   end
   
-  it 'should call StuffToDo#closing_issue if the project is not active' do
+  it 'should call StuffToDo#remove_associations_to if the project is not active' do
     @project.status = Project::STATUS_ARCHIVED
-    StuffToDo.should_receive(:closing_issue).with(@project)
+    StuffToDo.should_receive(:remove_associations_to).with(@project)
     @project.update_stuff_to_do
   end
 
-  it 'should not call StuffToDo#closing_issue if the project is active' do
-    StuffToDo.should_not_receive(:closing_issue)
+  it 'should not call StuffToDo#remove_associations_to if the project is active' do
+    StuffToDo.should_not_receive(:remove_associations_to)
     @project.update_stuff_to_do
   end
 
   it 'should return true for the callbacks' do
-    StuffToDo.stub!(:closing_issue)
+    StuffToDo.stub!(:remove_associations_to)
 
     @project.update_stuff_to_do.should be_true
   end

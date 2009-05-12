@@ -23,13 +23,13 @@ module StuffToDoIssuePatch
   module InstanceMethods
     # This will update all NextIssues assigned to the Issue
     #
-    # * When an issue is closed, NextIssue#closing_issue will be called to
+    # * When an issue is closed, NextIssue#remove_associations_to will be called to
     #   update the set of NextIssues
     # * When an issue is reassigned, any previous (stale) NextIssues will
     #   be removed
     def update_next_issues
       self.reload
-      StuffToDo.closing_issue(self) if self.closed?
+      StuffToDo.remove_associations_to(self) if self.closed?
       StuffToDo.remove_stale_assignments(self)
       return true
     end

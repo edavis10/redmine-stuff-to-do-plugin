@@ -193,7 +193,7 @@ describe StuffToDo, '#available for project' do
   end
 end
 
-describe StuffToDo, '#closing_issue' do
+describe StuffToDo, '#remove_associations_to' do
   before(:each) do
     @issue = mock_model(Issue)
     @issue.stub!(:closed?).and_return(true)
@@ -201,7 +201,7 @@ describe StuffToDo, '#closing_issue' do
   
   it 'should do nothing if the issue is still open' do
     @issue.should_receive(:closed?).and_return(false)
-    StuffToDo.closing_issue(@issue)
+    StuffToDo.remove_associations_to(@issue)
   end
 
   it 'should delete all StuffToDos for the closed issue' do
@@ -212,11 +212,11 @@ describe StuffToDo, '#closing_issue' do
     next_issues = [next_issue_one, next_issue_two]
     StuffToDo.should_receive(:find).with(:all, { :conditions => { :stuff_id => @issue.id }}).and_return(next_issues)
 
-    StuffToDo.closing_issue(@issue)
+    StuffToDo.remove_associations_to(@issue)
   end
 end
 
-describe StuffToDo, '#closing_issue' do
+describe StuffToDo, '#remove_associations_to' do
   before(:each) do
     @issue = mock_model(Issue)
     @issue.stub!(:closed?).and_return(true)
@@ -236,20 +236,20 @@ describe StuffToDo, '#closing_issue' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues + 1 })
     User.should_receive(:find_by_id).with(@user.id).and_return(@user)
     StuffToDoMailer.should_receive(:deliver_recommended_below_threshold).with(@user, 4)
-    StuffToDo.closing_issue(@issue)
+    StuffToDo.remove_associations_to(@issue)
   end
 
   it 'should deliver a StuffToDoMailer notification if the StuffToDos are at the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues })
     User.should_receive(:find_by_id).with(@user.id).and_return(@user)
     StuffToDoMailer.should_receive(:deliver_recommended_below_threshold).with(@user, 4)
-    StuffToDo.closing_issue(@issue)
+    StuffToDo.remove_associations_to(@issue)
   end
 
   it 'should not deliver any StuffToDoMailer notification if the StuffToDos are above the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues - 1 })
     StuffToDoMailer.should_not_receive(:deliver_recommended_below_threshold)
-    StuffToDo.closing_issue(@issue)
+    StuffToDo.remove_associations_to(@issue)
   end
   
 end

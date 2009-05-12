@@ -29,20 +29,20 @@ describe Issue, 'update_next_issues' do
     @issue.update_next_issues
   end
   
-  it 'should call StuffToDo#closing_issue if the issue is closed' do
+  it 'should call StuffToDo#remove_associations_to if the issue is closed' do
     @issue.should_receive(:closed?).and_return(true)
-    StuffToDo.should_receive(:closing_issue).with(@issue)
+    StuffToDo.should_receive(:remove_associations_to).with(@issue)
     @issue.update_next_issues
   end
 
-  it 'should not call StuffToDo#closing_issue if the issue is open' do
+  it 'should not call StuffToDo#remove_associations_to if the issue is open' do
     @issue.should_receive(:closed?).and_return(false)
-    StuffToDo.should_not_receive(:closing_issue)
+    StuffToDo.should_not_receive(:remove_associations_to)
     @issue.update_next_issues
   end
 
   it 'should return true for the callbacks' do
-    StuffToDo.stub!(:closing_issue)
+    StuffToDo.stub!(:remove_associations_to)
 
     @issue.update_next_issues.should be_true
   end
