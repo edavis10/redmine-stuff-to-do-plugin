@@ -15,7 +15,7 @@
 </fieldset>
 
 <p>
-  <label><%= l(:stuff_to_do_use_for_next_issue) %></label>
-  <%= select_tag('settings[use_as_next_issue]',
-  options_for_select(NextIssue::USE.to_a, @settings['use_as_next_issue'])) %>
+  <label><%= l(:stuff_to_do_use_as_stuff_to_do) %></label>
+  <%= select_tag('settings[use_as_stuff_to_do]',
+  options_for_select(StuffToDo::USE.to_a, @settings['use_as_stuff_to_do'])) %>
 </p>
