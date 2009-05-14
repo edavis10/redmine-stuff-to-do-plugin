@@ -25,8 +25,9 @@ jQuery(document).ready(function(){
 });
 
 function attachSortables() {
-    jQuery("#available").sortable({ 
-        connectWith: ["#doing-now", "#recommended"], 
+    jQuery("#available").sortable({
+        cancel: 'a',
+        connectWith: ["#doing-now", "#recommended"],
         placeholder: 'drop-accepted',
         dropOnEmpty: true,
         update : function (event, ui) {
@@ -36,21 +37,23 @@ function attachSortables() {
                 jQuery("#available li.empty-list").show();
             }
         }
-    }); 
+    });
 
-    jQuery("#doing-now").sortable({ 
-        connectWith: ["#available", "#recommended"], 
+    jQuery("#doing-now").sortable({
+        cancel: 'a',
+        connectWith: ["#available", "#recommended"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
         update : function (event, ui) { saveOrder(ui); }
-    });  
+    });
 
-    jQuery("#recommended").sortable({ 
+    jQuery("#recommended").sortable({
+        cancel: 'a',
         connectWith: ["#available", "#doing-now"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
         update : function (event, ui) { saveOrder(ui); }
-    });  
+    });
 
 }
 
