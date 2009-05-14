@@ -70,7 +70,7 @@ class StuffToDo < ActiveRecord::Base
                           :order => 'created_on DESC')
     elsif filter[:projects]
       # TODO: remove 'issues' naming
-      issues = Project.active.visible.sort
+      issues = active_and_visible_projects.sort
     end
     next_issues = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
 
@@ -191,6 +191,15 @@ class StuffToDo < ActiveRecord::Base
     removed.each do |id|
       removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
       removed_stuff_to_do.destroy
+    end
+  end
+
+  # Redmine 0.8.x compatibility method.
+  def self.active_and_visible_projects
+    if ::Project.respond_to?(:active) && ::Project.respond_to?(:visible)
+      return ::Project.active.visible
+    else
+      return ::Project.find(:all, :conditions => Project.visible_by)
     end
   end
 end
