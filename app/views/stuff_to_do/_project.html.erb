@@ -1,6 +1,6 @@
       <li class="stuff-to-do-item project <%= project_counter.odd? ? "odd" : "even" %>" id="stuff_project<%= project.id %>">
         <div class="project-details">
-        <%= link_to(h(project.name), :controller => 'projects', :action => 'show', :id => project) %>
+        <%= link_to(image_tag('package.png'), :controller => 'projects', :action => 'show', :id => project) %> <%= h project.name %>
         </div>
         <div style="clear:left;"></div>
       </li>

@@ -1,8 +1,9 @@
       <li class="stuff-to-do-item issue <%= issue_counter.odd? ? "odd" : "even" %> priority-<%= issue.priority.position %>" id="stuff_<%= issue.id %>">
         <div class="issue-details">
-        <%= link_to('#' + issue.id.to_s, :controller => 'issues', :action => 'show', :id => issue) %>
+        <%= link_to(image_tag('ticket.png'), :controller => 'issues', :action => 'show', :id => issue) %>
+        #<%= h(issue.id) %>
         - <%= h(issue.project.name) %> -
-        <%= link_to(h(issue.subject), :controller => 'issues', :action => 'show', :id => issue) %>
+        <%= h(issue.subject) %>
         </div>
 
         <div class="estimate"><%= h issue.estimated_hours %> &nbsp;</div>
