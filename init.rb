@@ -12,9 +12,9 @@ require 'stuff_to_do_array_patch'
 
 # Patches to the Redmine core.
 require 'dispatcher'
-require 'project'
 
 Dispatcher.to_prepare do
+  require_dependency 'project'
   Project.send(:include, StuffToDoProjectPatch)
 end
 
