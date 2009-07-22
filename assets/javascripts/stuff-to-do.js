@@ -1,41 +1,41 @@
 // TODO: JSUnit test this
 jQuery(function($) {
-    jQuery("#user_id").change(function() {  jQuery("form#user_switch").submit();  });
-    jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show();  });
-    jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
+    $("#user_id").change(function() {  $("form#user_switch").submit();  });
+    $("#ajax-indicator").ajaxStart(function(){ $(this).show();  });
+    $("#ajax-indicator").ajaxStop(function(){ $(this).hide();  });
 
-    jQuery("#filter").change(function() {
-        if (jQuery('#filter').val() != '') {
-            jQuery.ajax({
+    $("#filter").change(function() {
+        if ($('#filter').val() != '') {
+            $.ajax({
                 type: "GET",
                 url: 'stuff_to_do/available_issues.js',
-                data: jQuery('#filter').serialize(),
+                data: $('#filter').serialize(),
                 success: function(response) {
-                    jQuery('#available-pane').html(response);
+                    $('#available-pane').html(response);
                     attachSortables();
                 },
                 error: function(response) {
-                    jQuery("div.error").html("Error filtering pane.  Please refresh the page.").show();
+                    $("div.error").html("Error filtering pane.  Please refresh the page.").show();
                 }});
         }
     });
 
   attachSortables = function() {
-    jQuery("#available").sortable({
+    $("#available").sortable({
         cancel: 'a',
         connectWith: ["#doing-now", "#recommended"],
         placeholder: 'drop-accepted',
         dropOnEmpty: true,
         update : function (event, ui) {
-            if (jQuery('#available li.issue').length > 0) {
-                jQuery("#available li.empty-list").hide();
+            if ($('#available li.issue').length > 0) {
+                $("#available li.empty-list").hide();
             } else {
-                jQuery("#available li.empty-list").show();
+                $("#available li.empty-list").show();
             }
         }
     });
 
-    jQuery("#doing-now").sortable({
+    $("#doing-now").sortable({
         cancel: 'a',
         connectWith: ["#available", "#recommended"],
         dropOnEmpty: true,
@@ -43,7 +43,7 @@ jQuery(function($) {
         update : function (event, ui) { saveOrder(ui); }
     });
 
-    jQuery("#recommended").sortable({
+    $("#recommended").sortable({
         cancel: 'a',
         connectWith: ["#available", "#doing-now"],
         dropOnEmpty: true,
@@ -54,20 +54,20 @@ jQuery(function($) {
   },
 
   saveOrder = function() {
-    data = 'user_id=' + user_id + '&' + jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize');
+    data = 'user_id=' + user_id + '&' + $("#doing-now").sortable('serialize') + '&' + $("#recommended").sortable('serialize');
     if (filter != null) {
         data = data + '&filter=' + filter;
     }
-    jQuery.ajax({
+    $.ajax({
         type: "POST",
         url: 'stuff_to_do/reorder.js',
         data: data,
         success: function(response) {
-            jQuery('#panes').html(response);
+            $('#panes').html(response);
             attachSortables();
         },
         error: function(response) {
-            jQuery("div.error").html("Error saving lists.  Please refresh the page and try again.").show();
+            $("div.error").html("Error saving lists.  Please refresh the page and try again.").show();
         }});
 
   };
