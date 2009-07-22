@@ -1,5 +1,5 @@
 // TODO: JSUnit test this
-jQuery(document).ready(function(){
+jQuery(function($) {
     attachSortables();
 
     jQuery("#user_id").change(function() {  jQuery("form#user_switch").submit();  });
@@ -23,7 +23,6 @@ jQuery(document).ready(function(){
     });
 
 });
-
 function attachSortables() {
     jQuery("#available").sortable({
         cancel: 'a',
