@@ -45,7 +45,6 @@ end
 Member.blueprint do
   project
   user
-  role
 end
 
 Role.blueprint do
@@ -54,9 +53,24 @@ Role.blueprint do
   permissions
 end
 
+MemberRole.blueprint do
+  role { Role.make }
+end
+
+# Stupid circular validations
+def make_member(attributes, roles)
+  member = Member.new(attributes)
+  member.roles << roles
+  member.save!
+end
+
 Enumeration.blueprint do
   name { Sham.single_name }
   opt { 'IPRI' }
+end
+
+IssuePriority.blueprint do
+  name { Sham.single_name }
 end
 
 IssueStatus.blueprint do
@@ -81,7 +95,7 @@ Issue.blueprint do
   subject { Sham.message }
   tracker { Tracker.make }
   description { Shame.message }
-  priority { Enumeration.make(:opt => 'IPRI') }
+  priority { IssuePriority.make }
   status { IssueStatus.make }
   author { User.make }
 end

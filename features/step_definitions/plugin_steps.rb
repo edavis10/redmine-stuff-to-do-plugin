@@ -61,7 +61,9 @@ end
 Given /^there are (\d+) projects to do$/ do |number|
   number.to_i.times do |n|
     project = Project.make
-    Member.make(:user => @current_user, :project => project)
+    role = Role.find_by_name('Developer')
+    role ||= Role.make(:name => 'Developer')
+    make_member({:user => @current_user, :project => project}, [role])
     StuffToDo.make :user => @current_user, :stuff => project
   end
 end
