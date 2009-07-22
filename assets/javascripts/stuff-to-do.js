@@ -1,7 +1,5 @@
 // TODO: JSUnit test this
 jQuery(function($) {
-    attachSortables();
-
     jQuery("#user_id").change(function() {  jQuery("form#user_switch").submit();  });
     jQuery("#ajax-indicator").ajaxStart(function(){ jQuery(this).show();  });
     jQuery("#ajax-indicator").ajaxStop(function(){ jQuery(this).hide();  });
@@ -22,8 +20,7 @@ jQuery(function($) {
         }
     });
 
-});
-function attachSortables() {
+  attachSortables = function() {
     jQuery("#available").sortable({
         cancel: 'a',
         connectWith: ["#doing-now", "#recommended"],
@@ -54,9 +51,9 @@ function attachSortables() {
         update : function (event, ui) { saveOrder(ui); }
     });
 
-}
+  },
 
-function saveOrder() {
+  saveOrder = function() {
     data = 'user_id=' + user_id + '&' + jQuery("#doing-now").sortable('serialize') + '&' + jQuery("#recommended").sortable('serialize');
     if (filter != null) {
         data = data + '&filter=' + filter;
@@ -73,5 +70,8 @@ function saveOrder() {
             jQuery("div.error").html("Error saving lists.  Please refresh the page and try again.").show();
         }});
 
-}
+  };
 
+  attachSortables();
+
+});
