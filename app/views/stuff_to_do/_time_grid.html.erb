@@ -1,6 +1,8 @@
 <div id="time-grid">
 <h2><%= l(:stuff_to_do_time_grid) %></h2>
 
+<div id="time-grid-error" class="flash error" style="display:none"> </div>
+
 <%= render :partial => 'time_grid_form' %>
 
 <table class="cal" id="time-grid-table">

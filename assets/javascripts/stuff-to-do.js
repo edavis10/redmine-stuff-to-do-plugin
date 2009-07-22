@@ -67,7 +67,7 @@ jQuery(function($) {
             attachSortables();
         },
         error: function(response) {
-            $("div.error").html("Error saving lists.  Please refresh the page and try again.").show();
+            $("div#stuff-to-do-error").html("Error saving lists.  Please refresh the page and try again.").show();
         }});
 
   };
