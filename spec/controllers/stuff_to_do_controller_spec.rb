@@ -51,6 +51,16 @@ describe StuffToDoController, '#index' do
     controller.should_receive(:filters_for_view)
     get :index
   end
+
+  it 'should set @date for the view' do
+    get :index
+    assigns[:date].should_not be_nil
+  end
+
+  it 'should set @calendar for the view' do
+    get :index
+    assigns[:calendar].should_not be_nil
+  end
 end
 
 describe StuffToDoController, '#index for another user as an administrator' do

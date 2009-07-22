@@ -2,6 +2,7 @@ class StuffToDoController < ApplicationController
   unloadable
 
   before_filter :get_user
+  before_filter :get_time_grid, :only => [:index, :time_grid]
   before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
   
@@ -35,6 +36,13 @@ class StuffToDoController < ApplicationController
     end
   end
   
+  def time_grid
+    respond_to do |format|
+      format.html { redirect_to :action => 'index'}
+      format.js { render :partial => 'time_grid', :layout => false}
+    end
+  end
+
   private
   
   def get_user
@@ -82,5 +90,13 @@ class StuffToDoController < ApplicationController
       # Edge case
       return { }
     end
+  end
+
+  def get_time_grid
+    @date = Date.parse(params[:date]) if params[:date]
+    @date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
+    @date ||= Date.today
+    
+    @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
   end
 end

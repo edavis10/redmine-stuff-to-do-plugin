@@ -1,0 +1,58 @@
+<div id="time-grid">
+<h2><%= l(:stuff_to_do_time_grid) %></h2>
+
+<%= render :partial => 'time_grid_form' %>
+
+<table class="cal" id="time-grid-table">
+  <thead>
+    <tr>
+      <th class="time-grid-project"><%= l(:field_project) %></th>
+      <th class="time-grid-issue"><%= l(:field_issue) %></th>
+      <% day = @calendar.startdt
+      while day <= @calendar.enddt %>
+      <th class="time-grid-date">
+        <%= day_name(day.cwday) %>
+        <br />
+        <%= day.day %>
+      </th>
+      <% day = day + 1 %>
+      <% end %>
+      <th class="time-grid-running-total">Running Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% 10.times do %>
+    <tr>
+      <td class="time-grid-project">
+        Project A
+      </td>
+      <td class="time-grid-issue">
+        This is an issue
+      </td>
+      <% day = @calendar.startdt
+      while day <= @calendar.enddt %>
+      <td class="time-grid-date">
+        .
+      </td>
+      <% day = day + 1 %>
+      <% end %>
+      <td class="time-grid-running-total">Running Total</td>
+    </tr>
+    <% end %>
+    <tr class="daily-totals">
+      <td colspan="2" class="label">
+        Daily Totals
+      </td>
+      <% day = @calendar.startdt
+      while day <= @calendar.enddt %>
+      <td class="time-grid-date totals">
+        0
+      </td>
+      <% day = day + 1 %>
+      <% end %>
+    </tr>
+
+  </tbody>
+</table>
+
+</div>

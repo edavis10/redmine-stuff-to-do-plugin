@@ -10,6 +10,9 @@ Before do
   Tracker.destroy_all
   Setting.stubs(:plugin_stuff_to_do_plugin).returns({'use_as_stuff_to_do' => StuffToDo::USE['All']})
 
+  @today = Date.new(2009,7,22)
+  Date.stubs(:today).returns(@today)
+
   @current_user = User.make
 
   @project = Project.make
@@ -201,3 +204,39 @@ end
 # Then /^I should see the issue title in the row$/ do
 #   response.should  have_tag("li", 'Issue 1 Title')
 # end
+
+Then /^I should see the time grid table$/ do
+  response.should have_tag('table#time-grid-table')
+  Then 'I should see a date picker'
+  Then 'I should see "Previous week"'
+  Then 'I should see "Next week"'
+  Then 'I should see 1 column for Project'
+  Then 'I should see 1 column for Issue'
+  Then 'I should see 7 columns for Days'
+  Then 'I should see 1 column for Running Totals'
+
+end
+
+Then /^I should see a date picker$/ do
+  response.should have_tag('#date-range') do
+    with_tag('select#month')
+    with_tag('select#day')
+    with_tag('select#year')
+  end
+end
+
+Then /^I should see (\d+) columns? for Project$/ do |count|
+  response.should have_tag('th.time-grid-project', :count => count.to_i)
+end
+
+Then /^I should see (\d+) columns? for Issue$/ do |count|
+  response.should have_tag('th.time-grid-issue', :count => count.to_i)
+end
+
+Then /^I should see (\d+) columns? for Days$/ do |count|
+  response.should have_tag('th.time-grid-date', :count => count.to_i)
+end
+
+Then /^I should see (\d+) columns? for Running Totals$/ do |count|
+  response.should have_tag('th.time-grid-running-total', :count => count.to_i)
+end

@@ -1,0 +1,32 @@
+<% form_tag({:action => 'time_grid'}, :id => 'query_form') do %>
+<fieldset id="date-range"><legend><%= l(:label_date_range) %></legend>
+    <%= select_month(@date.month, :prefix => "month", :discard_type => true) %>
+    <%= select_day(@date.day, :prefix => "day", :discard_type => true) %>
+    <%= select_year(@date.year, :prefix => "year", :discard_type => true) %>
+</fieldset>
+
+<p style="float:right; margin:0px;">
+<%= link_to_remote("&#171; #{l(:label_previous)} #{l(:label_week).downcase}",
+                       {:update => "time-grid", :url => { :action => 'time_grid', :date => @date - 7 }},
+                       {:href => url_for(:action => 'time_grid', :date => @date - 7)})
+                       %> |
+<%= link_to_remote("#{l(:label_next)} #{l(:label_week).downcase}  &#187;", 
+                       {:update => "time-grid", :url => { :action => 'time_grid', :date => @date + 7 }},
+                       {:href => url_for(:action => 'time_grid', :date => @date + 7)})
+                       %>
+</p>
+
+<p class="buttons">
+<%= link_to_remote l(:button_apply), 
+                   { :url => { :action => 'time_grid' },
+                     :update => "time-grid",
+                     :with => "Form.serialize('query_form')"
+                   }, :class => 'icon icon-checked' %>
+                   
+<%= link_to_remote l(:button_clear),
+                   { :url => { :action => 'time_grid' }, 
+                     :update => "time-grid",
+                   }, :class => 'icon icon-reload' %>
+</p>
+<% end %>
+

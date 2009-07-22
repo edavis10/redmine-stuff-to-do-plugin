@@ -48,3 +48,12 @@ div.pane-summary table.progress { float: right; margin: 1px 6px;}
 .even.priority-1 { background: #f2faff; }
 .priority-1 a { color: #559; }
 .odd.priority-1, .even.priority-1 { border-color: #add7f3; }
+/* */
+
+/* Time Grid */
+#time-grid-table tbody tr { height: 3em; }
+#time-grid-table td.time-grid-date { text-align: right; }
+#time-grid-table td.time-grid-date, #time-grid-table th.time-grid-date { width: 6%; }
+#time-grid-table th.time-grid-project, #time-grid-table td.time-grid-project { width: 25%; }
+#time-grid-table th.time-grid-issue, #time-grid-table td.time-grid-issue { width: 25%; }
+.daily-totals td.label { text-align:right; }
