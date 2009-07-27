@@ -54,9 +54,8 @@ module StuffToDoHelper
     total = issue.time_entries.inject(0.0) {|sum, time_entry|
       if time_entry.user_id == user.id && time_entry.spent_on == date
         sum += time_entry.hours
-      else
-        sum
       end
+      sum
     }
 
     total != 0.0 ? total : nil
