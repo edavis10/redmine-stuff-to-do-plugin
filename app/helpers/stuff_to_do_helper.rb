@@ -74,18 +74,10 @@ module StuffToDoHelper
   end
 
   def total_hours_for_date(issues, user, date)
-    total = []
-    issues.each do |issue|
-      total << total_hours_for_user_on_day(issue, user, date)
-    end
-    total.compact.sum
+    issues.collect {|issue| total_hours_for_user_on_day(issue, user, date)}.compact.sum
   end
 
   def total_hours_for_date_range(issues, user, date_from, date_to)
-    total = []
-    issues.each do |issue|
-      total << total_hours_for_issue_for_date_range(issue, user, date_from, date_to)
-    end
-    total.compact.sum
+    issues.collect {|issue| total_hours_for_issue_for_date_range(issue, user, date_from, date_to)}.compact.sum
   end
 end
