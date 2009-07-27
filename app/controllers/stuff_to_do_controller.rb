@@ -98,5 +98,8 @@ class StuffToDoController < ApplicationController
     @date ||= Date.today
     
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
+    @issues = Issue.visible.
+      with_time_entries_for_user(User.current).
+      with_time_entries_within_date(@calendar.startdt, @calendar.enddt)
   end
 end

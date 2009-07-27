@@ -1,6 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe StuffToDoController, '#index' do
+  include Redmine::I18n
+
   before(:each) do
     @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [])
     User.stub!(:current).and_return(@current_user)
@@ -60,6 +62,28 @@ describe StuffToDoController, '#index' do
   it 'should set @calendar for the view' do
     get :index
     assigns[:calendar].should_not be_nil
+  end
+
+  it 'should set @issues for the view' do
+    get :index
+    assigns[:issues].should_not be_nil
+  end
+
+  it 'should get the issues and time entries for the user in the date range' do
+    # Redmine uses dates based on language settings
+    first_workday = (l(:general_first_day_of_week).to_i - 1)%7 + 1
+    last_workday = (first_workday + 5)%7 + 1
+    date = Date.today
+    date_from = date - (date.cwday - first_workday)%7
+    date_to = date + (last_workday - date.cwday)%7
+    
+    Issue.should_receive(:visible).and_return(Issue)
+    Issue.should_receive(:with_time_entries_for_user).with(User.current).and_return(Issue)
+    Issue.should_receive(:with_time_entries_within_date).
+      with(date_from, date_to).
+      and_return(Issue)
+                                                          
+    get :index
   end
 end
 

@@ -1,4 +1,11 @@
-# Mocha mocks
+def human_date_to_ruby_date(date)
+  case date
+  when "today"
+    Date.today
+  when "yesterday"
+    Date.yesterday
+  end
+end
 
 Before do
   User.destroy_all
@@ -15,7 +22,12 @@ Before do
 
   @current_user = User.make
 
-  @project = Project.make
+  @project = make_project_with_enabled_modules
+
+  @role = Role.find_by_name('Developer')
+  @role ||= Role.make(:name => 'Developer')
+  make_member({:user => @current_user, :project => @project}, [@role])
+
   @low_priority = Enumeration.make(:name => 'Low')
   
   @tracker = make_tracker_for_project(@project)
@@ -116,6 +128,12 @@ Given /^there are (\d+) issues not assigned to (\w+)$/ do |number, user_name|
                        :estimated_hours => 3)
   end
 end
+
+Given /^there is "(.*)" hours logged to an issue "(.*)"$/ do |hours, date|
+  date = human_date_to_ruby_date(date)
+  TimeEntry.make(:hours => hours.to_i, :spent_on => date, :issue => Issue.first, :user => User.current)
+end
+
 
 When /^I go to the stuff to do page for (\w+)$/ do |user_name|
   user = User.find_by_login(user_name)
@@ -239,4 +257,9 @@ end
 
 Then /^I should see (\d+) columns? for Running Totals$/ do |count|
   response.should have_tag('th.time-grid-running-total', :count => count.to_i)
+end
+
+Then /^the time grid should have "(.*)" hours for "(.*)"$/ do |hours, date|
+  date = human_date_to_ruby_date(date)
+  response.should have_tag("td.time-grid-date.#{date.strftime("%Y-%m-%d")}", :text => hours.to_f)
 end

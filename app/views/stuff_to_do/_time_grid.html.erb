@@ -23,22 +23,24 @@
     </tr>
   </thead>
   <tbody>
-    <% 10.times do %>
+    <% @issues.each do |issue| %>
     <tr>
       <td class="time-grid-project">
-        Project A
+        <%= h issue.project %>
       </td>
       <td class="time-grid-issue">
-        This is an issue
+        <%= h issue.subject %>
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
-      <td class="time-grid-date">
-        .
+      <td class="time-grid-date <%= h day -%>">
+        <%= h total_hours_for_user_on_day(issue, User.current, day) %>
       </td>
       <% day = day + 1 %>
       <% end %>
-      <td class="time-grid-running-total">Running Total</td>
+      <td class="time-grid-running-total <%= h day -%>">
+        Running Total
+      </td>
     </tr>
     <% end %>
     <tr class="daily-totals">

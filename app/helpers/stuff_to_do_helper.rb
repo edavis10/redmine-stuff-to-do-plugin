@@ -49,4 +49,16 @@ module StuffToDoHelper
   def remove_non_issues(stuff_to_do_items)
     stuff_to_do_items.reject {|item| item.class != Issue }
   end
+
+  def total_hours_for_user_on_day(issue, user, date)
+    total = issue.time_entries.inject(0.0) {|sum, time_entry|
+      if time_entry.user_id == user.id && time_entry.spent_on == date
+        sum += time_entry.hours
+      else
+        sum
+      end
+    }
+
+    total != 0.0 ? total : nil
+  end
 end

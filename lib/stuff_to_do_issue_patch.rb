@@ -11,6 +11,22 @@ module StuffToDoIssuePatch
 
       after_save :update_next_issues
       has_many :stuff_to_dos, :as => :stuff
+
+      named_scope :with_time_entries_for_user, lambda {|user_id|
+        {
+          :include => :time_entries,
+          :conditions => ["#{TimeEntry.table_name}.user_id = (?)", user_id]
+        }
+      }
+      
+      named_scope :with_time_entries_within_date, lambda {|date_from, date_to,|
+        {
+          :include => :time_entries,
+          :conditions => ["#{TimeEntry.table_name}.spent_on > (:from) AND #{TimeEntry.table_name}.spent_on < (:to)",
+                          {:from => date_from, :to => date_to}]
+        }
+      }
+      
     end
 
   end

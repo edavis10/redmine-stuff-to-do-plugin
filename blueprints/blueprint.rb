@@ -9,9 +9,11 @@ Sham.identifier { Faker::Internet.domain_word.downcase }
 Sham.message { Faker::Company.bs }
 Sham.position {|index| index }
 Sham.single_name { Faker::Internet.domain_word.capitalize }
+Sham.integer(:unique => false) { rand(100) }
 
 Sham.permissions(:unique => false) {
   [
+   :view_issues
   ]
 }
 
@@ -26,7 +28,7 @@ end
 Project.blueprint do
   name { Sham.project_name }
   identifier
-  enabled_modules
+  enabled_modules { Sham.enabled_modules }
 end
 
 def make_project_with_enabled_modules(attributes = {})
@@ -73,6 +75,10 @@ IssuePriority.blueprint do
   name { Sham.single_name }
 end
 
+TimeEntryActivity.blueprint do
+  name { Sham.single_name }
+end
+
 IssueStatus.blueprint do
   name { Sham.single_name }
   is_closed { false }
@@ -98,6 +104,15 @@ Issue.blueprint do
   priority { IssuePriority.make }
   status { IssueStatus.make }
   author { User.make }
+end
+
+TimeEntry.blueprint do
+  issue
+  project { issue.project }
+  user
+  hours { Sham.integer }
+  activity { TimeEntryActivity.make }
+  spent_on { Date.today }
 end
 
 # Plugin specific
