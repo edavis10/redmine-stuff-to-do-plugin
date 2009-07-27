@@ -15,4 +15,4 @@ Feature: Time grid
     And I should see the time grid table
     And the time grid should have "4" hours for "today"
     And the time grid should have "10" hours for "yesterday"
-
+    And the time grid should have "14" hours for a running total

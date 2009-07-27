@@ -38,8 +38,8 @@
       </td>
       <% day = day + 1 %>
       <% end %>
-      <td class="time-grid-running-total <%= h day -%>">
-        Running Total
+      <td class="time-grid-running-total issue-<%= h issue.id -%>">
+        <%= h total_hours_for_user_for_date_range(issue, User.current, @calendar.startdt, @calendar.enddt) %>
       </td>
     </tr>
     <% end %>

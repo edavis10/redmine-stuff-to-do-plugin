@@ -61,4 +61,15 @@ module StuffToDoHelper
 
     total != 0.0 ? total : nil
   end
+
+  def total_hours_for_user_for_date_range(issue, user, date_from, date_to)
+    current_date = date_from
+    total = 0.0
+    while current_date <= date_to
+      hours = total_hours_for_user_on_day(issue, user, current_date)
+      total += hours unless hours.nil?
+      current_date += 1
+    end
+    total
+  end
 end
