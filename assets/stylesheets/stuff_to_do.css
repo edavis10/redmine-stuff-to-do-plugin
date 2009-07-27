@@ -56,4 +56,6 @@ div.pane-summary table.progress { float: right; margin: 1px 6px;}
 #time-grid-table td.time-grid-date, #time-grid-table th.time-grid-date { width: 6%; }
 #time-grid-table th.time-grid-project, #time-grid-table td.time-grid-project { width: 25%; }
 #time-grid-table th.time-grid-issue, #time-grid-table td.time-grid-issue { width: 25%; }
+#time-grid-table td.time-grid-running-total { text-align: right; }
+#time-grid-table td.time-grid-grand-total { text-align: right; }
 .daily-totals td.label { text-align:right; }
