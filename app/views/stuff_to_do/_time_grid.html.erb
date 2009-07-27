@@ -26,10 +26,10 @@
     <% @issues.each do |issue| %>
     <tr>
       <td class="time-grid-project">
-        <%= h issue.project %>
+        <%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
       </td>
       <td class="time-grid-issue">
-        <%= h issue.subject %>
+        <%= link_to(h(issue.subject), :controller => 'issues', :action => 'show', :id => issue) %>
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
