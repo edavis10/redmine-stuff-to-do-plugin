@@ -63,14 +63,11 @@ module StuffToDoHelper
   end
 
   def total_hours_for_issue_for_date_range(issue, user, date_from, date_to)
-    current_date = date_from
-    total = 0.0
-    while current_date <= date_to
-      hours = total_hours_for_user_on_day(issue, user, current_date)
-      total += hours unless hours.nil?
-      current_date += 1
-    end
-    total
+    (date_from.to_date..date_to.to_date).inject(0.0) {|sum, day|
+      hours = total_hours_for_user_on_day(issue, user, day)
+      sum += hours unless hours.nil?
+      sum
+    }
   end
 
   def total_hours_for_date(issues, user, date)
