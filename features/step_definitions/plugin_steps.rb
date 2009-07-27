@@ -268,3 +268,13 @@ Then /^the time grid should have "(.*)" hours for a running total$/ do |hours|
   date = human_date_to_ruby_date(date)
   response.should have_tag("td.time-grid-running-total", :text => hours.to_f)
 end
+
+Then /^the time grid should have "(.*)" hours for a total of "(.*)"$/ do |hours, date|
+  date = human_date_to_ruby_date(date)
+  response.should have_tag("td.totals.#{date.strftime("%Y-%m-%d")}", :text => hours.to_f)
+end
+
+Then /^the time grid should have "(.*)" hours for a grand total$/ do |hours|
+  date = human_date_to_ruby_date(date)
+  response.should have_tag("td.time-grid-grand-total", :text => hours.to_f)
+end

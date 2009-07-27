@@ -62,7 +62,7 @@ module StuffToDoHelper
     total != 0.0 ? total : nil
   end
 
-  def total_hours_for_user_for_date_range(issue, user, date_from, date_to)
+  def total_hours_for_issue_for_date_range(issue, user, date_from, date_to)
     current_date = date_from
     total = 0.0
     while current_date <= date_to
@@ -71,5 +71,21 @@ module StuffToDoHelper
       current_date += 1
     end
     total
+  end
+
+  def total_hours_for_date(issues, user, date)
+    total = []
+    issues.each do |issue|
+      total << total_hours_for_user_on_day(issue, user, date)
+    end
+    total.compact.sum
+  end
+
+  def total_hours_for_date_range(issues, user, date_from, date_to)
+    total = []
+    issues.each do |issue|
+      total << total_hours_for_issue_for_date_range(issue, user, date_from, date_to)
+    end
+    total.compact.sum
   end
 end

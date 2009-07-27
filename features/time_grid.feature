@@ -16,3 +16,6 @@ Feature: Time grid
     And the time grid should have "4" hours for "today"
     And the time grid should have "10" hours for "yesterday"
     And the time grid should have "14" hours for a running total
+    And the time grid should have "4" hours for a total of "today"
+    And the time grid should have "10" hours for a total of "yesterday"
+    And the time grid should have "14" hours for a grand total

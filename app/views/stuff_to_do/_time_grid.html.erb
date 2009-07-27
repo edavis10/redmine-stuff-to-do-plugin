@@ -39,7 +39,7 @@
       <% day = day + 1 %>
       <% end %>
       <td class="time-grid-running-total issue-<%= h issue.id -%>">
-        <%= h total_hours_for_user_for_date_range(issue, User.current, @calendar.startdt, @calendar.enddt) %>
+        <%= h total_hours_for_issue_for_date_range(issue, User.current, @calendar.startdt, @calendar.enddt) %>
       </td>
     </tr>
     <% end %>
@@ -49,11 +49,14 @@
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
-      <td class="time-grid-date totals">
-        0
+      <td class="time-grid-date totals <%= h day -%>">
+        <%= h total_hours_for_date(@issues, User.current, day) %>
       </td>
       <% day = day + 1 %>
       <% end %>
+      <td class="time-grid-grand-total">
+        <%= h total_hours_for_date_range(@issues, User.current, @calendar.startdt, @calendar.enddt) %>
+      </td>
     </tr>
 
   </tbody>
