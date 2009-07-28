@@ -44,8 +44,12 @@ class StuffToDoController < ApplicationController
   end
 
   def add_to_time_grid
-    issue = Issue.find_by_id(params[:issue_id])
-    @issues << issue if issue
+    # OPTIMIZE: Shouldn't need to run the finder for each issue_id
+    params[:issue_ids].each do |id|
+      issue = Issue.visible.find_by_id(id)
+      @issues << issue if issue
+    end unless params[:issue_ids].nil?
+    @issues.uniq!
     time_grid
   end
 

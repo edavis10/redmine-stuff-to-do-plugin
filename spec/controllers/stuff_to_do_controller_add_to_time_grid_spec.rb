@@ -15,13 +15,27 @@ describe StuffToDoController, '#add_to_time_grid' do
   
   it_should_behave_like 'get_time_grid_data'
 
-  it 'should add the issue_id to the issues list' do
-    issue = mock_model(Issue, :id => 101)
-    Issue.should_receive(:find_by_id).with('101').and_return(issue)
-    post :add_to_time_grid, {:issue_id => '101'}
+  it 'should add the issue_ids to the issues list' do
+    issue101 = mock_model(Issue, :id => 101)
+    Issue.should_receive(:find_by_id).with('101').and_return(issue101)
 
-    assigns[:issues].should include(issue)
-    assigns[:issues][-1].should eql(issue)
+    issue102 = mock_model(Issue, :id => 102)
+    Issue.should_receive(:find_by_id).with('102').and_return(issue102)
+    
+    post :add_to_time_grid, {:issue_ids => ['101', '102']}
+
+    assigns[:issues].should include(issue101)
+    assigns[:issues].should include(issue102)
+  end
+
+  it 'should not add duplicate issue_ids to the issues list' do
+    issue101 = mock_model(Issue, :id => 101)
+    Issue.should_receive(:find_by_id).at_least(:once).with('101').and_return(issue101)
+    
+    post :add_to_time_grid, {:issue_ids => ['101', '101']}
+
+    assigns[:issues].should include(issue101)
+    assigns[:issues].collect {|issue| issue.id == 101}.size.should eql(1)
   end
 
   it 'should render the time_grid partial for js' do

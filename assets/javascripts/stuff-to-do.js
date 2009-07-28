@@ -86,13 +86,16 @@ jQuery(function($) {
   },
 
     addItemToTimeGrid = function(issue) {
+        var issues = $('#time-grid .issue').map(function(){
+            return 'issue_ids[]=' + getRecordId($(this));
+        }).get();
 
-        var issue_id = getRecordId(issue);
+        issues.push('issue_ids[]=' + getRecordId(issue));
 
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/add_to_time_grid.js',
-            data: 'issue_id=' + issue_id,
+            data: issues.join('&'),
             success: function(response) {
                 $('#time-grid').html(response);
                 attachSortables();

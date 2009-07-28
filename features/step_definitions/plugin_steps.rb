@@ -146,7 +146,8 @@ When /^I submit the form "user_switch"$/ do
 end
 
 When /^I drag a new issue to the time grid$/ do
-  visit "/stuff_to_do/add_to_time_grid", :post, :issue_id => Issue.last.id
+  @dragged_issue = Issue.last
+  visit "/stuff_to_do/add_to_time_grid", :post, :issue_ids => [@dragged_issue.id]
 end
 
 Then /^I should see a list of tasks called "(.*)"$/ do |named|
@@ -282,3 +283,8 @@ Then /^the time grid should have "(.*)" hours for a grand total$/ do |hours|
   response.should have_tag("td.time-grid-grand-total", :text => hours.to_f)
 end
 
+Then /^the issue should appear in the time grid$/ do
+  @dragged_issue.should_not be_nil
+  # TODO: Needs to be tested via JS since the html redirects
+  # response.should have_tag("tr.issue#issue_#{@dragged_issue.id}")
+end
