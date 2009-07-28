@@ -2,7 +2,7 @@ class StuffToDoController < ApplicationController
   unloadable
 
   before_filter :get_user
-  before_filter :get_time_grid, :only => [:index, :time_grid]
+  before_filter :get_time_grid, :only => [:index, :time_grid, :add_to_time_grid]
   before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
   
@@ -41,6 +41,12 @@ class StuffToDoController < ApplicationController
       format.html { redirect_to :action => 'index'}
       format.js { render :partial => 'time_grid', :layout => false}
     end
+  end
+
+  def add_to_time_grid
+    issue = Issue.find_by_id(params[:issue_id])
+    @issues << issue if issue
+    time_grid
   end
 
   private

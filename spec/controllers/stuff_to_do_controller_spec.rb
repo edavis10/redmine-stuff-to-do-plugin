@@ -1,5 +1,46 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
+describe 'get_time_grid_data', :shared => true do
+  it 'should set @date for the view' do
+    do_request
+    assigns[:date].should_not be_nil
+  end
+
+  it 'should set @calendar for the view' do
+    do_request
+    assigns[:calendar].should_not be_nil
+  end
+
+  it 'should set @issues for the view' do
+    do_request
+    assigns[:issues].should_not be_nil
+  end
+
+  it 'should get the issues and time entries for the user in the date range' do
+    # Redmine uses dates based on language settings
+    first_workday = (l(:general_first_day_of_week).to_i - 1)%7 + 1
+    last_workday = (first_workday + 5)%7 + 1
+    date = Date.today
+    date_from = date - (date.cwday - first_workday)%7
+    date_to = date + (last_workday - date.cwday)%7
+
+    project = mock_model(Project, :name => 'ABC Test')
+    issues = [
+              mock_model(Issue, :project => project, :subject => 'Testing', :time_entries => []),
+              mock_model(Issue, :project => project, :subject => 'Testing', :time_entries => [])
+             ]
+    Issue.should_receive(:visible).and_return(Issue)
+    Issue.should_receive(:with_time_entries_for_user).with(User.current).and_return(Issue)
+    Issue.should_receive(:with_time_entries_within_date).
+      with(date_from, date_to).
+      and_return(issues)
+                                                          
+    do_request
+  end
+
+end
+
+
 describe StuffToDoController, '#index' do
   include Redmine::I18n
 
@@ -54,37 +95,11 @@ describe StuffToDoController, '#index' do
     get :index
   end
 
-  it 'should set @date for the view' do
-    get :index
-    assigns[:date].should_not be_nil
-  end
-
-  it 'should set @calendar for the view' do
-    get :index
-    assigns[:calendar].should_not be_nil
-  end
-
-  it 'should set @issues for the view' do
-    get :index
-    assigns[:issues].should_not be_nil
-  end
-
-  it 'should get the issues and time entries for the user in the date range' do
-    # Redmine uses dates based on language settings
-    first_workday = (l(:general_first_day_of_week).to_i - 1)%7 + 1
-    last_workday = (first_workday + 5)%7 + 1
-    date = Date.today
-    date_from = date - (date.cwday - first_workday)%7
-    date_to = date + (last_workday - date.cwday)%7
-    
-    Issue.should_receive(:visible).and_return(Issue)
-    Issue.should_receive(:with_time_entries_for_user).with(User.current).and_return(Issue)
-    Issue.should_receive(:with_time_entries_within_date).
-      with(date_from, date_to).
-      and_return(Issue)
-                                                          
+  def do_request
     get :index
   end
+  
+  it_should_behave_like 'get_time_grid_data'
 end
 
 describe StuffToDoController, '#index for another user as an administrator' do
@@ -354,6 +369,41 @@ describe StuffToDoController, '#reorder with an unauthenticated user' do
   
   it 'should display the standard unauthorized page'
 end
+
+describe StuffToDoController, '#add_to_time_grid' do
+  include Redmine::I18n
+  integrate_views
+  
+  before(:each) do
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project)
+    User.stub!(:current).and_return(@current_user)
+  end
+
+  def do_request
+    post :add_to_time_grid, {}
+  end
+  
+  it_should_behave_like 'get_time_grid_data'
+
+  it 'should add the issue_id to the issues list'
+
+  it 'should render the time_grid template'
+end
+
+describe StuffToDoController, '#add_to_time_grid with an unauthenticated user' do
+  it 'should not be successful' do
+    post :add_to_time_grid, {}
+    response.should_not be_success
+  end
+  
+  it 'should return a 403 status code' do
+    post :add_to_time_grid, {}
+    response.code.should eql("403")
+  end
+  
+  it 'should display the standard unauthorized page'
+end
+
 
 describe StuffToDoController, '#filters_for_view (private)' do
   it 'should return a StuffToDoFilter' do

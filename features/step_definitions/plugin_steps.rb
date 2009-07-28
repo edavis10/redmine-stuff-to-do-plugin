@@ -145,6 +145,9 @@ When /^I submit the form "user_switch"$/ do
   submit_form("user_switch")
 end
 
+When /^I drag a new issue to the time grid$/ do
+  visit "/stuff_to_do/add_to_time_grid", :post, :issue_id => Issue.last.id
+end
 
 Then /^I should see a list of tasks called "(.*)"$/ do |named|
   response.should have_tag("ol##{named}")
@@ -278,3 +281,4 @@ Then /^the time grid should have "(.*)" hours for a grand total$/ do |hours|
   date = human_date_to_ruby_date(date)
   response.should have_tag("td.time-grid-grand-total", :text => hours.to_f)
 end
+

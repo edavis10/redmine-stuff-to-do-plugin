@@ -57,10 +57,11 @@ jQuery(function($) {
         placeholder: 'drop-accepted',
         update : function (event, ui) {
             $(ui.sender).sortable('cancel');
-            // TODO: Add to table
-            var issue = ui.item;
-            alert('hi from ' + issue.attr('id'));
-
+            var std_item = ui.item;
+            // Only add issues that are missing.
+            if (!isProjectItem(std_item) && !isItemInTimeGrid(std_item)) {
+                addItemToTimeGrid(std_item);
+            }
         }
     });
   },
@@ -82,7 +83,37 @@ jQuery(function($) {
             $("div#stuff-to-do-error").html("Error saving lists.  Please refresh the page and try again.").show();
         }});
 
-  };
+  },
+
+    addItemToTimeGrid = function(issue) {
+
+        var issue_id = getRecordId(issue);
+
+        $.ajax({
+            type: "POST",
+            url: 'stuff_to_do/add_to_time_grid.js',
+            data: 'issue_id=' + issue_id,
+            success: function(response) {
+                $('#time-grid').html(response);
+                attachSortables();
+            },
+        error: function(response) {
+            $("div#time-grid-error").html("Error saving Time Grid.  Please refresh the page and try again.").show();
+        }});
+    },
+
+    isProjectItem = function(element) {
+        return element.attr('id').match(/project/);
+    },
+
+    isItemInTimeGrid = function(element) {
+        var record_id = getRecordId(element);
+        return $('td.time-grid-issue issue_' + record_id).size() > 0;
+    },
+
+    getRecordId = function(jqueryElement) {
+        return jqueryElement.attr('id').split('_').last();
+    };
 
   attachSortables();
 

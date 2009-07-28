@@ -24,7 +24,7 @@
   </thead>
   <tbody>
     <% @issues.each do |issue| %>
-    <tr>
+    <% content_tag_for(:tr, issue) do %>
       <td class="time-grid-project">
         <%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
       </td>
@@ -42,6 +42,7 @@
         <%= h total_hours_for_issue_for_date_range(issue, User.current, @calendar.startdt, @calendar.enddt) %>
       </td>
     </tr>
+    <% end %>
     <% end %>
     <tr class="daily-totals">
       <td colspan="2" class="label">
