@@ -858,7 +858,12 @@ $.widget("ui.sortable", $.extend({}, $.ui.mouse, {
 		this._propagate("beforeStop", event, null, noPropagation);
 
 		//$(this.placeholder[0]).remove(); would have been the jQuery way - unfortunately, it unbinds ALL events from the original node!
-		this.placeholder[0].parentNode.removeChild(this.placeholder[0]);
+        // edavis10: parentNode can be null if dragged from one list
+        // to a table and the table cancels on update.
+        if (this.placeholder[0].parentNode != null) {
+		    this.placeholder[0].parentNode.removeChild(this.placeholder[0]);
+        }
+
 
 		if(this.options.helper != "original") this.helper.remove(); this.helper = null;
 		this._propagate("stop", event, null, noPropagation);

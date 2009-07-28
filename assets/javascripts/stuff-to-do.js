@@ -23,7 +23,7 @@ jQuery(function($) {
   attachSortables = function() {
     $("#available").sortable({
         cancel: 'a',
-        connectWith: ["#doing-now", "#recommended"],
+        connectWith: ["#doing-now", "#recommended", "#time-grid-table tbody"],
         placeholder: 'drop-accepted',
         dropOnEmpty: true,
         update : function (event, ui) {
@@ -37,7 +37,7 @@ jQuery(function($) {
 
     $("#doing-now").sortable({
         cancel: 'a',
-        connectWith: ["#available", "#recommended"],
+        connectWith: ["#available", "#recommended", "#time-grid-table tbody"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
         update : function (event, ui) { saveOrder(ui); }
@@ -45,12 +45,24 @@ jQuery(function($) {
 
     $("#recommended").sortable({
         cancel: 'a',
-        connectWith: ["#available", "#doing-now"],
+        connectWith: ["#available", "#doing-now", "#time-grid-table tbody"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
         update : function (event, ui) { saveOrder(ui); }
     });
 
+    $("#time-grid-table tbody").sortable({
+        connectWith: ["#available", "#doing-now", "#recommended"],
+        items: 'th',
+        placeholder: 'drop-accepted',
+        update : function (event, ui) {
+            $(ui.sender).sortable('cancel');
+            // TODO: Add to table
+            var issue = ui.item;
+            alert('hi from ' + issue.attr('id'));
+
+        }
+    });
   },
 
   saveOrder = function() {
