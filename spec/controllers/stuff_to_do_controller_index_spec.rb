@@ -118,7 +118,7 @@ describe StuffToDoController, '#index for another user as a user' do
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project)
     User.stub!(:current).and_return(@current_user)
     @viewed_user = mock_model(User)
   end

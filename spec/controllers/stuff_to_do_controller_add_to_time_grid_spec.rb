@@ -15,9 +15,19 @@ describe StuffToDoController, '#add_to_time_grid' do
   
   it_should_behave_like 'get_time_grid_data'
 
-  it 'should add the issue_id to the issues list'
+  it 'should add the issue_id to the issues list' do
+    issue = mock_model(Issue, :id => 101)
+    Issue.should_receive(:find_by_id).with('101').and_return(issue)
+    post :add_to_time_grid, {:issue_id => '101'}
 
-  it 'should render the time_grid template'
+    assigns[:issues].should include(issue)
+    assigns[:issues][-1].should eql(issue)
+  end
+
+  it 'should render the time_grid partial for js' do
+    post :add_to_time_grid, {:format => 'js'}
+    response.should render_template('_time_grid')
+  end
 end
 
 
