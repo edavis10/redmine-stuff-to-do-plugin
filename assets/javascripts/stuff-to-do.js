@@ -118,7 +118,7 @@ jQuery(function($) {
         return jqueryElement.attr('id').split('_').last();
     };
 
-  $("#time-grid-table tr").contextMenu({ menu: 'myMenu', menuCssName: 'context-menu' },
+  $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                              function(action, el, pos) {
                                alert(
                                    'Action: ' + action + '\n\n' +
