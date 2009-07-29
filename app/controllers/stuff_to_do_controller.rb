@@ -5,6 +5,7 @@ class StuffToDoController < ApplicationController
   before_filter :get_time_grid, :only => [:index, :time_grid, :add_to_time_grid]
   before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
+  helper :timelog
   
   def index
     @doing_now = StuffToDo.doing_now(@user)
@@ -111,5 +112,6 @@ class StuffToDoController < ApplicationController
     @issues = Issue.visible.
       with_time_entries_for_user(User.current).
       with_time_entries_within_date(@calendar.startdt, @calendar.enddt)
+    @time_entry = TimeEntry.new
   end
 end

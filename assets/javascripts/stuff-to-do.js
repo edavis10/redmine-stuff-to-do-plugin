@@ -116,16 +116,15 @@ jQuery(function($) {
 
     getRecordId = function(jqueryElement) {
         return jqueryElement.attr('id').split('_').last();
-    };
+    },
+
+    timeLogFacebox = function() {
+        $.facebox({div: '#logtime'});
+    },
 
   $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                              function(action, el, pos) {
-                               alert(
-                                   'Action: ' + action + '\n\n' +
-                                     'Element ID: ' + $(el).attr('id') + '\n\n' +
-                                     'X: ' + pos.x + '  Y: ' + pos.y + ' (relative to element)\n\n' +
-                                     'X: ' + pos.docX + '  Y: ' + pos.docY+ ' (relative to document)'
-                                 );
+                                 timeLogFacebox();
                                });
 
   attachSortables();
