@@ -120,12 +120,37 @@ jQuery(function($) {
 
     timeLogFacebox = function() {
         $.facebox({div: '#logtime'});
+        bindTimeEntryForm(); // Rebind since Facebox copies it
     },
 
   $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                              function(action, el, pos) {
+                                 // TODO: Needs to get the issue id
                                  timeLogFacebox();
                                });
+
+    bindTimeEntryForm = function() {
+        $('#facebox #logtime form').submit(function(){
+            // Save to page for the main table
+            if ($('#time-grid-table').data('new-time-entry')) {
+                jQuery('#time-grid-table').data('new-time-entry',
+                                                // flatten() is Prototype
+                                                new Array(jQuery('#time-grid-table').data('new-time-entry'),
+                                                          jQuery('#facebox #logtime form').serialize()).flatten()
+                                               );
+            } else {
+                jQuery('#time-grid-table').data('new-time-entry',
+                                                new Array($('#facebox #logtime form').serialize()));
+            }
+            // TODO: Update the main table's content
+            // TODO: Add message
+
+            jQuery(document).trigger('close.facebox');
+            return false;
+        });
+    },
+
+    bindTimeEntryForm();
 
   attachSortables();
 
