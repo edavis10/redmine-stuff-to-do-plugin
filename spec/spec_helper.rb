@@ -99,6 +99,11 @@ describe 'get_time_grid_data', :shared => true do
     assigns[:issues].should_not be_nil
   end
 
+  it 'should set @time_entry for the view' do
+    do_request
+    assigns[:time_entry].should_not be_nil
+  end
+
   it 'should get the issues and time entries for the user in the date range' do
     # Redmine uses dates based on language settings
     first_workday = (l(:general_first_day_of_week).to_i - 1)%7 + 1
