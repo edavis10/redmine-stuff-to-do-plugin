@@ -1,5 +1,3 @@
-require_dependency 'issue'
-
 # Patches Redmine's Issues dynamically.  Adds a +after_save+ filter.
 module StuffToDoIssuePatch
   def self.included(base) # :nodoc:
@@ -35,9 +33,3 @@ module StuffToDoIssuePatch
     end
   end    
 end
-
-# Add module to Issue
-Issue.send(:include, StuffToDoIssuePatch)
-
-
-
