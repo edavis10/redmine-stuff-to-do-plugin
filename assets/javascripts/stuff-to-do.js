@@ -142,6 +142,58 @@ jQuery(function($) {
         }
     },
 
+    // Connect to Redmine to check if a TimeEntry is Valid
+    // A round trip is needed to check all the fields such as
+    //
+    // * Does the user have permission to log time
+    // * Does the issue number exist
+    validateTimeEntry = function(form) {
+        $.ajax({
+            type: "POST",
+            url: 'stuff_to_do/valid_time_entry.js',
+            data: $(form).serialize(),
+            success: function(response) {
+                saveTimeEntryLocally(form);
+            },
+            error: function(response) {
+                alert(response.responseText);
+            }});
+    },
+
+    saveTimeEntryLocally = function() {
+        // Save to page for the main table
+        if ($('#time-grid-table').data('new-time-entry')) {
+            jQuery('#time-grid-table').data('new-time-entry',
+                                            // flatten() is Prototype
+                                            new Array(jQuery('#time-grid-table').data('new-time-entry'),
+                                                      jQuery('#facebox #logtime form').serialize()).flatten()
+                                           );
+        } else {
+            jQuery('#time-grid-table').data('new-time-entry',
+                                            new Array($('#facebox #logtime form').serialize()));
+        }
+
+        // Update the main table's content
+        var hours = $('#facebox #logtime form #time_entry__hours').val();
+        var issue_id = $('#facebox #logtime form #time_entry__issue_id').val();
+        var date = $('#facebox #logtime form #time_entry__spent_on').val();
+
+        var time_grid_cell = $('#issue_' + issue_id + ' .' + date);
+        var time_grid_daily_total_cell = $('tr.daily-totals .totals.' + date);
+        var time_grid_running_total_cell = $('#issue_' + issue_id + ' .time-grid-running-total');
+
+        updateTimeGridCell(hours, date, time_grid_cell);
+        updateTimeGridCell(hours, date, time_grid_daily_total_cell);
+        updateTimeGridCell(hours, date, time_grid_running_total_cell);
+
+        // Message
+        var unsaved_count = $('#time-grid-table').data('new-time-entry').size();
+        $('#time-grid-warning').html(unsaved_count + " entries not yet saved.").show();
+
+        jQuery(document).trigger('close.facebox');
+
+    },
+
   $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                              function(action, el, pos) {
                                  // TODO: Needs to get the issue id
@@ -150,36 +202,7 @@ jQuery(function($) {
 
     bindTimeEntryForm = function() {
         $('#facebox #logtime form').submit(function(){
-            // Save to page for the main table
-            if ($('#time-grid-table').data('new-time-entry')) {
-                jQuery('#time-grid-table').data('new-time-entry',
-                                                // flatten() is Prototype
-                                                new Array(jQuery('#time-grid-table').data('new-time-entry'),
-                                                          jQuery('#facebox #logtime form').serialize()).flatten()
-                                               );
-            } else {
-                jQuery('#time-grid-table').data('new-time-entry',
-                                                new Array($('#facebox #logtime form').serialize()));
-            }
-
-            // Update the main table's content
-            var hours = $('#facebox #logtime form #time_entry__hours').val();
-            var issue_id = $('#facebox #logtime form #time_entry__issue_id').val();
-            var date = $('#facebox #logtime form #time_entry__spent_on').val();
-
-            var time_grid_cell = $('#issue_' + issue_id + ' .' + date);
-            var time_grid_daily_total_cell = $('tr.daily-totals .totals.' + date);
-            var time_grid_running_total_cell = $('#issue_' + issue_id + ' .time-grid-running-total');
-
-            updateTimeGridCell(hours, date, time_grid_cell);
-            updateTimeGridCell(hours, date, time_grid_daily_total_cell);
-            updateTimeGridCell(hours, date, time_grid_running_total_cell);
-
-            // Message
-            var unsaved_count = $('#time-grid-table').data('new-time-entry').size();
-            $('#time-grid-warning').html(unsaved_count + " entries not yet saved.").show();
-
-            jQuery(document).trigger('close.facebox');
+            validateTimeEntry(this);
             return false;
         });
     },

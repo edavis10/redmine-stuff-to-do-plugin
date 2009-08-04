@@ -54,6 +54,21 @@ class StuffToDoController < ApplicationController
     time_grid
   end
 
+  def valid_time_entry
+    @time_entry = TimeEntry.new
+    @time_entry.user = User.current
+    if params[:time_entry] &&  params[:time_entry].first
+      @time_entry.attributes = params[:time_entry].first
+    end
+    respond_to do |format|
+      if @time_entry.valid?
+        format.js { render :text => '', :layout => false }
+      else
+        format.js { render :text => @time_entry.errors.full_messages.join(', '), :status => 403, :layout => false }
+      end
+    end
+  end
+  
   private
   
   def get_user
