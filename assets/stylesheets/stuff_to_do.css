@@ -1,3 +1,4 @@
+#ajax-indicator { z-index: 300; }
 ol#available { overflow-y:auto; height: 500px; }
 ol#recommended { overflow-y:auto; height: 300px; }
 li.issue, li.project { cursor: move; }
