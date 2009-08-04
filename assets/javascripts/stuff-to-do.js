@@ -160,23 +160,24 @@ jQuery(function($) {
             }});
     },
 
-    saveTimeEntryLocally = function() {
+    saveTimeEntryLocally = function(form) {
+        var timeForm = $(form);
         // Save to page for the main table
         if ($('#time-grid-table').data('new-time-entry')) {
-            jQuery('#time-grid-table').data('new-time-entry',
+            $('#time-grid-table').data('new-time-entry',
                                             // flatten() is Prototype
-                                            new Array(jQuery('#time-grid-table').data('new-time-entry'),
-                                                      jQuery('#facebox #logtime form').serialize()).flatten()
+                                            new Array($('#time-grid-table').data('new-time-entry'),
+                                                      timeForm.serialize()).flatten()
                                            );
         } else {
-            jQuery('#time-grid-table').data('new-time-entry',
-                                            new Array($('#facebox #logtime form').serialize()));
+            $('#time-grid-table').data('new-time-entry',
+                                            new Array(timeForm.serialize()));
         }
 
         // Update the main table's content
-        var hours = $('#facebox #logtime form #time_entry__hours').val();
-        var issue_id = $('#facebox #logtime form #time_entry__issue_id').val();
-        var date = $('#facebox #logtime form #time_entry__spent_on').val();
+        var hours = timeForm.find('#time_entry__hours').val();
+        var issue_id = timeForm.find('#time_entry__issue_id').val();
+        var date = timeForm.find('#time_entry__spent_on').val();
 
         var time_grid_cell = $('#issue_' + issue_id + ' .' + date);
         var time_grid_daily_total_cell = $('tr.daily-totals .totals.' + date);
