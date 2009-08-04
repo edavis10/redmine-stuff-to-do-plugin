@@ -195,11 +195,12 @@ jQuery(function($) {
 
     },
 
-  $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
-                             function(action, el, pos) {
-                                 // TODO: Needs to get the issue id
-                                 timeLogFacebox(parseIssueId(el));
-                               });
+    bindContextMenuToTimeGrid = function() {
+        $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
+                                             function(action, el, pos) {
+                                                 timeLogFacebox(parseIssueId(el));
+                                             });
+    },
 
     bindTimeEntryForm = function() {
         $('#facebox #logtime form').submit(function(){
@@ -208,6 +209,7 @@ jQuery(function($) {
         });
     },
 
+    bindContextMenuToTimeGrid();
     bindTimeEntryForm();
 
   attachSortables();
