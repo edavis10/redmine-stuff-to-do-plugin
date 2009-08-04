@@ -118,15 +118,22 @@ jQuery(function($) {
         return jqueryElement.attr('id').split('_').last();
     },
 
-    timeLogFacebox = function() {
+    timeLogFacebox = function(issue_id) {
+        if (issue_id != undefined) {
+            $('#time_entry__issue_id').val(issue_id);
+        }
         $.facebox({div: '#logtime'});
         bindTimeEntryForm(); // Rebind since Facebox copies it
+    },
+
+    parseIssueId = function(jqueryElement) {
+        return jqueryElement.attr('id').split('_')[1];
     },
 
   $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                              function(action, el, pos) {
                                  // TODO: Needs to get the issue id
-                                 timeLogFacebox();
+                                 timeLogFacebox(parseIssueId(el));
                                });
 
     bindTimeEntryForm = function() {
