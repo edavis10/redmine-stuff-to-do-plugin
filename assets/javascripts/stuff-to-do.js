@@ -175,7 +175,9 @@ jQuery(function($) {
             updateTimeGridCell(hours, date, time_grid_daily_total_cell);
             updateTimeGridCell(hours, date, time_grid_running_total_cell);
 
-            // TODO: Add message
+            // Message
+            var unsaved_count = $('#time-grid-table').data('new-time-entry').size();
+            $('#time-grid-warning').html(unsaved_count + " entries not yet saved.").show();
 
             jQuery(document).trigger('close.facebox');
             return false;
