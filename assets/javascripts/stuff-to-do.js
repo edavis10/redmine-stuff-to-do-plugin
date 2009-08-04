@@ -150,6 +150,22 @@ jQuery(function($) {
                                                 new Array($('#facebox #logtime form').serialize()));
             }
             // TODO: Update the main table's content
+            var hours = $('#facebox #logtime form #time_entry__hours').val();
+            var issue_id = $('#facebox #logtime form #time_entry__issue_id').val();
+            var date = $('#facebox #logtime form #time_entry__spent_on').val();
+
+            var time_grid_cell = $('#issue_' + issue_id + ' .' + date);
+
+            var current_hours = parseFloat(time_grid_cell.html());
+
+            if (current_hours == 0) {
+                time_grid_cell.html(hours);
+            } else if (isNaN(current_hours)) {
+                time_grid_cell.html(hours);
+            } else {
+                time_grid_cell.html( parseFloat(hours) + current_hours);
+            }
+
             // TODO: Add message
 
             jQuery(document).trigger('close.facebox');
