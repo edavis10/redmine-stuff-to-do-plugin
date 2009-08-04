@@ -130,6 +130,18 @@ jQuery(function($) {
         return jqueryElement.attr('id').split('_')[1];
     },
 
+    updateTimeGridCell = function(hours, date, cell) {
+        var current_hours = parseFloat(cell.html());
+
+        if (current_hours == 0) {
+            cell.html(hours);
+        } else if (isNaN(current_hours)) {
+            cell.html(hours);
+        } else {
+            cell.html( parseFloat(hours) + current_hours);
+        }
+    },
+
   $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                              function(action, el, pos) {
                                  // TODO: Needs to get the issue id
@@ -149,22 +161,19 @@ jQuery(function($) {
                 jQuery('#time-grid-table').data('new-time-entry',
                                                 new Array($('#facebox #logtime form').serialize()));
             }
-            // TODO: Update the main table's content
+
+            // Update the main table's content
             var hours = $('#facebox #logtime form #time_entry__hours').val();
             var issue_id = $('#facebox #logtime form #time_entry__issue_id').val();
             var date = $('#facebox #logtime form #time_entry__spent_on').val();
 
             var time_grid_cell = $('#issue_' + issue_id + ' .' + date);
+            var time_grid_daily_total_cell = $('tr.daily-totals .totals.' + date);
+            var time_grid_running_total_cell = $('#issue_' + issue_id + ' .time-grid-running-total');
 
-            var current_hours = parseFloat(time_grid_cell.html());
-
-            if (current_hours == 0) {
-                time_grid_cell.html(hours);
-            } else if (isNaN(current_hours)) {
-                time_grid_cell.html(hours);
-            } else {
-                time_grid_cell.html( parseFloat(hours) + current_hours);
-            }
+            updateTimeGridCell(hours, date, time_grid_cell);
+            updateTimeGridCell(hours, date, time_grid_daily_total_cell);
+            updateTimeGridCell(hours, date, time_grid_running_total_cell);
 
             // TODO: Add message
 
