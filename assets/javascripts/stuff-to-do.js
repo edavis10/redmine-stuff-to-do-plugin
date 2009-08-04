@@ -209,8 +209,11 @@ jQuery(function($) {
         });
     },
 
-    bindContextMenuToTimeGrid();
-    bindTimeEntryForm();
+    initTimeGrid = function() {
+        bindContextMenuToTimeGrid();
+        bindTimeEntryForm();
+    },
+
 
   attachSortables();
 
