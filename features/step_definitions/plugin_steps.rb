@@ -236,7 +236,7 @@ Then /^I should see the time grid table$/ do
   Then 'I should see 1 column for Issue'
   Then 'I should see 7 columns for Days'
   Then 'I should see 1 column for Running Totals'
-
+  Then 'I should see a save button'
 end
 
 Then /^I should see a date picker$/ do
@@ -245,6 +245,10 @@ Then /^I should see a date picker$/ do
     with_tag('select#day')
     with_tag('select#year')
   end
+end
+
+Then /^I should see a save button$/ do
+  response.should have_tag('input[type=submit][value=Save].save-time-grid')
 end
 
 Then /^I should see (\d+) columns? for Project$/ do |count|

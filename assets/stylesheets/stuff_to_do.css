@@ -60,6 +60,7 @@ div.pane-summary table.progress { float: right; margin: 1px 6px;}
 #time-grid-table td.time-grid-running-total { text-align: right; }
 #time-grid-table td.time-grid-grand-total { text-align: right; }
 .daily-totals td.label { text-align:right; }
+input.save-time-grid { float: right; margin-top: 10px; margin-bottom: 10px; }
 
 /*** Context menu, based off of the Redmine version ***/
 .context-menu { position: absolute; z-index: 40; font-size: 0.9em;}

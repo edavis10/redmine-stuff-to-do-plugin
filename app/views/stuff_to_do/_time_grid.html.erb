@@ -7,6 +7,8 @@
 
 <%= render :partial => 'time_grid_form' %>
 
+<%= submit_tag l(:button_save), :class => 'save-time-grid', :style => 'display:none;' %>
+
 <table class="cal" id="time-grid-table">
   <thead>
     <tr>
@@ -63,6 +65,8 @@
 
   </tbody>
 </table>
+
+<%= submit_tag l(:button_save), :class => 'save-time-grid', :style => 'display:none;' %>
 
 </div>
 

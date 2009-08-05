@@ -191,6 +191,9 @@ jQuery(function($) {
         var unsaved_count = $('#time-grid-table').data('new-time-entry').size();
         $('#time-grid-warning').html(unsaved_count + " entries not yet saved.").show();
 
+        // Show submit buttons
+        $('.save-time-grid').show();
+
         jQuery(document).trigger('close.facebox');
 
     },
