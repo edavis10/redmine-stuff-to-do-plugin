@@ -95,7 +95,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/add_to_time_grid.js',
-            data: issues.join('&'),
+            data: issues.join('&') + '&' + $('#query_form').serialize(),
             success: function(response) {
                 $('#time-grid').html(response);
                 attachSortables();
