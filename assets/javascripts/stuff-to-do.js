@@ -198,6 +198,24 @@ jQuery(function($) {
 
     },
 
+    saveTimeEntriesRemotely = function() {
+        var data = $('#time-grid-table').data('new-time-entry').join('&') + '&' + $('#query_form').serialize();
+
+        $.ajax({
+            type: "POST",
+            url: 'stuff_to_do/save_time_entries.js',
+            data: data,
+            success: function(response) {
+                $('#time-grid').before(response).remove();
+                $('.time-grid-flash').not(':empty').show();
+            },
+            error: function(response) {
+                $('#time-grid-error').html("Error saving time entries.  Please try again or contact your Administrator.").show();
+
+            }
+        });
+    },
+
     bindContextMenuToTimeGrid = function() {
         $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
                                              function(action, el, pos) {
@@ -212,9 +230,17 @@ jQuery(function($) {
         });
     },
 
+    bindSaveTimeGridButtons = function() {
+        $('.save-time-grid').click(function(){
+            saveTimeEntriesRemotely();
+            return false;
+        });
+    },
+
     initTimeGrid = function() {
         bindContextMenuToTimeGrid();
         bindTimeEntryForm();
+        bindSaveTimeGridButtons();
     },
 
 
