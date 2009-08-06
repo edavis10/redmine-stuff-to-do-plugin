@@ -5,7 +5,7 @@ describe StuffToDoController, '#save_time_entries' do
   integrate_views
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project)
+    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project, :allowed_to? => true)
     User.stub!(:current).and_return(@current_user)
 
     @project = mock_model(Project)
@@ -44,6 +44,7 @@ describe StuffToDoController, '#save_time_entries' do
         te = mock_model(TimeEntry)
         te.stub!(:issue).and_return(@issue) # So it can get the project
         te.should_receive(:project=).with(@project)
+        te.stub!(:project).and_return(@project)
         te.should_receive(:user=).with(User.current)
         te.should_receive(:save).and_return(true)
         te
@@ -53,7 +54,21 @@ describe StuffToDoController, '#save_time_entries' do
     do_request(:time_entry => time_entries)
   end
 
-  it 'should check that the current user has permission to log time'
+  it 'should check that the current user has permission to log time' do
+    User.current.should_receive(:allowed_to?).with(:log_time, anything).and_return(false)
+    @time_entry1 = {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
+      TimeEntry.should_receive(:new).with(@time_entry1.stringify_keys).and_return do
+        te = mock_model(TimeEntry)
+        te.stub!(:issue).and_return(@issue) # So it can get the project
+        te.should_receive(:project=).with(@project)
+        te.stub!(:project).and_return(@project)
+        te.should_receive(:user=).with(User.current)
+        te.should_not_receive(:save)
+        te
+      end
+    
+    do_request(:time_entry => [@time_entry1])
+  end
 
   it 'should set the notice flash messaages to the number of saved time entries' do
     @time_entry1 = {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
@@ -61,6 +76,7 @@ describe StuffToDoController, '#save_time_entries' do
         te = mock_model(TimeEntry)
         te.stub!(:issue).and_return(@issue) # So it can get the project
         te.should_receive(:project=).with(@project)
+        te.stub!(:project).and_return(@project)
         te.should_receive(:user=).with(User.current)
         te.should_receive(:save).and_return(true)
         te
@@ -76,6 +92,7 @@ describe StuffToDoController, '#save_time_entries' do
         te = mock_model(TimeEntry)
         te.stub!(:issue).and_return(@issue) # So it can get the project
         te.should_receive(:project=).with(@project)
+        te.stub!(:project).and_return(@project)
         te.should_receive(:user=).with(User.current)
         te.should_receive(:save).and_return(false)
         te

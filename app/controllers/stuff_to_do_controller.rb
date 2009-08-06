@@ -73,11 +73,11 @@ class StuffToDoController < ApplicationController
     unsaved_count = 0
     saved_count = 0
     params[:time_entry].each do |time_entry|
-      debugger if time_entry.empty?
       time_entry = TimeEntry.new(time_entry)
       time_entry.project = time_entry.issue.project
       time_entry.user = User.current
-      if time_entry.save
+
+      if User.current.allowed_to?(:log_time, time_entry.project) && time_entry.save
         saved_count += 1
       else
         unsaved_count += 1
