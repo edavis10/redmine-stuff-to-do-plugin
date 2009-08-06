@@ -68,6 +68,21 @@ class StuffToDoController < ApplicationController
       end
     end
   end
+
+  def save_time_entries
+    params[:time_entry].each do |time_entry|
+      debugger if time_entry.empty?
+      time_entry = TimeEntry.new(time_entry)
+      time_entry.project = time_entry.issue.project
+      time_entry.user = User.current
+      if time_entry.save
+
+      end
+    end
+    
+    get_time_grid # after saving in order to get the updated data
+    time_grid
+  end
   
   private
   
@@ -88,7 +103,7 @@ class StuffToDoController < ApplicationController
   def filters_for_view
     StuffToDoFilter.new
   end
-  
+
   def get_filters
     return default_filters unless params[:filter]
 
