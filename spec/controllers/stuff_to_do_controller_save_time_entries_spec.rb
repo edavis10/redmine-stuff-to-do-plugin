@@ -32,6 +32,18 @@ describe StuffToDoController, '#save_time_entries' do
   def make_time_entry_hash
     {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
   end
+
+  def make_time_entry_mock(entry)
+    TimeEntry.should_receive(:new).with(entry.stringify_keys).and_return do
+      te = mock_model(TimeEntry)
+      te.stub!(:issue).and_return(@issue) # So it can get the project
+      te.should_receive(:project=).with(@project)
+      te.stub!(:project).and_return(@project)
+      te.should_receive(:user=).with(User.current)
+      yield te if block_given?
+      te
+    end
+  end
   
   it_should_behave_like 'get_time_grid_data'
 
@@ -39,16 +51,10 @@ describe StuffToDoController, '#save_time_entries' do
     time_entries = [make_time_entry_hash, make_time_entry_hash, make_time_entry_hash, make_time_entry_hash]
 
     time_entries.each do |entry|
-      TimeEntry.should_receive(:new).with(entry.stringify_keys).and_return do
-        te = mock_model(TimeEntry)
-        te.stub!(:issue).and_return(@issue) # So it can get the project
-        te.should_receive(:project=).with(@project)
-        te.stub!(:project).and_return(@project)
-        te.should_receive(:user=).with(User.current)
-        te.should_receive(:save).and_return(true)
-        te
+      make_time_entry_mock(entry) do |time_entry|
+        time_entry.should_receive(:save).and_return(true)
       end
-    end
+    end      
 
     do_request(:time_entry => time_entries)
   end
@@ -58,14 +64,8 @@ describe StuffToDoController, '#save_time_entries' do
     time_entries = [make_time_entry_hash, make_time_entry_hash]
 
     time_entries.each do |entry|
-      TimeEntry.should_receive(:new).with(entry.stringify_keys).and_return do
-        te = mock_model(TimeEntry)
-        te.stub!(:issue).and_return(@issue) # So it can get the project
-        te.should_receive(:project=).with(@project)
-        te.stub!(:project).and_return(@project)
-        te.should_receive(:user=).with(User.current)
-        te.should_not_receive(:save)
-        te
+      make_time_entry_mock(entry) do |time_entry|
+        time_entry.should_not_receive(:save)
       end
     end
       
@@ -76,14 +76,8 @@ describe StuffToDoController, '#save_time_entries' do
     time_entries = [make_time_entry_hash, make_time_entry_hash]
 
     time_entries.each do |entry|
-      TimeEntry.should_receive(:new).with(entry.stringify_keys).and_return do
-        te = mock_model(TimeEntry)
-        te.stub!(:issue).and_return(@issue) # So it can get the project
-        te.should_receive(:project=).with(@project)
-        te.stub!(:project).and_return(@project)
-        te.should_receive(:user=).with(User.current)
-        te.should_receive(:save).and_return(true)
-        te
+      make_time_entry_mock(entry) do |time_entry|
+        time_entry.should_receive(:save).and_return(true)
       end
     end
 
@@ -95,14 +89,8 @@ describe StuffToDoController, '#save_time_entries' do
     time_entries = [make_time_entry_hash, make_time_entry_hash]
 
     time_entries.each do |entry|
-      TimeEntry.should_receive(:new).with(entry.stringify_keys).and_return do
-        te = mock_model(TimeEntry)
-        te.stub!(:issue).and_return(@issue) # So it can get the project
-        te.should_receive(:project=).with(@project)
-        te.stub!(:project).and_return(@project)
-        te.should_receive(:user=).with(User.current)
-        te.should_receive(:save).and_return(false)
-        te
+      make_time_entry_mock(entry) do |time_entry|
+        time_entry.should_receive(:save).and_return(false)
       end
     end
     
