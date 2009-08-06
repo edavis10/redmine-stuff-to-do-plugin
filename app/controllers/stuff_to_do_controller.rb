@@ -84,8 +84,8 @@ class StuffToDoController < ApplicationController
       end
     end
 
-    flash[:time_grid_notice] = l(:stuff_to_do_time_grid_save_notice, saved_count) if saved_count > 0
-    flash[:time_grid_error] = l(:stuff_to_do_time_grid_save_error, unsaved_count) if unsaved_count > 0
+    flash.now[:time_grid_notice] = l(:stuff_to_do_time_grid_save_notice, saved_count) if saved_count > 0
+    flash.now[:time_grid_error] = l(:stuff_to_do_time_grid_save_error, unsaved_count) if unsaved_count > 0
     
     get_time_grid # after saving in order to get the updated data
     time_grid

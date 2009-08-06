@@ -1,9 +1,9 @@
 <div id="time-grid">
 <h2><%= l(:stuff_to_do_time_grid) %></h2>
 
-<div id="time-grid-error" class="flash error" style="display:none"><%= h flash[:time_grid_error] %> </div>
-<div id="time-grid-warning" class="flash warning" style="display:none"><%= h flash[:time_grid_warning] %> </div>
-<div id="time-grid-notice" class="flash notice" style="display:none"><%= h flash[:time_grid_notice] %> </div>
+<div id="time-grid-error" class="flash error time-grid-flash" style="display:none"><%= h flash[:time_grid_error] %></div>
+<div id="time-grid-warning" class="flash warning time-grid-flash" style="display:none"><%= h flash[:time_grid_warning] %></div>
+<div id="time-grid-notice" class="flash notice time-grid-flash" style="display:none"><%= h flash[:time_grid_notice] %></div>
 
 <%= render :partial => 'time_grid_form' %>
 
