@@ -232,11 +232,12 @@ jQuery(function($) {
     },
 
     bindContextMenuToTimeGrid = function() {
-        $("#time-grid-table tr td").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
-                                                function(action, el, pos) {
-                                                    timeLogFacebox(parseIssueId(el.parent()),
-                                                                   parseDateFromGrid(el));
-                                                });
+        $("#time-grid-table tr td.time-grid-date").
+            contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
+                        function(action, el, pos) {
+                            timeLogFacebox(parseIssueId(el.parent()),
+                                           parseDateFromGrid(el));
+                        });
     },
 
     bindTimeEntryForm = function() {
