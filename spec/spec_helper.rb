@@ -121,6 +121,9 @@ describe 'get_time_grid_data', :shared => true do
     Issue.should_receive(:with_time_entries_for_user).with(User.current).and_return(Issue)
     Issue.should_receive(:with_time_entries_within_date).
       with(date_from, date_to).
+      and_return(Issue)
+    Issue.should_receive(:all).
+      with(:order => "#{Issue.table_name}.id ASC").
       and_return(issues)
                                                           
     do_request
