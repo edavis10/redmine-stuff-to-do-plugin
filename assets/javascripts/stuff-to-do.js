@@ -118,10 +118,15 @@ jQuery(function($) {
         return jqueryElement.attr('id').split('_').last();
     },
 
-    timeLogFacebox = function(issue_id) {
+    timeLogFacebox = function(issue_id, date) {
         if (issue_id != undefined) {
             $('#time_entry__issue_id').val(issue_id);
         }
+
+        if (date != undefined) {
+            $('#time_entry__core').val(date); // Renamed below
+        }
+
         $.facebox({div: '#logtime'});
         bindTimeEntryForm(); // Rebind since Facebox copies it
         // Need to rebind the calendar by renaming the time_entry
@@ -134,6 +139,11 @@ jQuery(function($) {
     parseIssueId = function(jqueryElement) {
         return jqueryElement.attr('id').split('_')[1];
     },
+
+    parseDateFromGrid = function(jqueryElement) {
+        return jqueryElement.attr('class').split(' ')[1];
+    },
+
 
     updateTimeGridCell = function(hours, date, cell) {
         var current_hours = parseFloat(cell.html());
@@ -222,10 +232,11 @@ jQuery(function($) {
     },
 
     bindContextMenuToTimeGrid = function() {
-        $("#time-grid-table tr").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
-                                             function(action, el, pos) {
-                                                 timeLogFacebox(parseIssueId(el));
-                                             });
+        $("#time-grid-table tr td").contextMenu({ menu: 'time-grid-menu', menuCssName: 'context-menu' },
+                                                function(action, el, pos) {
+                                                    timeLogFacebox(parseIssueId(el.parent()),
+                                                                   parseDateFromGrid(el));
+                                                });
     },
 
     bindTimeEntryForm = function() {
