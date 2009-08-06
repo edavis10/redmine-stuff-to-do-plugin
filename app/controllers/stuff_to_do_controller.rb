@@ -70,15 +70,22 @@ class StuffToDoController < ApplicationController
   end
 
   def save_time_entries
+    unsaved_count = 0
+    saved_count = 0
     params[:time_entry].each do |time_entry|
       debugger if time_entry.empty?
       time_entry = TimeEntry.new(time_entry)
       time_entry.project = time_entry.issue.project
       time_entry.user = User.current
       if time_entry.save
-
+        saved_count += 1
+      else
+        unsaved_count += 1
       end
     end
+
+    flash[:time_grid_notice] = l(:stuff_to_do_time_grid_save_notice, saved_count) if saved_count > 0
+    flash[:time_grid_error] = l(:stuff_to_do_time_grid_save_error, unsaved_count) if unsaved_count > 0
     
     get_time_grid # after saving in order to get the updated data
     time_grid

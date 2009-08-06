@@ -10,15 +10,7 @@ describe StuffToDoController, '#save_time_entries' do
 
     @project = mock_model(Project)
     @issue = mock('issue', :project => @project)
-  end
 
-  def do_request(params={})
-    post :save_time_entries, {:format => 'js', :time_entry => []}.merge(params)
-  end
-
-  it_should_behave_like 'get_time_grid_data'
-
-  it 'should save each time entry' do
     TimeEntry.should_receive(:new).with(no_args).and_return do
       te = mock_model(TimeEntry,
                       :issue_id => nil,
@@ -31,6 +23,15 @@ describe StuffToDoController, '#save_time_entries' do
       te.errors.stub!(:[])
       te
     end
+  end
+
+  def do_request(params={})
+    post :save_time_entries, {:format => 'js', :time_entry => []}.merge(params)
+  end
+
+  it_should_behave_like 'get_time_grid_data'
+
+  it 'should save each time entry' do
 
     @time_entry1 = {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
     @time_entry2 = {:comments => '', :issue_id => '101', :activity_id => '1', :spent_on => '2009-08-05', :hours => '2'}
@@ -54,9 +55,35 @@ describe StuffToDoController, '#save_time_entries' do
 
   it 'should check that the current user has permission to log time'
 
-  it 'should set the notice flash messaages to the number of saved time entries'
+  it 'should set the notice flash messaages to the number of saved time entries' do
+    @time_entry1 = {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
+      TimeEntry.should_receive(:new).with(@time_entry1.stringify_keys).and_return do
+        te = mock_model(TimeEntry)
+        te.stub!(:issue).and_return(@issue) # So it can get the project
+        te.should_receive(:project=).with(@project)
+        te.should_receive(:user=).with(User.current)
+        te.should_receive(:save).and_return(true)
+        te
+      end
+    
+    do_request(:time_entry => [@time_entry1])
+    flash[:time_grid_notice].should eql('1 time entries saved.')
+  end
 
-  it 'should set the error flash messaages to the number of unsaved time entries'
+  it 'should set the error flash messaages to the number of unsaved time entries' do
+    @time_entry1 = {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
+      TimeEntry.should_receive(:new).with(@time_entry1.stringify_keys).and_return do
+        te = mock_model(TimeEntry)
+        te.stub!(:issue).and_return(@issue) # So it can get the project
+        te.should_receive(:project=).with(@project)
+        te.should_receive(:user=).with(User.current)
+        te.should_receive(:save).and_return(false)
+        te
+      end
+    
+    do_request(:time_entry => [@time_entry1])
+    flash[:time_grid_error].should eql('1 time entries could not be saved.')
+  end
 
   it 'should render the time_grid partial for js' do
     do_request
