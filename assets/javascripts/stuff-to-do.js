@@ -124,6 +124,11 @@ jQuery(function($) {
         }
         $.facebox({div: '#logtime'});
         bindTimeEntryForm(); // Rebind since Facebox copies it
+        // Need to rebind the calendar by renaming the time_entry
+        // fields and running setup.
+        $('#facebox #time_entry__core').attr("id", "time_entry__spent_on");
+        $('#facebox #time_entry__core_trigger').attr("id", "time_entry__spent_on_trigger");
+        Calendar.setup({inputField : 'time_entry__spent_on', ifFormat : '%Y-%m-%d', button : 'time_entry__spent_on_trigger' });
     },
 
     parseIssueId = function(jqueryElement) {
