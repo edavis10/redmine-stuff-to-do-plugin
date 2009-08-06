@@ -53,7 +53,7 @@
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
-      <td class="time-grid-date totals <%= h day -%>">
+      <td class="time-grid-date <%= h day -%> totals">
         <%= h total_hours_for_date(@issues, User.current, day) %>
       </td>
       <% day = day + 1 %>
