@@ -61,19 +61,21 @@ module StuffToDoHelper
     total != 0.0 ? total : nil
   end
 
-  def total_hours_for_issue_for_date_range(issue, user, date_from, date_to)
-    (date_from.to_date..date_to.to_date).inject(0.0) {|sum, day|
-      hours = total_hours_for_user_on_day(issue, user, day)
-      sum += hours unless hours.nil?
+  def total_hours_for_issue_for_user(issue, user)
+    total = issue.time_entries.inject(0.0) {|sum, time_entry|
+      if time_entry.user_id == user.id
+        sum += time_entry.hours
+      end
       sum
     }
+    total
   end
 
   def total_hours_for_date(issues, user, date)
     issues.collect {|issue| total_hours_for_user_on_day(issue, user, date)}.compact.sum
   end
 
-  def total_hours_for_date_range(issues, user, date_from, date_to)
-    issues.collect {|issue| total_hours_for_issue_for_date_range(issue, user, date_from, date_to)}.compact.sum
+  def total_hours_for_user(issues, user)
+    issues.collect {|issue| total_hours_for_issue_for_user(issue, user)}.compact.sum
   end
 end
