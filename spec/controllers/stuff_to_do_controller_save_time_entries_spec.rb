@@ -31,7 +31,7 @@ describe StuffToDoController, '#save_time_entries' do
   end
 
   def make_time_entry_hash
-    {:comments => '', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
+    {:comments => 'Test comment', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
   end
 
   def make_time_entry_mock(entry)
@@ -41,6 +41,7 @@ describe StuffToDoController, '#save_time_entries' do
       te.should_receive(:project=).with(@project)
       te.stub!(:project).and_return(@project)
       te.should_receive(:user=).with(User.current)
+      te.stub!(:comments).and_return(entry[:comments])
       yield te if block_given?
       te
     end
@@ -60,6 +61,20 @@ describe StuffToDoController, '#save_time_entries' do
     do_request(:time_entry => time_entries)
   end
 
+  it 'should require a comment on each time entry' do
+    time_entries = [make_time_entry_hash.merge({:comments => nil}), make_time_entry_hash.merge({:comments => nil})]
+
+    time_entries.each do |entry|
+      make_time_entry_mock(entry) do |time_entry|
+        time_entry.errors.should_receive(:add).with(:comments, :empty)
+        time_entry.should_receive(:save).and_return(false)
+      end
+    end      
+
+    do_request(:time_entry => time_entries)
+    flash[:time_grid_error].should eql('2 time entries could not be saved.')
+  end
+  
   it 'should check that the current user has permission to log time' do
     User.current.should_receive(:allowed_to?).with(:log_time, anything).at_least(:twice).and_return(false)
     time_entries = [make_time_entry_hash, make_time_entry_hash]

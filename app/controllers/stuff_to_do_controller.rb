@@ -68,7 +68,7 @@ def valid_time_entry
       @time_entry.attributes = params[:time_entry].first
     end
     respond_to do |format|
-      if @time_entry.valid?
+      if validate_time_entry_comments(@time_entry) && @time_entry.valid?
         format.js { render :text => '', :layout => false }
       else
         format.js { render :text => @time_entry.errors.full_messages.join(', '), :status => 403, :layout => false }
@@ -83,8 +83,8 @@ def valid_time_entry
       time_entry = TimeEntry.new(time_entry)
       time_entry.project = time_entry.issue.project
       time_entry.user = User.current
-
-      if User.current.allowed_to?(:log_time, time_entry.project) && time_entry.save
+      
+      if User.current.allowed_to?(:log_time, time_entry.project) && validate_time_entry_comments(time_entry) && time_entry.save
         saved_count += 1
       else
         unsaved_count += 1
@@ -155,5 +155,12 @@ def valid_time_entry
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
     @issues = User.current.time_grid_issues.visible.all(:order => "#{Issue.table_name}.id ASC")
     @time_entry = TimeEntry.new
+  end
+
+  # Require comments on TimeEntries from the time grid
+  def validate_time_entry_comments(time_entry)
+    time_entry.errors.add(:comments, :empty) if time_entry.comments.blank?
+
+    time_entry.errors.count == 0
   end
 end
