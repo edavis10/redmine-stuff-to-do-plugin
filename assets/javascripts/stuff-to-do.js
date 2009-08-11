@@ -33,10 +33,7 @@ jQuery(function($) {
                 $("#available li.empty-list").show();
             }
         },
-        receive : function (event, ui) {
-          $(ui.sender).sortable('cancel');
-          removeItemFromTimeGrid(ui.item);
-        }
+      receive : function (event, ui) { removeItemFromTimeGridIfNeeded(event,ui);}
     });
 
     $("#doing-now").sortable({
@@ -45,10 +42,7 @@ jQuery(function($) {
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
         update : function (event, ui) { saveOrder(ui); },
-        receive : function (event, ui) {
-          $(ui.sender).sortable('cancel');
-          removeItemFromTimeGrid(ui.item);
-        }
+        receive : function (event, ui) { removeItemFromTimeGridIfNeeded(event,ui);}
     });
 
     $("#recommended").sortable({
@@ -57,10 +51,7 @@ jQuery(function($) {
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
         update : function (event, ui) { saveOrder(ui); },
-        receive : function (event, ui) {
-          $(ui.sender).sortable('cancel');
-          removeItemFromTimeGrid(ui.item);
-        }
+        receive : function (event, ui) { removeItemFromTimeGridIfNeeded(event,ui);}
     });
 
     $("#time-grid-table tbody").sortable({
@@ -69,7 +60,7 @@ jQuery(function($) {
         placeholder: 'drop-accepted',
         // Cancel the drag and drop if it's reordering itself
         update: function (event, ui) {
-          if (isDraggingToTimeGrid($(event.target))) {
+          if (ui.sender == null && isDraggingToTimeGrid($(event.target))) {
             $(this).sortable('cancel');
           }
         },
@@ -152,6 +143,13 @@ jQuery(function($) {
 
     getRecordId = function(jqueryElement) {
         return jqueryElement.attr('id').split('_').last();
+    },
+
+    removeItemFromTimeGridIfNeeded = function (event, ui) {
+      if (!isAddingAnIssueToTimeGrid($(event.target)) ||  !isAddingAnIssueToTimeGrid(ui.sender)) {
+        $(ui.sender).sortable('cancel');
+        removeItemFromTimeGrid(ui.item);
+      }
     },
 
     timeLogFacebox = function(issue_id, date) {
