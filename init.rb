@@ -16,9 +16,12 @@ require 'dispatcher'
 Dispatcher.to_prepare do
   require_dependency 'project'
   require_dependency 'issue'
+  require_dependency 'user'
+
   Project.send(:include, StuffToDoProjectPatch)
   Issue.send(:include, StuffToDoIssuePatch)
-
+  User.send(:include, StuffToDoUserPatch)
+  
   # Needed for the compatibility check
   begin
     require_dependency 'issue_priority'

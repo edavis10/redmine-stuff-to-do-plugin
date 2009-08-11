@@ -1,5 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
+describe Issue, "associations" do
+  it 'should have a habtm time_grid_users' do
+    Issue.should have_association(:time_grid_users, :has_and_belongs_to_many)
+  end
+end
+
 describe Issue, 'after_save' do
   it 'should include update_next_issues' do
     callbacks = Issue.after_save
