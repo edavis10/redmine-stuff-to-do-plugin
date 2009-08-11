@@ -32,6 +32,10 @@ jQuery(function($) {
             } else {
                 $("#available li.empty-list").show();
             }
+        },
+        receive : function (event, ui) {
+          $(ui.sender).sortable('cancel');
+          removeItemFromTimeGrid(ui.item);
         }
     });
 
@@ -40,7 +44,11 @@ jQuery(function($) {
         connectWith: ["#available", "#recommended", "#time-grid-table tbody"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
-        update : function (event, ui) { saveOrder(ui); }
+        update : function (event, ui) { saveOrder(ui); },
+        receive : function (event, ui) {
+          $(ui.sender).sortable('cancel');
+          removeItemFromTimeGrid(ui.item);
+        }
     });
 
     $("#recommended").sortable({
@@ -48,20 +56,32 @@ jQuery(function($) {
         connectWith: ["#available", "#doing-now", "#time-grid-table tbody"],
         dropOnEmpty: true,
         placeholder: 'drop-accepted',
-        update : function (event, ui) { saveOrder(ui); }
+        update : function (event, ui) { saveOrder(ui); },
+        receive : function (event, ui) {
+          $(ui.sender).sortable('cancel');
+          removeItemFromTimeGrid(ui.item);
+        }
     });
 
     $("#time-grid-table tbody").sortable({
         connectWith: ["#available", "#doing-now", "#recommended"],
-        items: 'th',
+        items: 'tr',
         placeholder: 'drop-accepted',
-        update : function (event, ui) {
-            $(ui.sender).sortable('cancel');
+        // Cancel the drag and drop if it's reordering itself
+        update: function (event, ui) {
+          if (isDraggingToTimeGrid($(event.target))) {
+            $(this).sortable('cancel');
+          }
+        },
+        receive : function (event, ui) {
+          $(ui.sender).sortable('cancel');
+          if (isAddingAnIssueToTimeGrid($(event.target))) {
             var std_item = ui.item;
             // Only add issues that are missing.
             if (!isProjectItem(std_item) && !isItemInTimeGrid(std_item)) {
                 addItemToTimeGrid(std_item);
             }
+          }
         }
     });
   },
@@ -99,6 +119,20 @@ jQuery(function($) {
         }});
     },
 
+    removeItemFromTimeGrid = function(issue) {
+        $.ajax({
+            type: "POST",
+            url: 'stuff_to_do/remove_from_time_grid.js',
+            data: 'issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize(),
+            success: function(response) {
+                $('#time-grid').html(response);
+                attachSortables();
+            },
+        error: function(response) {
+            $("div#time-grid-error").html("Error saving Time Grid.  Please refresh the page and try again.").show();
+        }});
+    },
+
     isProjectItem = function(element) {
         return element.attr('id').match(/project/);
     },
@@ -106,6 +140,14 @@ jQuery(function($) {
     isItemInTimeGrid = function(element) {
         var record_id = getRecordId(element);
         return $('td.time-grid-issue issue_' + record_id).size() > 0;
+    },
+
+    isAddingAnIssueToTimeGrid = function(jqueryElement) {
+      return (jqueryElement.parents('#time-grid-table').length == 0);
+    },
+
+    isDraggingToTimeGrid = function(jqueryElement) {
+      return !isAddingAnIssueToTimeGrid(jqueryElement);
     },
 
     getRecordId = function(jqueryElement) {

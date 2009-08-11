@@ -51,7 +51,14 @@ class StuffToDoController < ApplicationController
     time_grid
   end
 
-  def valid_time_entry
+  def remove_from_time_grid
+    issue = User.current.time_grid_issues.visible.find_by_id(params[:issue_id])
+    User.current.time_grid_issues.delete(issue) if issue
+    get_time_grid
+    time_grid
+  end
+
+def valid_time_entry
     @time_entry = TimeEntry.new
     @time_entry.user = User.current
     if params[:time_entry] &&  params[:time_entry].first
