@@ -5,6 +5,7 @@ describe StuffToDoController, '#index' do
 
   before(:each) do
     @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [])
+    @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
     StuffToDo.stub!(:available)
     StuffToDo.stub!(:using_issues_as_items?).and_return(true)
@@ -68,6 +69,7 @@ describe StuffToDoController, '#index for another user as an administrator' do
   
   before(:each) do
     @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
+    @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
     controller.stub!(:find_current_user).and_return(@current_user)
     @viewed_user = mock_model(User)
@@ -119,6 +121,7 @@ describe StuffToDoController, '#index for another user as a user' do
   
   before(:each) do
     @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project)
+    @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
     @viewed_user = mock_model(User)
   end

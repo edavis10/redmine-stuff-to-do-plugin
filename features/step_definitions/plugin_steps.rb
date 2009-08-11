@@ -134,6 +134,9 @@ Given /^there is "(.*)" hours logged to an issue "(.*)"$/ do |hours, date|
   TimeEntry.make(:hours => hours.to_i, :spent_on => date, :issue => Issue.first, :user => User.current)
 end
 
+Given /^I have the issues on my time grid$/ do
+  @current_user.time_grid_issues << Issue.all
+end
 
 When /^I go to the stuff to do page for (\w+)$/ do |user_name|
   user = User.find_by_login(user_name)

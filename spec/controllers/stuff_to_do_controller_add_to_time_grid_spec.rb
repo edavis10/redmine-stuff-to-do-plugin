@@ -6,6 +6,7 @@ describe StuffToDoController, '#add_to_time_grid' do
   
   before(:each) do
     @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project)
+    @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
   end
 
@@ -15,27 +16,12 @@ describe StuffToDoController, '#add_to_time_grid' do
   
   it_should_behave_like 'get_time_grid_data'
 
-  it 'should add the issue_ids to the issues list' do
+  it 'should add the issue_id to the time grid issues for the user' do
     issue101 = mock_model(Issue, :id => 101)
     Issue.should_receive(:find_by_id).with('101').and_return(issue101)
-
-    issue102 = mock_model(Issue, :id => 102)
-    Issue.should_receive(:find_by_id).with('102').and_return(issue102)
+    Issue.should_receive(:<<).with(issue101).and_return(true)
     
-    post :add_to_time_grid, {:issue_ids => ['101', '102']}
-
-    assigns[:issues].should include(issue101)
-    assigns[:issues].should include(issue102)
-  end
-
-  it 'should not add duplicate issue_ids to the issues list' do
-    issue101 = mock_model(Issue, :id => 101)
-    Issue.should_receive(:find_by_id).at_least(:once).with('101').and_return(issue101)
-    
-    post :add_to_time_grid, {:issue_ids => ['101', '101']}
-
-    assigns[:issues].should include(issue101)
-    assigns[:issues].collect {|issue| issue.id == 101}.size.should eql(1)
+    post :add_to_time_grid, {:issue_id => '101'}
   end
 
   it 'should render the time_grid partial for js' do

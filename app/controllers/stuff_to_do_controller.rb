@@ -2,7 +2,7 @@ class StuffToDoController < ApplicationController
   unloadable
 
   before_filter :get_user
-  before_filter :get_time_grid, :only => [:index, :time_grid, :add_to_time_grid]
+  before_filter :get_time_grid, :only => [:index, :time_grid]
   before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
   helper :timelog
@@ -45,12 +45,9 @@ class StuffToDoController < ApplicationController
   end
 
   def add_to_time_grid
-    # OPTIMIZE: Shouldn't need to run the finder for each issue_id
-    params[:issue_ids].each do |id|
-      issue = Issue.visible.find_by_id(id)
-      @issues << issue if issue
-    end unless params[:issue_ids].nil?
-    @issues.uniq!
+    issue = Issue.visible.find_by_id(params[:issue_id])
+    User.current.time_grid_issues << issue if issue
+    get_time_grid
     time_grid
   end
 
@@ -146,10 +143,7 @@ class StuffToDoController < ApplicationController
     @date ||= Date.today
     
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
-    @issues = Issue.visible.
-      with_time_entries_for_user(User.current).
-      with_time_entries_within_date(@calendar.startdt, @calendar.enddt).
-      all(:order => "#{Issue.table_name}.id ASC")
+    @issues = User.current.time_grid_issues.visible.all(:order => "#{Issue.table_name}.id ASC")
     @time_entry = TimeEntry.new
   end
 end

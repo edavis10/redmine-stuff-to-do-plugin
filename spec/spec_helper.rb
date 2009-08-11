@@ -117,11 +117,8 @@ describe 'get_time_grid_data', :shared => true do
               mock_model(Issue, :project => project, :subject => 'Testing', :time_entries => []),
               mock_model(Issue, :project => project, :subject => 'Testing', :time_entries => [])
              ]
-    Issue.should_receive(:visible).and_return(Issue)
-    Issue.should_receive(:with_time_entries_for_user).with(User.current).and_return(Issue)
-    Issue.should_receive(:with_time_entries_within_date).
-      with(date_from, date_to).
-      and_return(Issue)
+    User.current.should_receive(:time_grid_issues).and_return(Issue)
+    Issue.should_receive(:visible).at_least(:once).and_return(Issue)
     Issue.should_receive(:all).
       with(:order => "#{Issue.table_name}.id ASC").
       and_return(issues)

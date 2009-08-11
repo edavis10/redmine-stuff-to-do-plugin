@@ -6,6 +6,7 @@ describe StuffToDoController, '#save_time_entries' do
   
   before(:each) do
     @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project, :allowed_to? => true)
+    @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
 
     @project = mock_model(Project)

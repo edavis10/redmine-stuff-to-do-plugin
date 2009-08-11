@@ -9,6 +9,7 @@ Feature: Time grid
     And I am logged in
     And there is "4" hours logged to an issue "today"
     And there is "10" hours logged to an issue "yesterday"
+    And I have the issues on my time grid
     And I am on the stuff to do page
 
     Then I should see "Time Grid"
