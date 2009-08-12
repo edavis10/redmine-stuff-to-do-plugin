@@ -27,7 +27,12 @@ module StuffToDoIssuePatch
                           {:from => date_from, :to => date_to}]
         }
       }
-      
+
+      # Redmine 0.8.x compatibility method
+      unless ::Issue.respond_to?(:visible)
+        named_scope :visible, lambda {|*args| { :include => :project,
+            :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+      end
     end
 
   end
