@@ -178,89 +178,18 @@ jQuery(function($) {
         return jqueryElement.attr('class').split(' ')[1];
     },
 
-
-    updateTimeGridCell = function(hours, date, cell) {
-        var current_hours = parseFloat(cell.html());
-
-        if (current_hours == 0) {
-            cell.html(hours);
-        } else if (isNaN(current_hours)) {
-            cell.html(hours);
-        } else {
-            cell.html( parseFloat(hours) + current_hours);
-        }
-    },
-
-    // Connect to Redmine to check if a TimeEntry is Valid
-    // A round trip is needed to check all the fields such as
-    //
-    // * Does the user have permission to log time
-    // * Does the issue number exist
-    validateTimeEntry = function(form) {
+    saveTimeEntriesRemotely = function(form) {
         $.ajax({
             type: "POST",
-            url: 'stuff_to_do/valid_time_entry.js',
+            url: 'stuff_to_do/save_time_entry.js',
             data: $(form).serialize(),
-            success: function(response) {
-                saveTimeEntryLocally(form);
-            },
-            error: function(response) {
-                alert(response.responseText);
-            }});
-    },
-
-    saveTimeEntryLocally = function(form) {
-        var timeForm = $(form);
-        // Save to page for the main table
-        if ($('#time-grid-table').data('new-time-entry')) {
-            $('#time-grid-table').data('new-time-entry',
-                                            // flatten() is Prototype
-                                            new Array($('#time-grid-table').data('new-time-entry'),
-                                                      timeForm.serialize()).flatten()
-                                           );
-        } else {
-            $('#time-grid-table').data('new-time-entry',
-                                            new Array(timeForm.serialize()));
-        }
-
-        // Update the main table's content
-        var hours = timeForm.find('#time_entry__hours').val();
-        var issue_id = timeForm.find('#time_entry__issue_id').val();
-        var date = timeForm.find('#time_entry__spent_on').val();
-
-        var time_grid_cell = $('#issue_' + issue_id + ' .' + date);
-        var time_grid_daily_total_cell = $('tr.daily-totals .totals.' + date);
-        var time_grid_running_total_cell = $('#issue_' + issue_id + ' .time-grid-running-total');
-
-        updateTimeGridCell(hours, date, time_grid_cell);
-        updateTimeGridCell(hours, date, time_grid_daily_total_cell);
-        updateTimeGridCell(hours, date, time_grid_running_total_cell);
-
-        // Message
-        var unsaved_count = $('#time-grid-table').data('new-time-entry').size();
-        $('#time-grid-warning').html(unsaved_count + " entries not yet saved.").show();
-
-        // Show submit buttons
-        $('.save-time-grid').show();
-
-        jQuery(document).trigger('close.facebox');
-
-    },
-
-    saveTimeEntriesRemotely = function() {
-        var data = $('#time-grid-table').data('new-time-entry').join('&') + '&' + $('#query_form').serialize();
-
-        $.ajax({
-            type: "POST",
-            url: 'stuff_to_do/save_time_entries.js',
-            data: data,
             success: function(response) {
                 $('#time-grid').before(response).remove();
                 $('.time-grid-flash').not(':empty').show();
+              jQuery(document).trigger('close.facebox');
             },
             error: function(response) {
-                $('#time-grid-error').html("Error saving time entries.  Please try again or contact your Administrator.").show();
-
+              alert(response.responseText);
             }
         });
     },
@@ -276,7 +205,7 @@ jQuery(function($) {
 
     bindTimeEntryForm = function() {
         $('#facebox #logtime form').submit(function(){
-            validateTimeEntry(this);
+            saveTimeEntriesRemotely(this);
             return false;
         });
     },

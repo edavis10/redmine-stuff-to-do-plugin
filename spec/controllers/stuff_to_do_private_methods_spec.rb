@@ -39,3 +39,44 @@ describe StuffToDoController, '#filters_for_view (private)' do
   end
 
 end
+
+describe StuffToDoController, '#save_time_entry_from_time_grid (private)' do
+  before(:each) do
+    @user = mock_model(User)
+    User.stub!(:current).and_return(@user)
+    @project = mock_model(Project)
+    User.current.stub!(:allowed_to?).and_return(true)
+    
+    @time_entry = TimeEntry.new(:comments => 'A comment for validation')
+    @time_entry.stub!(:project).and_return(@project)
+    @time_entry.stub!(:valid?).and_return(true)
+    @time_entry.stub!(:save).and_return(true)
+  end
+  
+  it 'should check if a TimeEntry is valid' do
+    @time_entry.should_receive(:valid?).and_return(true)
+    controller.send(:save_time_entry_from_time_grid, @time_entry)
+  end
+
+  it 'should add an error if comments are blank' do
+    @time_entry.stub!(:valid?).and_return(true)
+    @time_entry.should_receive(:comments).at_least(:once).and_return('')
+    controller.send(:save_time_entry_from_time_grid, @time_entry)
+
+    @time_entry.errors.should have(1).error_on(:comments)
+  end
+
+  it 'should check if the user is allowed to log_time to the project' do
+    User.current.should_receive(:allowed_to?).with(:log_time, @project).and_return(true)
+    @time_entry.should_receive(:project).and_return(@project)
+    @time_entry.should_receive(:save).and_return(true)
+    
+    controller.send(:save_time_entry_from_time_grid, @time_entry)
+  end
+
+  it 'should save a valid TimeEntry' do
+    @time_entry.should_receive(:save).and_return(true)
+    controller.send(:save_time_entry_from_time_grid, @time_entry)
+  end
+
+end

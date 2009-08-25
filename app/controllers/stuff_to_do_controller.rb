@@ -61,43 +61,25 @@ class StuffToDoController < ApplicationController
     time_grid
   end
 
-def valid_time_entry
+  def save_time_entry
     @time_entry = TimeEntry.new
     @time_entry.user = User.current
     if params[:time_entry] &&  params[:time_entry].first
       @time_entry.attributes = params[:time_entry].first
     end
+    @time_entry.project = @time_entry.issue.project if @time_entry.issue
     respond_to do |format|
-      if validate_time_entry_comments(@time_entry) && @time_entry.valid?
-        format.js { render :text => '', :layout => false }
+      if save_time_entry_from_time_grid(@time_entry)
+        flash.now[:time_grid_notice] = l(:notice_successful_update)
+        get_time_grid # after saving in order to get the updated data
+        
+        format.js { time_grid }
       else
         format.js { render :text => @time_entry.errors.full_messages.join(', '), :status => 403, :layout => false }
       end
     end
   end
 
-  def save_time_entries
-    unsaved_count = 0
-    saved_count = 0
-    params[:time_entry].each do |time_entry|
-      time_entry = TimeEntry.new(time_entry)
-      time_entry.project = time_entry.issue.project
-      time_entry.user = User.current
-      
-      if User.current.allowed_to?(:log_time, time_entry.project) && validate_time_entry_comments(time_entry) && time_entry.save
-        saved_count += 1
-      else
-        unsaved_count += 1
-      end
-    end
-
-    flash.now[:time_grid_notice] = l(:stuff_to_do_time_grid_save_notice, saved_count) if saved_count > 0
-    flash.now[:time_grid_error] = l(:stuff_to_do_time_grid_save_error, unsaved_count) if unsaved_count > 0
-    
-    get_time_grid # after saving in order to get the updated data
-    time_grid
-  end
-  
   private
   
   def get_user
@@ -157,10 +139,20 @@ def valid_time_entry
     @time_entry = TimeEntry.new
   end
 
-  # Require comments on TimeEntries from the time grid
-  def validate_time_entry_comments(time_entry)
-    time_entry.errors.add(:comments, :empty) if time_entry.comments.blank?
+  # Wrap saving the TimeEntry because TimeEntries from the time grid should
+  # require comments.
+  def save_time_entry_from_time_grid(time_entry)
+    time_entry.valid? # Run normal validations
 
-    time_entry.errors.count == 0
+    # Additional validations
+    if time_entry.comments.blank?
+      time_entry.errors.add(:comments, :empty)
+    end
+
+    if time_entry.errors.empty? && User.current.allowed_to?(:log_time, time_entry.project)
+      return time_entry.save
+    else
+      return false
+    end
   end
 end

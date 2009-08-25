@@ -11,23 +11,10 @@ describe StuffToDoController, '#save_time_entries' do
 
     @project = mock_model(Project)
     @issue = mock('issue', :project => @project)
-
-    TimeEntry.should_receive(:new).with(no_args).and_return do
-      te = mock_model(TimeEntry,
-                      :issue_id => nil,
-                      :issue => nil,
-                      :spent_on => nil,
-                      :hours => nil,
-                      :comments => nil,
-                      :activity_id => nil,
-                      :custom_field_values => [])
-      te.errors.stub!(:[])
-      te
-    end
   end
 
   def do_request(params={})
-    post :save_time_entries, {:format => 'js', :time_entry => []}.merge(params)
+    post :save_time_entry, {:format => 'js', :time_entry => []}.merge(params)
   end
 
   def make_time_entry_hash
@@ -46,93 +33,24 @@ describe StuffToDoController, '#save_time_entries' do
       te
     end
   end
-  
-  it_should_behave_like 'get_time_grid_data'
 
-  it 'should save each time entry' do
-    time_entries = [make_time_entry_hash, make_time_entry_hash, make_time_entry_hash, make_time_entry_hash]
-
-    time_entries.each do |entry|
-      make_time_entry_mock(entry) do |time_entry|
-        time_entry.should_receive(:save).and_return(true)
-      end
-    end      
-
-    do_request(:time_entry => time_entries)
-  end
-
-  it 'should require a comment on each time entry' do
-    time_entries = [make_time_entry_hash.merge({:comments => nil}), make_time_entry_hash.merge({:comments => nil})]
-
-    time_entries.each do |entry|
-      make_time_entry_mock(entry) do |time_entry|
-        time_entry.errors.should_receive(:add).with(:comments, :empty)
-        time_entry.should_receive(:save).and_return(false)
-      end
-    end      
-
-    do_request(:time_entry => time_entries)
-    flash[:time_grid_error].should eql('2 time entries could not be saved.')
-  end
-  
-  it 'should check that the current user has permission to log time' do
-    User.current.should_receive(:allowed_to?).with(:log_time, anything).at_least(:twice).and_return(false)
-    time_entries = [make_time_entry_hash, make_time_entry_hash]
-
-    time_entries.each do |entry|
-      make_time_entry_mock(entry) do |time_entry|
-        time_entry.should_not_receive(:save)
-      end
-    end
-      
-    do_request(:time_entry => time_entries)
-  end
-
-  it 'should set the notice flash messaages to the number of saved time entries' do
-    time_entries = [make_time_entry_hash, make_time_entry_hash]
-
-    time_entries.each do |entry|
-      make_time_entry_mock(entry) do |time_entry|
-        time_entry.should_receive(:save).and_return(true)
-      end
-    end
-
-    do_request(:time_entry => time_entries)
-    flash[:time_grid_notice].should eql('2 time entries saved.')
-  end
-
-  it 'should set the error flash messaages to the number of unsaved time entries' do
-    time_entries = [make_time_entry_hash, make_time_entry_hash]
-
-    time_entries.each do |entry|
-      make_time_entry_mock(entry) do |time_entry|
-        time_entry.should_receive(:save).and_return(false)
-      end
+  describe 'with a successful save' do
+    before(:each) do
+      controller.stub!(:save_time_entry_from_time_grid).and_return(true)
     end
     
-    do_request(:time_entry => time_entries)
-    flash[:time_grid_error].should eql('2 time entries could not be saved.')
-  end
-
-  it 'should render the time_grid partial for js' do
-    do_request
-    response.should render_template('_time_grid')
-  end
-end
-
-
-describe StuffToDoController, '#save_time_entries with an unauthenticated user' do
-  it 'should not be successful' do
-    post :save_time_entries, {:format => 'js'}
-    response.should_not be_success
+    it_should_behave_like 'get_time_grid_data'
   end
   
-  it 'should return a 403 status code' do
-    post :save_time_entrie, {:format => 'js'}
-    response.code.should eql("403")
+  describe 'with a failed save' do
+    it 'should render the error messages as a string' do
+      do_request
+      response.should_not be_success
+      response.body.should match(/project/i)
+      response.body.should match(/activity/i)
+      response.body.should match(/comment/i)
+      response.body.should match(/date/i)
+      response.body.should match(/hours/i)
+    end
   end
-  
-  it 'should display the standard unauthorized page'
 end
-
-
