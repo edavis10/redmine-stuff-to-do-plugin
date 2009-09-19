@@ -12,7 +12,6 @@ class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
                           :stuff_id => next_issue.issue_id,
                           :stuff_type => 'Issue'
                         })
-      debugger
     end
 
     drop_table :next_issues
