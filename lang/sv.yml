@@ -1,0 +1,18 @@
+stuff_to_do_title: Att göra
+stuff_to_do_what_im_doing_now: "Det jag gör nu"
+stuff_to_do_what_is_recommended: "Vad jag ska göra härnäst"
+stuff_to_do_what_is_available: "Tillgängliga uppgifter"
+stuff_to_do_text_order_im_doing_it: "I den ordning jag ska göra det"
+stuff_to_do_text_by_project_manager: "Av projektledaren"
+stuff_to_do_label_view_user_list: "Se en annan användares lista:"
+stuff_to_do_text_total_progress: "Totalt"
+stuff_to_do_text_total_estimates: "Uppskattningar"
+stuff_to_do_label_project_manager_emails: "Projektledarens e-post"
+stuff_to_do_label_threshold: Gräns
+stuff_to_do_label_email_to: E-postadresser
+stuff_to_do_text_settings: "Ett meddelande skickas när användarens kvarvarande uppgifter når gränsen. Ange en eller flera e-postadresser separerade med kommatecken."
+stuff_to_do_label_filter: Filtrera
+stuff_to_do_label_filter_by: Filtrera efter ...
+stuff_to_do_drag_issue_create_list: Drag ett ärende hit för att skapa en ny lista.
+stuff_to_do_drag_issue_remove_list: Drag ett ärende hit för att ta bort dem från listan
+stuff_to_do_use_as_stuff_to_do: Lägg till i Att göra-listan
