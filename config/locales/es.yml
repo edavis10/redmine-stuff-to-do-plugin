@@ -1,0 +1,19 @@
+es:
+  stuff_to_do_title: Cosas Por Hacer
+  stuff_to_do_what_im_doing_now: "Lo que estoy haciendo ahora"
+  stuff_to_do_what_is_recommended: "Lo recomendado para hacer a continuación"
+  stuff_to_do_what_is_available: "Qué hay disponible"
+  stuff_to_do_text_order_im_doing_it: "En el orden en el que lo estoy haciendo"
+  stuff_to_do_text_by_project_manager: Por el Director del proyecto
+  stuff_to_do_label_view_user_list: "Ver la lista de otro usuario:"
+  stuff_to_do_text_total_progress: "Progreso total"
+  stuff_to_do_text_total_estimates: "Estimaciones totales"
+  stuff_to_do_label_project_manager_emails: Correos del Director del proyecto
+  stuff_to_do_label_threshold: Umbral
+  stuff_to_do_label_email_to: Direcciones de correo
+  stuff_to_do_text_settings: "Se envía un correo al Director del proyecto cuando el conjunto de elementos recomendados de un usuario alcanza el límite de la parte inferior.  Se pueden especificar múltiples receptores de correo separando las direcciones de correo con comas."
+  stuff_to_do_label_filter: Filtro
+  stuff_to_do_label_filter_by: Filtrar por ...
+  stuff_to_do_drag_issue_create_list: Arrastra peticiones aquí para crear una nueva lista.
+  stuff_to_do_drag_issue_remove_list: Arrastra peticiones aquí para borrarlas de una lista.
+  stuff_to_do_use_as_stuff_to_do: Utilizar como elementos de Cosas Por Hacer
