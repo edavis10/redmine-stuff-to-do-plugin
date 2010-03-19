@@ -18,6 +18,14 @@ Dispatcher.to_prepare do
   require_dependency 'issue'
   Project.send(:include, StuffToDoProjectPatch)
   Issue.send(:include, StuffToDoIssuePatch)
+
+  # Needed for the compatibility check
+  begin
+    require_dependency 'issue_priority'
+  rescue LoadError
+    # TimeEntryActivity is not available
+  end
+
 end
 
 Redmine::Plugin.register :stuff_to_do_plugin do
@@ -40,4 +48,3 @@ Redmine::Plugin.register :stuff_to_do_plugin do
   menu(:top_menu, :stuff_to_do, {:controller => "stuff_to_do", :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? })
 
 end
-
