@@ -79,13 +79,11 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.using_projects_as_items?
-    using = USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
-    using == 'All' || using  == 'Only Projects'
+    use_setting == 'All' || use_setting  == 'Only Projects'
   end
 
   def self.using_issues_as_items?
-    using = USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
-    using == 'All' || using  == 'Only Issues'
+    use_setting == 'All' || use_setting  == 'Only Issues'
   end
 
   # Callback used to destroy all StuffToDos when an object is removed and
@@ -201,5 +199,9 @@ class StuffToDo < ActiveRecord::Base
     else
       return ::Project.find(:all, :conditions => Project.visible_by)
     end
+  end
+
+  def self.use_setting
+    USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 end
