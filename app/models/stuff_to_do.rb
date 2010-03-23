@@ -79,11 +79,11 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.using_projects_as_items?
-    use_setting == 'All' || use_setting  == 'Only Projects'
+    ['All', 'Only Projects'].include?(use_setting)
   end
 
   def self.using_issues_as_items?
-    use_setting == 'All' || use_setting  == 'Only Issues'
+    ['All', 'Only Issues'].include?(use_setting)
   end
 
   # Callback used to destroy all StuffToDos when an object is removed and
