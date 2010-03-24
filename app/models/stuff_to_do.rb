@@ -54,19 +54,19 @@ class StuffToDo < ActiveRecord::Base
       user = filter[:user]
       issues = Issue.find(:all,
                           :include => :status,
-                          :conditions => ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?",user.id, false ],
+                          :conditions => conditions_for_available(:user, user.id),
                           :order => 'created_on DESC')
     elsif filter[:status]
       status = filter[:status]
       issues = Issue.find(:all,
                           :include => :status,
-                          :conditions => ["#{IssueStatus.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", status.id, false ],
+                          :conditions => conditions_for_available(:status, status.id),
                           :order => 'created_on DESC')
     elsif filter[:priority]
       priority = filter[:priority]
       issues = Issue.find(:all,
                           :include => [:status, :priority],
-                          :conditions => ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", priority.id, false ],
+                          :conditions => conditions_for_available(:priority, priority.id),
                           :order => 'created_on DESC')
     elsif filter[:projects]
       # TODO: remove 'issues' naming
@@ -203,5 +203,16 @@ class StuffToDo < ActiveRecord::Base
 
   def self.use_setting
     USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
+  end
+
+  def self.conditions_for_available(filter_by, record_id)
+    case filter_by
+    when :user
+      ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?", record_id, false ]
+    when :status
+      ["#{IssueStatus.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", record_id, false ]
+    when :priority
+      ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", record_id, false ]
+    end
   end
 end
