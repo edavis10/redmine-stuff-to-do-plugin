@@ -206,8 +206,7 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.conditions_for_available(filter_by, record_id)
-    conditions_builder = ARCondition.new
-    conditions_builder.add(["#{IssueStatus.table_name}.is_closed = ?", false ])
+    conditions_builder = ARCondition.new(["#{IssueStatus.table_name}.is_closed = ?", false ])
 
     case filter_by
     when :user
