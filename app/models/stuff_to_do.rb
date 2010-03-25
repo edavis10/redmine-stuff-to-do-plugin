@@ -206,13 +206,18 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.conditions_for_available(filter_by, record_id)
+    conditions_builder = ARCondition.new
+    conditions_builder.add(["#{IssueStatus.table_name}.is_closed = ?", false ])
+
     case filter_by
     when :user
-      ["assigned_to_id = ? AND #{IssueStatus.table_name}.is_closed = ?", record_id, false ]
+      conditions_builder.add(["assigned_to_id = ?", record_id])
     when :status
-      ["#{IssueStatus.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", record_id, false ]
+      conditions_builder.add(["#{IssueStatus.table_name}.id = (?)", record_id])
     when :priority
-      ["#{Enumeration.table_name}.id = (?) AND #{IssueStatus.table_name}.is_closed = ?", record_id, false ]
+      conditions_builder.add(["#{Enumeration.table_name}.id = (?)", record_id])
     end
+
+    conditions_builder.conditions
   end
 end
