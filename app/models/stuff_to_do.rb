@@ -51,18 +51,17 @@ class StuffToDo < ActiveRecord::Base
     return [] if filter.blank?
 
     if filter.is_a?(Project)
-      # TODO: remove 'issues' naming
-      issues = active_and_visible_projects.sort
+      potential_stuff_to_do = active_and_visible_projects.sort
     else
-      issues = Issue.find(:all,
-                          :include => [:status, :priority],
-                          :conditions => conditions_for_available(filter),
-                          :order => 'created_on DESC')
+      potential_stuff_to_do = Issue.find(:all,
+                                         :include => [:status, :priority],
+                                         :conditions => conditions_for_available(filter),
+                                         :order => 'created_on DESC')
     end
 
-    next_issues = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+    stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
     
-    return issues - next_issues
+    return potential_stuff_to_do - stuff_to_do
   end
 
   def self.using_projects_as_items?
