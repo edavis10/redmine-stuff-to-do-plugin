@@ -1,4 +1,4 @@
-      <li class="stuff-to-do-item issue <%= issue_counter.odd? ? "odd" : "even" %> priority-<%= issue.priority.position %>" id="stuff_<%= issue.id %>">
+      <li class="stuff-to-do-item <%= issue.css_classes %> <%= issue_counter.odd? ? "odd" : "even" %>" id="stuff_<%= issue.id %>">
         <div class="issue-details">
         <%= link_to(image_tag('ticket.png'), :controller => 'issues', :action => 'show', :id => issue) %>
         #<%= h(issue.id) %>
