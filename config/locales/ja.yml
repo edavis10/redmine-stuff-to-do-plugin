@@ -1,0 +1,18 @@
+ja:
+  stuff_to_do_title: ToDOリスト
+  stuff_to_do_what_im_doing_now: "現在の自分の担当"
+  stuff_to_do_what_is_recommended: "次にすべきこと"
+  stuff_to_do_what_is_available: "担当可能なもの"
+  stuff_to_do_text_order_im_doing_it: "In the order I'm doing it"
+  stuff_to_do_text_by_project_manager: "プロジェクトマネージャ毎"
+  stuff_to_do_label_view_user_list: "自分以外のチケット一覧:"
+  stuff_to_do_text_total_progress: "すべての進捗状況"
+  stuff_to_do_text_total_estimates: "すべての見積り"
+  stuff_to_do_label_project_manager_emails: "プロジェクトマネージャのEmail"
+  stuff_to_do_label_threshold: Threshold
+  stuff_to_do_label_email_to: "メールアドレス一覧"
+  stuff_to_do_text_settings: "メンバに許容（推奨）されるチケットの数が、以下の閾値に達すると、プロジェクトマネージャにメールが通知されます。メールアドレスはカンマで複数指定できます。"
+  stuff_to_do_label_filter: フィルタ
+  stuff_to_do_label_filter_by: "フィルタ別"
+  stuff_to_do_drag_issue_create_list: "チケットをここにドラッグすると、新規リストの作成が出来ます"
+  stuff_to_do_drag_issue_remove_list: "チケットを一覧から削除するには、ここにドラッグして下さい"

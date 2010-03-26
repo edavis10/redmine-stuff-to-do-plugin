@@ -1,0 +1,17 @@
+stuff_to_do_title: Неща за вършене
+stuff_to_do_what_im_doing_now: "Какво върша сега"
+stuff_to_do_what_is_recommended: "Какво е препоръчително да върша след това"
+stuff_to_do_what_is_available: "Какво е свободно"
+stuff_to_do_text_order_im_doing_it: "В последователността, в която ги върша"
+stuff_to_do_text_by_project_manager: От Проект Мениджъра
+stuff_to_do_label_view_user_list: "Виж списъка на друг потребител:"
+stuff_to_do_text_total_progress: "Тотален Прогрес"
+stuff_to_do_text_total_estimates: "Тотални Преценки"
+stuff_to_do_label_project_manager_emails: Email-и на Проект Мениджъра
+stuff_to_do_label_threshold: Threshold
+stuff_to_do_label_email_to: Email адрес
+stuff_to_do_text_settings: "Един email се изпраща на Проект Мениджъра когато броят на препоръчани задачи на един потребител достигне конфигурираният таван. Множество email адреси могат да бъдат указани, като са разделени със запетайка."
+stuff_to_do_label_filter: Филтър
+stuff_to_do_label_filter_by: Филтрирай по ...
+stuff_to_do_drag_issue_create_list: Довлечи задачи тук за нов списък.
+stuff_to_do_drag_issue_remove_list: Довлечи задачи тук, за да ги премахнеш от списък.
