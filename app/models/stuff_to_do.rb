@@ -56,7 +56,7 @@ class StuffToDo < ActiveRecord::Base
     else
       issues = Issue.find(:all,
                           :include => [:status, :priority],
-                          :conditions => conditions_for_available(filter, filter.id),
+                          :conditions => conditions_for_available(filter),
                           :order => 'created_on DESC')
     end
 
@@ -192,15 +192,15 @@ class StuffToDo < ActiveRecord::Base
     USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 
-  def self.conditions_for_available(filter_by, record_id)
+  def self.conditions_for_available(filter_by)
     conditions_builder = ARCondition.new(["#{IssueStatus.table_name}.is_closed = ?", false ])
 
     case 
     when filter_by.is_a?(User)
-      conditions_builder.add(["assigned_to_id = ?", record_id])
+      conditions_builder.add(["assigned_to_id = ?", filter_by.id])
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
-      conditions_builder.add(["#{table_name}.id = (?)", record_id])
+      conditions_builder.add(["#{table_name}.id = (?)", filter_by.id])
     end
 
     conditions_builder.conditions
