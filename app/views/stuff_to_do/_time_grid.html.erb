@@ -37,7 +37,7 @@
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
-      <td class="time-grid-date <%= h day -%>">
+      <td class="time-grid-date <%= h day -%> hascontextmenu">
         <%= h total_hours_for_user_on_day(issue, User.current, day) %>
       </td>
       <% day = day + 1 %>
@@ -53,7 +53,7 @@
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
-      <td class="time-grid-date <%= h day -%> totals">
+      <td class="time-grid-date <%= h day -%> totals hascontextmenu">
         <%= h total_hours_for_date(@issues, User.current, day) %>
       </td>
       <% day = day + 1 %>
