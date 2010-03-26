@@ -82,6 +82,9 @@ jQuery(function($) {
     if (filter != null) {
         data = data + '&filter=' + filter;
     }
+
+    data = addAuthenticityToken(data);
+
     $.ajax({
         type: "POST",
         url: 'stuff_to_do/reorder.js',
@@ -100,7 +103,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/add_to_time_grid.js',
-            data: 'issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize(),
+            data: addAuthenticityToken('issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize()),
             success: function(response) {
                 $('#time-grid').html(response);
                 attachSortables();
@@ -114,7 +117,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/remove_from_time_grid.js',
-            data: 'issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize(),
+            data: addAuthenticityToken('issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize()),
             success: function(response) {
                 $('#time-grid').html(response);
                 attachSortables();
@@ -182,7 +185,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/save_time_entry.js',
-            data: $(form).serialize(),
+            data: addAuthenticityToken($(form).serialize()),
             success: function(response) {
                 $('#time-grid').before(response).remove();
                 $('.time-grid-flash').not(':empty').show();
@@ -223,6 +226,9 @@ jQuery(function($) {
         bindSaveTimeGridButtons();
     },
 
+    addAuthenticityToken = function(data) {
+      return data + '&authenticity_token=' + encodeURIComponent(window._token);
+    },
 
   attachSortables();
 

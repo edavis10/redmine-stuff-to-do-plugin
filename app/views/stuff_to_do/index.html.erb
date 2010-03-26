@@ -40,4 +40,5 @@
   <%= javascript_tag("jQuery.noConflict();") %>
   <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_tag("var user_id = #{@user.id};") %>
+  <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
 <% end %>
