@@ -198,10 +198,9 @@ class StuffToDo < ActiveRecord::Base
     case 
     when filter_by.is_a?(User)
       conditions_builder.add(["assigned_to_id = ?", record_id])
-    when filter_by.is_a?(IssueStatus)
-      conditions_builder.add(["#{IssueStatus.table_name}.id = (?)", record_id])
-    when filter_by.is_a?(Enumeration)
-      conditions_builder.add(["#{Enumeration.table_name}.id = (?)", record_id])
+    when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
+      table_name = filter_by.class.table_name
+      conditions_builder.add(["#{table_name}.id = (?)", record_id])
     end
 
     conditions_builder.conditions
