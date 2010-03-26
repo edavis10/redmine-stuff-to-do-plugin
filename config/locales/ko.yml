@@ -1,0 +1,18 @@
+ko:
+  stuff_to_do_title: 일거리
+  stuff_to_do_what_im_doing_now: "현재 하고 있는 일"
+  stuff_to_do_what_is_recommended: "다음에 해야 할 일"
+  stuff_to_do_what_is_available: "할 일"
+  stuff_to_do_text_order_im_doing_it: "내가 작업하는 순서에 따라"
+  stuff_to_do_text_by_project_manager: 프로젝트 관리자에 의하여
+  stuff_to_do_label_view_user_list: "다른 사용자의 목록 보기:"
+  stuff_to_do_text_total_progress: "전체 진도"
+  stuff_to_do_text_total_estimates: "전체 추정치"
+  stuff_to_do_label_project_manager_emails: 프로젝트 관리자 전자우편
+  stuff_to_do_label_threshold: 한계치
+  stuff_to_do_label_email_to: 전자우편 주소
+  stuff_to_do_text_settings: "사용자의 요구 항목 갯수가 아래 한계치에 달했을 때 프로젝트 관리자에게 전자우편을 발송합니다. 쉼표로 구분하여 여러 개의 전자우편 수신자를 지정할 수 있습니다."
+  stuff_to_do_label_filter: 추리기
+  stuff_to_do_label_filter_by: 추리기 ...
+  stuff_to_do_drag_issue_create_list: 이 곳에 끌어다 놓아서 목록에 추가하세요
+  stuff_to_do_drag_issue_remove_list: 목록에서 제거하려면 이 곳에 끌어다 놓으세요
