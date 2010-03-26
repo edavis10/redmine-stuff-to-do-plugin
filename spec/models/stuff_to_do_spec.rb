@@ -58,14 +58,14 @@ describe StuffToDo, '#available for user' do
 
   before(:each) do
     @user = mock_model(User)
-    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (assigned_to_id = ?)',false, @user.id ], :include => :status, :order => 'created_on DESC'}
+    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (assigned_to_id = ?)',false, @user.id ], :include => [:status, :priority], :order => 'created_on DESC'}
   end
   
   it 'should find all assigned issues for the user' do
     issues = issue_factory(10, { :assigned_to => @user })
 
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-    StuffToDo.available(@user, :user => @user).should eql(issues)
+    StuffToDo.available(@user, @user).should eql(issues)
   end
 
   it 'should not include issues that are StuffToDos' do
@@ -75,14 +75,14 @@ describe StuffToDo, '#available for user' do
     
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
     StuffToDo.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
-    StuffToDo.available(@user, :user => @user).should eql(issues - next_issues.collect(&:stuff))
+    StuffToDo.available(@user, @user).should eql(issues - next_issues.collect(&:stuff))
   end
   
   it 'should only include open issues' do
     issues = issue_factory(10, { :assigned_to => @user })
 
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-    available = StuffToDo.available(@user, :user => @user)
+    available = StuffToDo.available(@user, @user)
     available.should have(10).items
     available.should eql(issues)
   end
@@ -94,14 +94,14 @@ describe StuffToDo, '#available for status' do
   before(:each) do
     @user = mock_model(User)
     @status = mock_model(IssueStatus)
-    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (issue_statuses.id = (?))', false, @status.id ], :include => :status, :order => 'created_on DESC'}
+    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (issue_statuses.id = (?))', false, @status.id ], :include => [:status, :priority], :order => 'created_on DESC'}
   end
   
   it 'should find all issues with the status' do
     issues = issue_factory(10, { :status => @status })
 
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-    StuffToDo.available(@user, :status => @status).should eql(issues)
+    StuffToDo.available(@user, @status).should eql(issues)
   end
 
   it 'should not include issues that are StuffToDos' do
@@ -111,14 +111,14 @@ describe StuffToDo, '#available for status' do
     
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
     StuffToDo.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
-    StuffToDo.available(@user, :status => @status).should eql(issues - next_issues.collect(&:stuff))
+    StuffToDo.available(@user, @status).should eql(issues - next_issues.collect(&:stuff))
   end
   
   it 'should only include open issues' do
     issues = issue_factory(10, { :status => @status })
 
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-    available = StuffToDo.available(@user, :status => @status)
+    available = StuffToDo.available(@user, @status)
     available.should have(10).items
     available.should eql(issues)
   end
@@ -137,7 +137,7 @@ describe StuffToDo, '#available for priority' do
     issues = issue_factory(10, { :priority => @priority })
 
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-    StuffToDo.available(@user, :priority => @priority).should eql(issues)
+    StuffToDo.available(@user, @priority).should eql(issues)
   end
 
   it 'should not include issues that are StuffToDos' do
@@ -147,14 +147,14 @@ describe StuffToDo, '#available for priority' do
     
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
     StuffToDo.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(next_issues)
-    StuffToDo.available(@user, :priority => @priority).should eql(issues - next_issues.collect(&:stuff))
+    StuffToDo.available(@user, @priority).should eql(issues - next_issues.collect(&:stuff))
   end
   
   it 'should only include open issues' do
     issues = issue_factory(10, { :priority => @priority })
 
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-    available = StuffToDo.available(@user, :priority => @priority)
+    available = StuffToDo.available(@user, @priority)
     available.should have(10).items
     available.should eql(issues)
   end
@@ -176,7 +176,7 @@ describe StuffToDo, '#available for project' do
     Project.should_receive(:active).and_return(Project)
     Project.should_receive(:visible).and_return(projects)
 
-    StuffToDo.available(@user, :projects => true).should eql(projects)
+    StuffToDo.available(@user, Project.new).should eql(projects)
   end
 
   it 'should not include projects that are StuffToDos already' do
@@ -189,7 +189,7 @@ describe StuffToDo, '#available for project' do
     Project.should_receive(:visible).and_return(projects)
     StuffToDo.should_receive(:find).with(:all, { :conditions => { :user_id => @user.id }}).and_return(stuff_to_dos)
     
-    StuffToDo.available(@user, :projects => true).should eql(projects - stuff_to_dos.collect(&:stuff))
+    StuffToDo.available(@user, Project.new).should eql(projects - stuff_to_dos.collect(&:stuff))
   end
 end
 

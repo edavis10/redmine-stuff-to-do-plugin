@@ -41,39 +41,26 @@ class StuffToDo < ActiveRecord::Base
   
   # Filters the issues that are available to be added for a user.
   #
-  # A filter can be:
+  # A filter can be a record:
   #
-  # * :user - issues are assigned to this user
-  # * :status - issues with this status
-  # * :priority - issues with this priority
+  # * User - issues are assigned to this user
+  # * IssueStatus - issues with this status
+  # * IssuePriority - issues with this priority
   #
-  def self.available(user, filter = { })
-    if filter.nil? || filter.empty?
-      return []
-    elsif filter[:user]
-      user = filter[:user]
-      issues = Issue.find(:all,
-                          :include => :status,
-                          :conditions => conditions_for_available(:user, user.id),
-                          :order => 'created_on DESC')
-    elsif filter[:status]
-      status = filter[:status]
-      issues = Issue.find(:all,
-                          :include => :status,
-                          :conditions => conditions_for_available(:status, status.id),
-                          :order => 'created_on DESC')
-    elsif filter[:priority]
-      priority = filter[:priority]
-      issues = Issue.find(:all,
-                          :include => [:status, :priority],
-                          :conditions => conditions_for_available(:priority, priority.id),
-                          :order => 'created_on DESC')
-    elsif filter[:projects]
+  def self.available(user, filter=nil)
+    return [] if filter.blank?
+
+    if filter.is_a?(Project)
       # TODO: remove 'issues' naming
       issues = active_and_visible_projects.sort
+    else
+      issues = Issue.find(:all,
+                          :include => [:status, :priority],
+                          :conditions => conditions_for_available(filter, filter.id),
+                          :order => 'created_on DESC')
     end
-    next_issues = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
 
+    next_issues = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
     
     return issues - next_issues
   end
@@ -208,12 +195,12 @@ class StuffToDo < ActiveRecord::Base
   def self.conditions_for_available(filter_by, record_id)
     conditions_builder = ARCondition.new(["#{IssueStatus.table_name}.is_closed = ?", false ])
 
-    case filter_by
-    when :user
+    case 
+    when filter_by.is_a?(User)
       conditions_builder.add(["assigned_to_id = ?", record_id])
-    when :status
+    when filter_by.is_a?(IssueStatus)
       conditions_builder.add(["#{IssueStatus.table_name}.id = (?)", record_id])
-    when :priority
+    when filter_by.is_a?(Enumeration)
       conditions_builder.add(["#{Enumeration.table_name}.id = (?)", record_id])
     end
 

@@ -40,7 +40,7 @@ describe StuffToDoController, '#index' do
   it 'should set @available to the assigned issues that are not next issues for the current user' do
     stuff = []
     6.times { stuff << mock('stuff') }
-    StuffToDo.should_receive(:available).with(@current_user, { :user => @current_user }).and_return(stuff)
+    StuffToDo.should_receive(:available).with(@current_user, @current_user ).and_return(stuff)
     get :index
     assigns[:available].should have(6).things
   end
@@ -107,7 +107,7 @@ describe StuffToDoController, '#index for another user as an administrator' do
   it 'should set @available to the assigned issues that are not next issues for the current user' do
     stuff = []
     6.times { stuff << mock('stuff') }
-    StuffToDo.should_receive(:available).with(@viewed_user, { :user => @viewed_user }).and_return(stuff)
+    StuffToDo.should_receive(:available).with(@viewed_user, @viewed_user).and_return(stuff)
     get_index
     assigns[:available].should have(6).things
   end

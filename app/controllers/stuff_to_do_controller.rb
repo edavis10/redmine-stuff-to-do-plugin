@@ -106,13 +106,13 @@ class StuffToDoController < ApplicationController
     id = params[:filter].split('-')[-1]
 
     if params[:filter].match(/users/)
-      return { :user => User.find_by_id(id) }
+      return User.find_by_id(id)
     elsif params[:filter].match(/priorities/)
-      return { :priority => Enumeration.find_by_id(id) }
+      return Enumeration.find_by_id(id)
     elsif params[:filter].match(/statuses/)
-      return { :status => IssueStatus.find_by_id(id) }
+      return IssueStatus.find_by_id(id)
     elsif params[:filter].match(/projects/)
-      return { :projects => true }
+      return Project.new
     else
       return nil
     end
@@ -120,9 +120,9 @@ class StuffToDoController < ApplicationController
 
   def default_filters
     if StuffToDo.using_issues_as_items?
-      return { :user => @user }
+      return @user
     elsif StuffToDo.using_projects_as_items?
-      return { :projects => true }
+      return Project.new
     else
       # Edge case
       return { }
