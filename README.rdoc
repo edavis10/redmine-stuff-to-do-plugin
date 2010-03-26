@@ -10,6 +10,8 @@ The Stuff To Do plugin allows a user to order and prioritize the issues and proj
 * Filtering of issues based on user, priority, or status
 * Notification emails based on low workload counts
 
+TODO: Time Grid
+
 == Getting the plugin
 
 A copy of the plugin can be downloaded from {Little Stream Software}[https://projects.littlestreamsoftware.com/projects/list_files/redmine-stuff-to-do] or from {GitHub}[http://github.com/edavis10/redmine-stuff-to-do/tree/master]
@@ -49,6 +51,8 @@ The standard workflow for this plugin is as follows:
 4. Once the #1 item is complete (or blocked) the user would continue and work on the #2 item
 
 If the user is an Administrator, they have the permission to edit other users' lists.  This allows them to act as the system Project Manager.
+
+TODO: Time Grid
 
 == License
 
