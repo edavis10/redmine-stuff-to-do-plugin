@@ -28,7 +28,7 @@
 
 <div style="clear:both;"></div>
 
-<%= render :partial => 'time_grid' %>
+<%= render :partial => 'time_grid' if Setting.plugin_stuff_to_do_plugin['use_time_grid'].present? && Setting.plugin_stuff_to_do_plugin['use_time_grid'] != "0" %>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>

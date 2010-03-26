@@ -45,7 +45,8 @@ Redmine::Plugin.register :stuff_to_do_plugin do
            :default => {
              'use_as_stuff_to_do' => '0',
              'threshold' => '1',
-             'email_to' => 'example1@example.com,example2@example.com'
+             'email_to' => 'example1@example.com,example2@example.com',
+             'use_time_grid' => '0'
            })
 
   menu(:top_menu, :stuff_to_do, {:controller => "stuff_to_do", :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? })
