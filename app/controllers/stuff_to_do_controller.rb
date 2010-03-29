@@ -130,10 +130,7 @@ class StuffToDoController < ApplicationController
   end
 
   def get_time_grid
-    @date = Date.parse(params[:date]) if params[:date]
-    @date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
-    @date ||= Date.today
-    
+    @date = parse_date_from_params
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
     @issues = User.current.time_grid_issues.visible.all(:order => "#{Issue.table_name}.id ASC")
     @time_entry = TimeEntry.new
@@ -154,5 +151,11 @@ class StuffToDoController < ApplicationController
     else
       return false
     end
+  end
+
+  def parse_date_from_params
+    date = Date.parse(params[:date]) if params[:date]
+    date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
+    date ||= Date.today
   end
 end
