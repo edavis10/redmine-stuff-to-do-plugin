@@ -1,0 +1,18 @@
+ca-fr:
+  stuff_to_do_title: Mes tâches
+  stuff_to_do_what_im_doing_now: "Les tâches que j'ai à faire"
+  stuff_to_do_what_is_recommended: Les tâches que je dois accomplir par la suite
+  stuff_to_do_what_is_available: Liste de mes tâches disponibles
+  stuff_to_do_text_order_im_doing_it: (en ordre chronologique)
+  stuff_to_do_text_by_project_manager: (priorisées par le gestionnaire)
+  stuff_to_do_label_view_user_list: "Voir la liste d'un autre utilisateur :"
+  stuff_to_do_text_total_progress: Progrès total
+  stuff_to_do_text_total_estimates: Total estimatif
+  stuff_to_do_label_project_manager_emails: Courriel du gestionnaire
+  stuff_to_do_label_threshold: Seuil
+  stuff_to_do_label_email_to: Adresses de courriel
+  stuff_to_do_text_settings: "Un courriel est envoyé au gestionnaire quand le seuil des tâches à accomplir défini ci-dessous est atteint. Plusieurs adresses de courriels peuvent être spécifiées en séparant chacune d'elles par une virgule."
+  stuff_to_do_label_filter: Filtre
+  stuff_to_do_label_filter_by: Filtré par...
+  stuff_to_do_drag_issue_create_list: Glisser une demande ici pour créer une nouvelle liste.
+  stuff_to_do_drag_issue_remove_list: Glisser la demande ici pour la supprimer de la liste.
