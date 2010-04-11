@@ -21,7 +21,7 @@
       </div>
 
       <div id="doing-now-estimates">
-        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(issues_for(@doing_now)) %></p>
+        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= l_hours(total_estimates(issues_for(@doing_now))) %></p>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
       </div>
 
       <div id="recommended-estimates">
-        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= total_estimates(issues_for(@recommended)) %></p>
+        <p><%= l(:stuff_to_do_text_total_estimates) %> <%= l_hours(total_estimates(issues_for(@recommended))) %></p>
       </div>
     </div>
   </div>
