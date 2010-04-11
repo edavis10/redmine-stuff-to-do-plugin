@@ -54,9 +54,9 @@ class StuffToDo < ActiveRecord::Base
       potential_stuff_to_do = active_and_visible_projects.sort
     else
       potential_stuff_to_do = Issue.find(:all,
-                                         :include => [:status, :priority],
+                                         :include => [:status, :priority, :project],
                                          :conditions => conditions_for_available(filter),
-                                         :order => 'created_on DESC')
+                                         :order => "#{Issue.table_name}.created_on DESC")
     end
 
     stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
@@ -193,6 +193,7 @@ class StuffToDo < ActiveRecord::Base
 
   def self.conditions_for_available(filter_by)
     conditions_builder = ARCondition.new(["#{IssueStatus.table_name}.is_closed = ?", false ])
+    conditions_builder.add(["#{Project.table_name}.status = ?", Project::STATUS_ACTIVE])
 
     case 
     when filter_by.is_a?(User)

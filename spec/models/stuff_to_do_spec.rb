@@ -58,7 +58,7 @@ describe StuffToDo, '#available for user' do
 
   before(:each) do
     @user = mock_model(User)
-    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (assigned_to_id = ?)',false, @user.id ], :include => [:status, :priority], :order => 'created_on DESC'}
+    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (assigned_to_id = ?)',false, 1, @user.id ], :include => [:status, :priority, :project], :order => 'issues.created_on DESC'}
   end
   
   it 'should find all assigned issues for the user' do
@@ -94,7 +94,7 @@ describe StuffToDo, '#available for status' do
   before(:each) do
     @user = mock_model(User)
     @status = mock_model(IssueStatus)
-    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (issue_statuses.id = (?))', false, @status.id ], :include => [:status, :priority], :order => 'created_on DESC'}
+    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (issue_statuses.id = (?))', false, 1, @status.id ], :include => [:status, :priority, :project], :order => 'issues.created_on DESC'}
   end
   
   it 'should find all issues with the status' do
@@ -130,7 +130,7 @@ describe StuffToDo, '#available for priority' do
   before(:each) do
     @user = mock_model(User)
     @priority = mock_model(Enumeration, :opt => 'IPRI')
-    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (enumerations.id = (?))', false, @priority.id ], :include => [:status, :priority], :order => 'created_on DESC'}
+    @find_options = { :conditions => ['1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (enumerations.id = (?))', false, 1, @priority.id ], :include => [:status, :priority, :project], :order => 'issues.created_on DESC'}
   end
 
   it 'should find all issues with the priority' do
