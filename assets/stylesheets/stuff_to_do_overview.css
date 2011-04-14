@@ -1,0 +1,208 @@
+li {
+  list-style-type: none;
+}
+
+.staff-to-do {
+  font-family: arial, sans-serif;
+  font-size: 18px;
+  color: #000;
+  float: left;
+  width: 100%;
+}
+.overview {
+ float: left;
+ width: 100%;
+ font-size: 16px;
+ margin: 5px 0 0px 0;
+ padding: 0;
+ color: #557993;
+ border-bottom: 1px solid #c8c8c8;
+}
+
+.authors-blocks {
+  float: left;
+  margin: 10px 0;
+
+}
+.job-block {
+font-family: arial, sans-serif;
+  float:left;
+  width: 250px;
+  height: 185px;
+  border: 1px solid #e5e7e4;
+  background: #f6f8f8;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  padding: 10px 8px;
+  color: #616161;
+  margin: 5px;
+}
+.job-block h1 {
+  font-size: 15px;
+  color: #000;
+  width: 100%;
+  border-bottom: 1px solid #e2e2e2;
+  margin: 0px 0 5px 0;
+  padding: 0 0 3px 0;
+}
+.project-names {
+  float:left;
+  height: 70px;
+  width:100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+.job-block div.more {
+  float: left;
+  width: 100%;
+  height: 12px;
+  margin: 0;
+}
+.job-block div.more a {
+  float: left;
+  width: 199px;
+  height: 12px;
+  margin: 0;
+  text-align: right;
+  font-size: 9px;
+  line-height: 12px;
+  text-decoration: none;
+}
+.job-block div.one-line {
+  float: left;
+  width: 250px;
+  height: 12px;
+  margin: 2px 0;
+}
+.job-block div.one-line a {
+  float:left;
+  font-size: 9px;
+  line-height: 12px;
+  text-decoration: none;
+  height: 12px;
+  width: 165px;
+  white-space: nowrap;
+  color: #444444;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0 3px 0 0;
+
+}
+.job-block div.one-line a:hover {
+  text-decoration: underline;
+}
+.job-block div.one-line span {
+  float:left;
+  color: #444444;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: bold;
+  height: 12px;
+  width: 30px;
+  text-align:right;
+  margin: 0 3px 0 0;
+}
+.job-block h2{
+  float:left;
+  width: 100%;
+  margin: 3px 0;
+  padding: 0;
+}
+.job-block h2 a{
+  text-decoration:none;
+  float:left;
+  font-size: 13px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+.job-block div.progress {
+  width: 45px;
+  height: 10px;
+  float:left;
+  background: #ffffff;
+  border: 1px solid #b1bead;
+}
+.job-block div.progress span {
+  float:left;
+  width: 14%;
+  height:10px;
+  padding:0;
+  margin:0;
+  background: #b4e1ba;
+}
+
+.filter {
+  font-family: arial, sans-serif;
+  float:left;
+  width: 100%;
+  border: 1px solid #e5e7e4;
+  background: #f6f8f8;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+   padding: 0;
+  color: #616161;
+  margin: 5px auto;
+}
+.filter .filter-label {
+  font-family: arial, sans-serif;
+  font-size: 13px;
+  color: #4b4b4b;
+  float: left;
+  width: 300px;
+  height: 40px;
+  margin: 20px 0;
+  font-weight: bold;
+  text-align: right;
+}
+.filter form {
+  float: left;
+  margin: 24px 0;
+
+}
+
+.filter form ul {
+  float: left;
+  width: 740px;
+  padding: 0;
+  margin: 0 4px;
+}
+.filter form li {
+  float: left;
+  width: 175px;
+  padding: 0 0px 0 5px;
+  margin: 0 0 4px 0;
+  height:10px;
+}
+.filter form input {
+  float: left;
+  padding: 0;
+  margin: 0;
+  height:10px;
+}
+.filter form label {
+  float: left;
+  padding: 0;
+  margin: 0;
+  padding-left: 4px;
+  width:155px;
+  height:10px;
+  font-size:10px;
+  line-height: 10px;
+  white-space: nowrap;
+  color: #444444;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.issues {
+  float: left;
+  height: 48px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.one-line.ui-draggable.ui-draggable-dragging{  opacity: 0.9; background: #FFD; }
+.ui-state-hover{ background: #FFD; opacity: 0.4; border: 1px solid black; }

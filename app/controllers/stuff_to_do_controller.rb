@@ -2,21 +2,54 @@ class StuffToDoController < ApplicationController
   unloadable
 
   before_filter :get_user
-  before_filter :get_time_grid, :only => [:index, :time_grid]
+  before_filter :get_time_grid, :only => [:index, :time_grid, :overview]
   before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
   helper :timelog
-  
+
+
+  def overview
+    @doing_now = StuffToDo.doing_now(@user)
+    @recommended = StuffToDo.recommended(@user)
+    @available = StuffToDo.available(@user, default_filters )
+
+    @users = User.active
+    @filters = filters_for_view
+    @selected_users = SortUser.sort_users( @user, (params[:users].blank? ? @users : User.find(params[:users])) )
+    if User.current.admin?
+      render :action => :overview
+    else
+      render :action => :index
+    end
+  end
+
   def index
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
     @available = StuffToDo.available(@user, default_filters )
-    
+
     @users = User.active
     @filters = filters_for_view
+    @selected_users = params[:users].blank? ? @users : User.find(params[:users])
   end
-  
+
   def reorder
+    if !params[:owner_id].blank? && !params[:stuff].blank?
+      params[:stuff].each do |stuff_id|
+        if @stuff = StuffToDo.all(
+                                   :conditions =>
+                                   ["user_id not in (?) and stuff_id = ? and stuff_type = 'Issue' ", @user.id, stuff_id ])
+
+          @stuff.map &:destroy
+        end
+      end
+    end
+    params[:stuff].each do |stuff_id|
+      if @issue = Issue.find_by_id(stuff_id)
+        @issue.assigned_to = @user
+        @issue.save!
+      end
+    end
     StuffToDo.reorder_list(@user, params[:stuff])
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
@@ -27,7 +60,15 @@ class StuffToDoController < ApplicationController
       format.js { render :partial => 'panes', :layout => false}
     end
   end
-  
+  def reorder_list_user
+    @user = User.find(params[:user_id])
+    params[:users].each_with_index { |user_id,i| SortUser.reorder(@user.id, user_id, i) }
+    respond_to do |format|
+      format.html { render :text => :ok }
+      format.js { render :text => :ok, :layout => false}
+    end
+
+  end
   def available_issues
     @available = StuffToDo.available(@user, get_filters)
 
@@ -36,7 +77,7 @@ class StuffToDoController < ApplicationController
       format.js { render :partial => 'right_panes', :layout => false}
     end
   end
-  
+
   def time_grid
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
@@ -72,7 +113,7 @@ class StuffToDoController < ApplicationController
       if save_time_entry_from_time_grid(@time_entry)
         flash.now[:time_grid_notice] = l(:notice_successful_update)
         get_time_grid # after saving in order to get the updated data
-        
+
         format.js { time_grid }
       else
         format.js { render :text => @time_entry.errors.full_messages.join(', '), :status => 403, :layout => false }
@@ -81,10 +122,10 @@ class StuffToDoController < ApplicationController
   end
 
   private
-  
+
   def get_user
     render_403 unless User.current.logged?
-    
+
     if params[:user_id] && params[:user_id] != User.current.id.to_s
       if User.current.admin?
         @user = User.find(params[:user_id])
@@ -92,10 +133,10 @@ class StuffToDoController < ApplicationController
         render_403
       end
     else
-      @user = User.current  
+      @user = User.current
     end
   end
-  
+
   def filters_for_view
     StuffToDoFilter.new
   end

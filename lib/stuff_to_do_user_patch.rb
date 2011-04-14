@@ -4,6 +4,7 @@ module StuffToDoUserPatch
     base.class_eval do
       unloadable
       has_and_belongs_to_many :time_grid_issues, :class_name => 'Issue', :join_table => 'time_grid_issues_users'
+      attr_accessor :stuff_to_do_position
     end
   end
 end

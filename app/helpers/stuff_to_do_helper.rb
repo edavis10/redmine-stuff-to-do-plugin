@@ -1,18 +1,18 @@
 module StuffToDoHelper
   def progress_bar_sum(collection, field, opts)
     issues = remove_non_issues(collection)
-    
+
     total = issues.inject(0) {|sum, n| sum + n.read_attribute(field) }
     divisor = issues.length
     return if divisor.nil? || divisor == 0
 
     progress_bar(total / divisor, opts)
   end
-  
+
   def total_estimates(issues)
     remove_non_issues(issues).collect(&:estimated_hours).compact.sum
   end
-  
+
   def filter_options(filters, selected = nil)
     html = options_for_select([[l(:stuff_to_do_label_filter_by), '']]) # Blank
 
@@ -30,7 +30,7 @@ module StuffToDoHelper
                             :label => filter_group.to_s.capitalize )
       end
     end
-    
+
     return html
   end
 
@@ -77,6 +77,14 @@ module StuffToDoHelper
 
   def total_hours_for_user(issues, user)
     issues.collect {|issue| total_hours_for_issue_for_user(issue, user)}.compact.sum
+  end
+
+  def progress_bar_for_project( project, user )
+    @open_issues = project.issues.open.count(:conditions => {:assigned_to_id => user.id})
+    @all_issues  = project.issues.count(:conditions => {:assigned_to_id => user.id})
+    @close_issues = @all_issues - @open_issues
+    return 0 if @all_issues.to_i == 0
+    (@close_issues.to_i * 100) / @all_issues
   end
 
   # Redmine 0.8.x compatibility
