@@ -266,6 +266,8 @@ jQuery(function($) {
     </div>'
 
     });
+$.extend($.support, {
+        touch: "ontouchend" in document
 });
 
 
