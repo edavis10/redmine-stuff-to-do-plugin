@@ -17,3 +17,7 @@ es:
   stuff_to_do_drag_issue_create_list: Arrastra peticiones aquí para crear una nueva lista.
   stuff_to_do_drag_issue_remove_list: Arrastra peticiones aquí para borrarlas de una lista.
   stuff_to_do_use_as_stuff_to_do: Utilizar como elementos de Cosas Por Hacer
+  stuff_to_do_time_grid: Hoja de tiempo
+  stuff_to_do_time_grid_save_error: "No se han podido grabar {{count}} entradas."
+  stuff_to_do_time_grid_save_notice: "Se grabaron {{count}} entradas."
+  stuff_to_do_use_time_grid: Usar hoja de tiempo
