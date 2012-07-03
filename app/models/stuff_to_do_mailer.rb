@@ -10,7 +10,7 @@ class StuffToDoMailer < Mailer
          )
 
     part :content_type => "text/plain", :body => render_message("recommended_below_threshold.erb", body)
-    part :content_type => "text/html", :body => render_message("recommended_below_threshold.text.html.rhtml", body)
+    part :content_type => "text/html", :body => render_message("recommended_below_threshold.text.html.erb", body)
 
   end
 end

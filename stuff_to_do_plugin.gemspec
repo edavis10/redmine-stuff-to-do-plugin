@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Davis"]
-  s.date = %q{2010-04-11}
-  s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload.}
+  s.date = %q{2012-07-04}
+  s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload. compatible redmine 1.x and 2.0}
   s.email = %q{edavis@littlestreamsoftware.com}
   s.extra_rdoc_files = [
     "README.rdoc"
@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
      "app/views/stuff_to_do/_time_grid_form.html.erb",
      "app/views/stuff_to_do/index.html.erb",
      "app/views/stuff_to_do_mailer/recommended_below_threshold.erb",
-     "app/views/stuff_to_do_mailer/recommended_below_threshold.text.html.rhtml",
+     "app/views/stuff_to_do_mailer/recommended_below_threshold.text.html.erb",
      "assets/images/b.png",
      "assets/images/bl.png",
      "assets/images/br.png",
@@ -156,6 +156,7 @@ Gem::Specification.new do |s|
      "lang/tr.yml",
      "lib/redmine_stuff_to_do/stuff_to_do_compatibility.rb",
      "lib/stuff_to_do_array_patch.rb",
+     "lib/stuff_to_do_dispatch.rb",
      "lib/stuff_to_do_issue_patch.rb",
      "lib/stuff_to_do_project_patch.rb",
      "lib/stuff_to_do_user_patch.rb",
@@ -165,7 +166,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{stuff_to_do_plugin}
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.8.15}
   s.summary = %q{A Redmine plugin to order and prioritize tasks to do using drag and drop.}
   s.test_files = [
     "spec/models/stuff_to_do_mailer_spec.rb",
