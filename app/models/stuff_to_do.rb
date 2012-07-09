@@ -220,7 +220,7 @@ class StuffToDo < ActiveRecord::Base
 
   def self.conditions_for_available(filter_by)
     scope = self
-    conditions = "#{IssueStatus.table_name}.is_closed = 0"
+    conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
     case 
     when filter_by.is_a?(User)
