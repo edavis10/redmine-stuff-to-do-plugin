@@ -1,16 +1,18 @@
 class StuffToDoMailer < Mailer
-  def recommended_below_threshold(user, number_of_next_items)
-    recipients Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
-    subject "What's Recommended is below the threshold"
-    
-    body(
-         :threshold => Setting.plugin_stuff_to_do_plugin['threshold'],
-         :count => number_of_next_items,
-         :user => user
-         )
 
-    part :content_type => "text/plain", :body => render_message("recommended_below_threshold.erb", body)
-    part :content_type => "text/html", :body => render_message("recommended_below_threshold.text.html.erb", body)
+	def recommended_below_threshold(user, number_of_next_items)
 
-  end
+		mail(:to => Setting.plugin_stuff_to_do_plugin['email_to'],
+		     :subject => "What's Recommended is below the threshold",
+		     :threshold => Setting.plugin_stuff_to_do_plugin['threshold'], 
+		     :count => number_of_next_items, 
+		     :user => user) do |format|
+			format.html { render :layout => 'recommended_below_threshold' }
+			format.text { render :layout => 'recommended_below_threshold' }
+		     end
+
+	end
+
+	def index
+	end
 end
