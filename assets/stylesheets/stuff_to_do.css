@@ -210,6 +210,28 @@ input.save-time-grid { float: right; margin-top: 10px; margin-bottom: 10px; }
   z-index: 99;
 }
 
+
+li.stuff-to-do-item {
+  position: relative;
+}
+li.stuff-to-do-item div.estimate {
+  position: absolute;
+  display: block;
+  float: none;
+  width: 15%;
+  left: 82%;
+  top: 4px;
+  text-align: left;
+  z-index: 100;
+  height: 1.1em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+li.stuff-to-do-item div.issue-details {
+  width: 80%;
+}
+
+
 * html #facebox_overlay { /* ie6 hack */
   position: absolute;
   height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
