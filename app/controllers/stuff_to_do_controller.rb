@@ -3,7 +3,6 @@ class StuffToDoController < ApplicationController
 
   before_filter :get_user
   before_filter :get_time_grid, :only => [:index, :time_grid]
-  before_filter :require_admin, :only => :available_issues
   helper :stuff_to_do
   helper :custom_fields
   helper :timelog
@@ -87,7 +86,7 @@ class StuffToDoController < ApplicationController
     render_403 unless User.current.logged?
     
     if params[:user_id] && params[:user_id] != User.current.id.to_s
-      if User.current.admin?
+      if User.current.allowed_to?(:view_others_stuff_to_do, @project, :global => true)
         @user = User.find(params[:user_id])
       else
         render_403
