@@ -38,7 +38,7 @@ Redmine::Plugin.register :stuff_to_do_plugin do
   end
 
   menu(:top_menu, :stuff_to_do, {:controller => "stuff_to_do", :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{
-      User.current.allowed_to?({:controller => 'stuff_to_do', :action => 'index'},nil, :global => true)
+      User.current.allowed_to?({:controller => 'stuff_to_do', :action => 'index'} ,nil, :global => true) && !User.current.nil? && User.current.pref[:stuff_to_do_enabled]
     })
 
 end
