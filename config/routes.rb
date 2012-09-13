@@ -4,6 +4,7 @@
 if Rails::VERSION::MAJOR >= 3
   RedmineApp::Application.routes.draw do
     match 'stuff_to_do', :to => 'stuff_to_do#index', :via => 'get'
+    match 'stuff_to_do', :to => 'stuff_to_do#time_grid', :via => 'time_grid'
     match 'stuff_to_do/:action.:format', :to => 'stuff_to_do', :via => [:get, :post]
   end
 else
