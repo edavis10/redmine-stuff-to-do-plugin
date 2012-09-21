@@ -7,6 +7,8 @@ if Rails::VERSION::MAJOR >= 3
     match 'stuff_to_do', :to => 'stuff_to_do#time_grid', :via => 'time_grid'
     match 'stuff_to_do/:action.:format', :to => 'stuff_to_do', :via => [:get, :post]
   end
+  match '/stuff_to_do/add', :to => 'stuff_to_do#add', :via =>  [:get, :post]
+  match '/stuff_to_do/delete', :to => 'stuff_to_do#delete', :via =>  [:get, :post]
 else
   ActionController::Routing::Routes.draw do |map|
     map.with_options :controller => 'stuff_to_do' do |stuff_routes|

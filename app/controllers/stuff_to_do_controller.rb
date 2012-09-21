@@ -16,6 +16,27 @@ class StuffToDoController < ApplicationController
     @filters = filters_for_view
   end
   
+  def delete
+     if !params[:issue_id].nil? && !params[:user_id].nil?
+       StuffToDo.remove(params[:user_id],  params[:issue_id] )
+     end
+     
+    respond_to do |format|
+      format.html { redirect_to_referer_or { render :text => ('Deleting Issue from stuff-to-do.'), :layout => true} }
+      format.js { render :partial => 'stuff-to-do', :layout => false}
+    end
+  end
+  
+  def add
+    if !params[:issue_id].nil? && !params[:user_id].nil?
+      StuffToDo.add(params[:user_id], params[:issue_id], params[:to_front] == "true")         
+    end
+    respond_to do |format|
+      format.html { redirect_to_referer_or { render :text => ('Adding issue to stuff-to-do.'), :layout => true} }
+      format.js { render :partial => 'stuff-to-do', :layout => false}
+    end
+  end
+  
   def reorder
     StuffToDo.reorder_list(@user, params[:stuff])
     @doing_now = StuffToDo.doing_now(@user)

@@ -84,6 +84,11 @@ class StuffToDo < ActiveRecord::Base
     
     return potential_stuff_to_do - stuff_to_do
   end
+  
+  def self.assigned(user)
+
+    return StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+  end
 
   def self.using_projects_as_items?
     ['All', 'Only Projects'].include?(use_setting)
@@ -202,6 +207,25 @@ class StuffToDo < ActiveRecord::Base
     removed.each do |id|
       removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
       removed_stuff_to_do.destroy
+    end
+  end
+  
+  def self.remove(user_id, id)
+    removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user_id, id)
+    removed_stuff_to_do.destroy
+  end
+  
+  def self.add(user_id, id, to_front)
+    if (find_by_user_id_and_stuff_id(user_id, id).nil?) #make sure it's not already there
+      stuff_to_do = self.new
+              stuff_to_do.stuff_id = id
+              stuff_to_do.stuff_type = 'Issue'
+              stuff_to_do.user_id = user_id
+              stuff_to_do.save # TODO: Check return
+              
+              if to_front == true
+                stuff_to_do.insert_at(1)
+              end
     end
   end
 

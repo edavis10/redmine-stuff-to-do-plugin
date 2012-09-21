@@ -22,4 +22,7 @@ en:
   stuff_to_do_time_grid_save_notice: "{{count}} time entries saved."
   stuff_to_do_use_time_grid: "Use Time Grid"
   field_stuff_to_do_enabled: "Stuff to Do enabled"
+  stuff_to_do_add_to_front: "Add to Front"
+  stuff_to_do_add_to_back: "Add to Back"
+  stuff_to_do_remove: "Remove"
 
