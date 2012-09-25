@@ -18,7 +18,6 @@ end
 # It requires the file in lib/stuff_to_do_plugin/hooks.rb
 require_dependency 'stuff_to_do_plugin/hooks'
 
-
 Redmine::Plugin.register :stuff_to_do_plugin do
   name 'Stuff To Do Plugin'
   author 'Eric Davis'

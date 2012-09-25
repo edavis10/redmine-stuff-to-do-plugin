@@ -1,0 +1,12 @@
+<% if @user.allowed_to?({:controller => 'stuff_to_do', :action => 'index'} ,nil, :global => true) %>
+	</fieldset>
+	<fieldset class="box">
+		<legend><%=l(:stuff_to_do_title)%></legend>
+		<div class="tabular">
+			<%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
+				<p><%= pref_fields.check_box :stuff_to_do_enabled %></p>
+			<% end %>
+		</div>
+	</fieldset>
+<% end %>	
+
