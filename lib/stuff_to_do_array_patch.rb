@@ -3,6 +3,6 @@ class Array
   def to_hash
     Hash[*self.collect {|v|
            [self.index(v),v]
-         }.flatten]
+         }.flatten(1)]
   end unless respond_to?(:to_hash)
 end
