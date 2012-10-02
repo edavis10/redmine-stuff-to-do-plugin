@@ -7,8 +7,8 @@ module MyPlugin
     # Additional context fields
     #   :issue  => the issue this is edited
     #   :f      => the form object to create additional fields
-    render_on :view_issues_show_description_bottom,
-          :partial => 'stuff_to_do/view_issues_show_description_bottom'
+    render_on :view_issues_sidebar_queries_bottom,
+          :partial => 'stuff_to_do/view_issues_sidebar_queries_bottom'
     render_on :view_issues_context_menu_start,
           :partial => 'stuff_to_do/view_issues_context_menu_start'
     render_on :view_my_account, :partial => 'account_settings/stuff_to_do_account_settings', :layout => false
