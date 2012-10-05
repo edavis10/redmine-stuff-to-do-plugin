@@ -84,5 +84,52 @@ module StuffToDoHelper
     hours = hours.to_f
     l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), ("%.2f" % hours.to_f))
   end unless Object.method_defined?('l_hours')
+  
+  def stuff_to_do_to_csv(doing_now, recommended, available, user, options={})
+    decimal_separator = l(:general_csv_decimal_separator)
+    encoding = l(:general_csv_encoding)
+    
+    stuff_to_dos = stuff_for(doing_now + recommended)
+    columns = [ l(:field_project), l(:field_tracker), l(:field_status), l(:field_priority), l(:field_subject)]
+  
+    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+      # csv title
+      csv << [ l(:stuff_to_do_title) ]
+      csv << [ l(:field_user) + ": " + user.name ]
+      
+      subtitles = [l(:stuff_to_do_what_im_doing_now), l(:stuff_to_do_what_is_recommended)]
+      
+      if options[:available]
+        subtitles << l(:stuff_to_do_what_is_available)
+      end
+
+      subtitles.each do |subtitle|      
+        csv <<  [ '' ]
+        csv << [ subtitle ]
+        if subtitle == l(:stuff_to_do_what_im_doing_now)
+          stuff_to_dos = stuff_for(doing_now)
+        elsif subtitle == l(:stuff_to_do_what_is_recommended)
+          stuff_to_dos = stuff_for(recommended)
+        else
+          stuff_to_dos = available
+        end
+        
+        # csv header fields
+        csv << [ "#" ] + columns.collect {|c| Redmine::CodesetUtil.from_utf8(c, encoding) }
+        # csv lines
+        stuff_to_dos.each do |stuff|
+          if (stuff.kind_of? Issue)
+            col_values = [ stuff.project.name, stuff.tracker, stuff.status.to_s, stuff.priority.to_s, stuff.subject ]
+            id = stuff.id.to_s
+          else
+            col_values = [ stuff.name, '', '', '', '' ]
+            id = ''
+          end
+          csv << [ id ] + col_values.collect {|c| Redmine::CodesetUtil.from_utf8(c.to_s, encoding) }
+        end
+      end
+    end
+    export
+  end
 
 end
