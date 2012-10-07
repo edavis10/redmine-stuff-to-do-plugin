@@ -9,7 +9,7 @@ jQuery(function($) {
             $.ajax({
                 type: "GET",
                 url: 'stuff_to_do/available_issues.js',
-                data: $('#filter').serialize(),
+                data: { filter : $('#filter').val(), user_id : $('#user_id').val() },
                 success: function(response) {
                     $('#available-pane').html(response);
                     attachSortables();

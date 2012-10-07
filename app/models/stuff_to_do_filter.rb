@@ -3,16 +3,16 @@ class StuffToDoFilter
   attr_accessor :priorities
   attr_accessor :statuses
   
-  def initialize
-    self.users = User.active
+  def initialize(params = {})
+    self.users = [params[:user]]
     self.priorities = get_priorites
-    self.statuses = IssueStatus.find(:all)
+    self.statuses = IssueStatus.where(:is_closed => false)
   end
   
   def each
     if StuffToDo.using_issues_as_items?
       {
-        :users => self.users.sort,
+        :users => self.users,
         :priorities => self.priorities.sort,
         :statuses => self.statuses.sort
       }.each do |group, items|

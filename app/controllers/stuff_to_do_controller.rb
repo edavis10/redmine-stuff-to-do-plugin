@@ -10,6 +10,7 @@ class StuffToDoController < ApplicationController
   helper :timelog
   
   def index
+    logger.debug "user = #{@user.name}"
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
     @available = StuffToDo.available(@user, default_filters )
@@ -125,7 +126,7 @@ class StuffToDoController < ApplicationController
   end
   
   def filters_for_view
-    StuffToDoFilter.new
+    StuffToDoFilter.new(:user => @user)
   end
 
   def get_filters
@@ -152,8 +153,8 @@ class StuffToDoController < ApplicationController
     elsif StuffToDo.using_projects_as_items?
       return Project.new
     else
-      # Edge case
-      return { }
+    # Edge case
+    return { }
     end
   end
 

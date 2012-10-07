@@ -76,7 +76,7 @@ class StuffToDo < ActiveRecord::Base
     else
       potential_stuff_to_do = Issue.find(:all,
                                          :include => [:status, :priority, :project],
-                                         :conditions => conditions_for_available(filter),
+                                         :conditions => conditions_for_available(user, filter),
                                          :order => "#{Issue.table_name}.created_on DESC")
     end
 
@@ -242,17 +242,17 @@ class StuffToDo < ActiveRecord::Base
     USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 
-  def self.conditions_for_available(filter_by)
+  def self.conditions_for_available(user, filter_by)
     scope = self
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
+    conditions << " AND (" << "assigned_to_id = %d" % [user.id] << ")"
     case 
-    when filter_by.is_a?(User)
-      conditions << " AND (" << "assigned_to_id = %d" % [filter_by.id] << ")"
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
     end
+    logger.debug "Filter Conditions: #{conditions.inspect}"
     conditions
   end
 end
