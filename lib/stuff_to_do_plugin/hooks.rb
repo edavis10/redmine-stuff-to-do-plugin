@@ -12,5 +12,6 @@ module MyPlugin
     render_on :view_issues_context_menu_start,
           :partial => 'stuff_to_do/view_issues_context_menu_start'
     render_on :view_my_account, :partial => 'account_settings/stuff_to_do_account_settings', :layout => false
+    render_on :view_users_form, :partial => 'account_settings/stuff_to_do_account_settings', :layout => false
   end
 end

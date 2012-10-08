@@ -1,0 +1,8 @@
+<% html_title(l(:stuff_to_do_reportees)) %>
+<h2><%= l(:stuff_to_do_reportees_for) + @user.name %></h2>
+
+<%= render :partial => 'reportee_list' %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
+<% end %>

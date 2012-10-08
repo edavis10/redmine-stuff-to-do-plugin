@@ -231,6 +231,10 @@ li.stuff-to-do-item div.issue-details {
   width: 80%;
 }
 
+#user_reportees label, #group_reportees label
+{
+  display: block
+}
 
 * html #facebox_overlay { /* ie6 hack */
   position: absolute;
