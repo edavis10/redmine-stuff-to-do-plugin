@@ -4,7 +4,11 @@ class StuffToDoReporteeController < ApplicationController
   before_filter :get_user
 
   def index
-    logger.debug "Index params: #{params}"
+    render :index, :layout => "admin", :locals => { :from_admin_menu => false }
+  end
+  
+  def admin
+    render :index, :layout => "admin", :locals => { :from_admin_menu => true }
   end
 
   def add
@@ -51,7 +55,6 @@ class StuffToDoReporteeController < ApplicationController
   
   
   def get_user
-    logger.debug "reportee::get_user User = #{User.current}"
     return deny_access unless User.current.logged?
     
     if params[:user_id]

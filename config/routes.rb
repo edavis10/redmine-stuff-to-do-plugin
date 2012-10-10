@@ -10,6 +10,7 @@ if Rails::VERSION::MAJOR >= 3
   match '/stuff_to_do/add', :to => 'stuff_to_do#add', :via =>  [:get, :post]
   match '/stuff_to_do/delete', :to => 'stuff_to_do#delete', :via =>  [:get, :post]
   match '/stuff_to_do/reportees', :to=> 'stuff_to_do_reportee#index', :via => 'get'
+  match '/stuff_to_do/reportees_admin', :to=> 'stuff_to_do_reportee#admin', :via => 'get'
   match '/stuff_to_do/reportees/add', :to=> 'stuff_to_do_reportee#add', :via => [:get, :post]
   match '/stuff_to_do/reportees/delete', :to=> 'stuff_to_do_reportee#delete', :via => [:get, :post]
 else

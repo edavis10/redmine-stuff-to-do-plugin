@@ -1,0 +1,18 @@
+<% if @user.allowed_to?({:controller => 'stuff_to_do', :action => 'index'} ,nil, :global => true) %>
+	</fieldset>
+	<fieldset class="box">
+		<legend><%=l(:stuff_to_do_title)%></legend>
+		<div class="tabular">
+			<%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
+				<p><%= pref_fields.check_box :stuff_to_do_enabled %></p>
+				<% if @user.allowed_to?(:manage_stuff_to_do_reportees, @project, :global => true) %>
+					<p><%= pref_fields.check_box :stuff_to_do_view_all_reportees %></p>
+					<% if !@user.pref[:stuff_to_do_view_all_reportees] %> 
+						<%= link_to l(:stuff_to_do_manage_reportees), { :controller => 'stuff_to_do_reportee', :action => 'admin', :user_id => @user.id } %>
+					<% end %>
+				<% end %>
+			<% end %>
+		</div>
+	</fieldset>
+<% end %>	
+

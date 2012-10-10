@@ -1,7 +1,14 @@
 <% html_title(l(:stuff_to_do_reportees)) %>
-<h2><%= l(:stuff_to_do_reportees_for) + @user.name %></h2>
 
-<%= render :partial => 'reportee_list' %>
+<% if from_admin_menu == true %>
+<h2><%= l(:stuff_to_do_reportees_for) %> <%= link_to @user.name , edit_user_path(@user) %></h2>
+<% else %>
+<h2><%= l(:stuff_to_do_reportees_for) %> <%= link_to @user.name , "/my/account" %></h2>
+<% end %>
+
+<div id='reportees'>
+	<%= render :partial => 'reportee_list' %>
+</div>
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
