@@ -1,9 +1,9 @@
 <% html_title(l(:stuff_to_do_reportees)) %>
 
 <% if from_admin_menu == true %>
-<h2><%= l(:stuff_to_do_reportees_for) %> <%= link_to @user.name , edit_user_path(@user) %></h2>
+<h2><%= link_to l(:label_user_plural), users_path %> &#187; <%=h link_to @user.login , edit_user_path(@user) %> &#187; <%= l(:stuff_to_do_reportees) %></h2>
 <% else %>
-<h2><%= l(:stuff_to_do_reportees_for) %> <%= link_to @user.name , "/my/account" %></h2>
+<h2> <%= link_to l(:label_my_account) , "/my/account" %>  &#187; <%= l(:stuff_to_do_reportees) %></h2>
 <% end %>
 
 <div id='reportees'>

@@ -4,7 +4,7 @@ class StuffToDoReporteeController < ApplicationController
   before_filter :get_user
 
   def index
-    render :index, :layout => "admin", :locals => { :from_admin_menu => false }
+    render :index, :locals => { :from_admin_menu => false }
   end
   
   def admin
