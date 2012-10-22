@@ -1,6 +1,6 @@
 class StuffToDoMailer < Mailer
   def recommended_below_threshold(user, number_of_next_items)
-    set_language_if_valid Setting.default_language
+    set_language_if_valid user.language
     if Rails::VERSION::MAJOR >= 3
       @to = Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
       @subject = "What's Recommended is below the threshold"
