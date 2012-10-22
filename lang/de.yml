@@ -15,3 +15,5 @@ stuff_to_do_label_filter: Filter
 stuff_to_do_label_filter_by: Filtern nach...
 stuff_to_do_drag_issue_create_list: Ticket hierher ziehen, um eine neue Liste zu erstellen.
 stuff_to_do_drag_issue_remove_list: Ticket hierher ziehen, um das Element von einer Liste zu löschen.
+stuff_to_do_use_time_grid: "Zeige Time Grid"
+stuff_to_do_below_threshold: "%{user} hat nur noch %{count} abzuarbeitende Aufgaben in seiner To-Do Liste, was unter der Warnschwelle von %{threshold} liegt."
