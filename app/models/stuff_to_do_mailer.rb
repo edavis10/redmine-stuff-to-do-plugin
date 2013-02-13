@@ -1,5 +1,8 @@
 class StuffToDoMailer < Mailer
   def recommended_below_threshold(user, number_of_next_items)
+    Rails.logger.error "Language system = #{Setting.default_language}"
+    set_language_if_valid Setting.default_language
+    Rails.logger.error "Language user = #{user.language}"
     set_language_if_valid user.language
     if Rails::VERSION::MAJOR >= 3
       @to = Setting.plugin_stuff_to_do_plugin['email_to'].split(',')

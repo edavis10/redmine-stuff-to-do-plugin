@@ -8,19 +8,21 @@
 <div class="menu">
   <% if User.current.admin? %>
   <div class="user">
-    <% form_tag({ :controller => 'stuff_to_do', :action => 'index'}, :method => :get, :id => 'user_switch' ) do  %>
+    <% form = form_tag({ :controller => 'stuff_to_do', :action => 'index'}, :method => :get, :id => 'user_switch' ) do  %>
     <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
     <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
     <% end %>
+    <%= form if Rails::VERSION::MAJOR >= 3 %>
   </div>
 
   <div class="filter">
-    <% form_tag({}, :id => 'filter_form') do %>
+    <% form = form_tag({}, :id => 'filter_form') do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
     <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
     <% end %>
   </div>
   <% end %>
+  <%= form if Rails::VERSION::MAJOR >= 3 %>
 </div>
 <div style="clear:right;"></div>
 
