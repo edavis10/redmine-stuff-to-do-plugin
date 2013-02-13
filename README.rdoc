@@ -18,15 +18,15 @@ A copy of the plugin can be downloaded from {Little Stream Software}[https://pro
 
 == Installation and Setup
 
-1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
-1.1 for redmine1.x/rails2: Make sure the plugin is installed to +vendor/plugins/stuff_to_do_plugin+
-1.1 for redmine2.x/rails3: Make sure the plugin is installed to +plugins/stuff_to_do_plugin+
-2. Run the plugin migrations
-2.1 for redmine1.x/rails2: +rake db:migrate_plugins+
-2.1 for redmine2.x/rails3: +rake redmine:plugins:migrate+
-3. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
-4. Login and configure the plugin (Administration > Plugins > Configure)
-5. Click the Stuff To Do link in the top left menu
+# Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
+## for redmine1.x/rails2: Make sure the plugin is installed to +vendor/plugins/stuff_to_do_plugin+
+## for redmine2.x/rails3: Make sure the plugin is installed to +plugins/stuff_to_do_plugin+
+# Run the plugin migrations
+## for redmine1.x/rails2: +rake db:migrate_plugins+
+## for redmine2.x/rails3: +rake redmine:plugins:migrate+
+# Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+# Login and configure the plugin (Administration > Plugins > Configure)
+# Click the Stuff To Do link in the top left menu
 
 == Usage
 
