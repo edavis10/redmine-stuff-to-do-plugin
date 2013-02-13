@@ -91,6 +91,9 @@ module StuffToDoHelper
     
     stuff_to_dos = stuff_for(doing_now + recommended)
     columns = [ l(:field_project), l(:field_tracker), l(:field_status), l(:field_priority), l(:field_subject)]
+    if options[:description]
+      columns << l(:field_description)
+    end
   
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv title
@@ -120,6 +123,9 @@ module StuffToDoHelper
         stuff_to_dos.each do |stuff|
           if (stuff.kind_of? Issue)
             col_values = [ stuff.project.name, stuff.tracker, stuff.status.to_s, stuff.priority.to_s, stuff.subject ]
+            if options[:description]
+              col_values << stuff.description
+            end
             id = stuff.id.to_s
           else
             col_values = [ stuff.name, '', '', '', '' ]
