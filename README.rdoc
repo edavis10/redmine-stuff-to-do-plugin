@@ -2,6 +2,7 @@
 
 The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload.
 
+
 == Features
 
 * Sorting and prioritizing of cross-project To Do lists
@@ -11,22 +12,23 @@ The Stuff To Do plugin allows a user to order and prioritize the issues and proj
 * Notification emails based on low workload counts
 * Drag and drop time logging using the Time Grid
 
+
 == Getting the plugin
 
-A copy of the plugin can be downloaded from {Little Stream Software}[https://projects.littlestreamsoftware.com/projects/redmine-stuff-to-do/files] or from {GitHub}[http://github.com/edavis10/redmine-stuff-to-do]
+A copy of the plugin can be downloaded for original versions from {Little Stream Software}[https://projects.littlestreamsoftware.com/projects/redmine-stuff-to-do/files] or for newer versions from {GitHub}[http://github.com/neffets/redmine-stuff-to-do-plugin]. 
 
 
 == Installation and Setup
 
-# Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
-## for redmine1.x/rails2: Make sure the plugin is installed to +vendor/plugins/stuff_to_do_plugin+
-## for redmine2.x/rails3: Make sure the plugin is installed to +plugins/stuff_to_do_plugin+
-# Run the plugin migrations
-## for redmine1.x/rails2: +rake db:migrate_plugins+
-## for redmine2.x/rails3: +rake redmine:plugins:migrate+
-# Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
-# Login and configure the plugin (Administration > Plugins > Configure)
-# Click the Stuff To Do link in the top left menu
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
+   * for redmine1.x/rails2: Make sure the plugin is installed to: *vendor/plugins/stuff_to_do_plugin*
+   * for redmine2.x/rails3: Make sure the plugin is installed to: *plugins/stuff_to_do_plugin*
+2. Run the plugin migrations
+   * for redmine1.x/rails2: *rake db:migrate_plugins*
+   * for redmine2.x/rails3: *rake redmine:plugins:migrate*
+3. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+4. Login and configure the plugin (Administration > Plugins > Configure)
+5. Click the Stuff To Do link in the top left menu
 
 == Usage
 
