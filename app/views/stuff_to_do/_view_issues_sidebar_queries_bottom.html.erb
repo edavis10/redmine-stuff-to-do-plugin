@@ -1,6 +1,6 @@
 <% if !@issue.nil? && !User.current.nil? && User.current.logged? && User.current.allowed_to?(:view_stuff_to_do, nil, :global => true) && User.current.pref[:stuff_to_do_enabled] %>
 	<% if !@issue.assigned_to.nil? && (@issue.assigned_to == User.current || User.current.allowed_to?(:view_others_stuff_to_do, nil, :global => true)) %>
-		<% if StuffToDo.available(@issue.assigned_to, @issue.assigned_to).count(@issue) > 0 %>
+		<% if StuffToDo.available(@issue.assigned_to, @project, @issue.assigned_to).count(@issue) > 0 %>
 				<div id="stuff-to-do">
   			<p><h3><%=l(:stuff_to_do_title)%></h3>
   			<p><%= link_to(l(:stuff_to_do_add_to_front), {:controller => 'stuff_to_do', :action => 'add', :issue_id => @issue.id, :to_front => true, :user_id => @issue.assigned_to }) %>

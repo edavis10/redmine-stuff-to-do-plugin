@@ -68,15 +68,15 @@ class StuffToDo < ActiveRecord::Base
   # * IssueStatus - issues with this status
   # * IssuePriority - issues with this priority
   #
-  def self.available(user, filter=nil)
+  def self.available(user, project, filter=nil)
     return [] if filter.blank?
-
+      
     if filter.is_a?(Project)
       potential_stuff_to_do = active_and_visible_projects.sort
     else
       potential_stuff_to_do = Issue.find(:all,
                                          :include => [:status, :priority, :project],
-                                         :conditions => conditions_for_available(user, filter),
+                                         :conditions => conditions_for_available(user, filter, project),
                                          :order => "#{Issue.table_name}.created_on DESC")
     end
 
@@ -242,7 +242,7 @@ class StuffToDo < ActiveRecord::Base
     USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 
-  def self.conditions_for_available(user, filter_by)
+  def self.conditions_for_available(user, filter_by, project)
     scope = self
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
@@ -252,6 +252,7 @@ class StuffToDo < ActiveRecord::Base
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
     end
+    conditions << ( " AND (" << "#{Issue.table_name}.project_id = %d" % [project.id] << ")" ) unless project.nil?
     conditions
   end
 end

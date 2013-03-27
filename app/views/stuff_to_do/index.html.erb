@@ -20,7 +20,9 @@
   <div class="filter">
     <%= form_tag({}, :id => 'filter_form') do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
-    <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
+    <%= select_tag("filter", filter_options(@filters, params[:filter])) %><br>
+    <label for="project_id"><%= l(:label_project_plural) %></label>
+    <%= select_tag("project_id", project_options(@user.projects.active.sort, params[:project_id])) %>
     <% end %>
   </div>
 </div>

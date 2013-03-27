@@ -1,24 +1,37 @@
 // TODO: JSUnit test this
 jQuery(function($) {
+	
     $("#user_id").change(function() {  $("form#user_switch").submit();  });
     $("#ajax-indicator").ajaxStart(function(){ $(this).show();  });
     $("#ajax-indicator").ajaxStop(function(){ $(this).hide();  });
 
     $("#filter").change(function() {
-        if ($('#filter').val() != '') {
-            $.ajax({
-                type: "GET",
-                url: 'stuff_to_do/available_issues.js',
-                data: { filter : $('#filter').val(), user_id : $('#user_id').val() },
-                success: function(response) {
-                    $('#available-pane').html(response);
-                    attachSortables();
-                },
-                error: function(response) {
-                    $("div.error").html("Error filtering pane.  Please refresh the page.").show();
-                }});
-        }
-    });
+	    $.ajax({
+	        type: "GET",
+	        url: 'stuff_to_do/available_issues.js',
+	        data: { filter : $('#filter').val(), user_id : $('#user_id').val(), project_id : $('#project_id').val() },
+	        success: function(response) {
+	            $('#available-pane').html(response);
+	            attachSortables();
+	        },
+	        error: function(response) {
+	            $("div.error").html("Error filtering pane.  Please refresh the page.").show();
+	            }});
+	});
+    
+    $("#project_id").change(function() {
+        $.ajax({
+            type: "GET",
+            url: 'stuff_to_do/available_issues.js',
+            data: { filter : $('#filter').val(), user_id : $('#user_id').val(), project_id : $('#project_id').val() },
+            success: function(response) {
+                $('#available-pane').html(response);
+                attachSortables();
+            },
+            error: function(response) {
+                $("div.error").html("Error filtering pane.  Please refresh the page.").show();
+            }});
+	});
 
   attachSortables = function() {
     $("#available").sortable({
