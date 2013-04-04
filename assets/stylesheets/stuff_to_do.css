@@ -23,33 +23,33 @@ div.pane-summary p { font-size: 80% }
 div.pane-summary table.progress { float: right; margin: 1px 6px;}
 
 /* Port of the issue coloring on the alternate.css theme */
-.odd.priority-5, .odd.priority-5:hover { color: #900; font-weight: bold; }
-.odd.priority-5 { background: #ffc4c4; }
-.even.priority-5, .even.priority-5:hover { color: #900; font-weight: bold; }
-.even.priority-5 { background: #ffd4d4; }
-.priority-5 a, .priority-5:hover a { color: #900; }
-.odd.priority-5 , .even.priority-5  { border-color: #ffb4b4; }
+.odd.priority-highest, .odd.priority-highest:hover { color: #900; font-weight: bold; }
+.odd.priority-highest { background: #ffc4c4; }
+.even.priority-highest, .even.priority-5:hover { color: #900; font-weight: bold; }
+.even.priority-highest { background: #ffd4d4; }
+.priority-highest a, .priority-highest:hover a { color: #900; }
+.odd.priority-highest , .priority-highest  { border-color: #ffb4b4; }
 
-.odd.priority-4, .odd.priority-4:hover { color: #900; }
-.odd.priority-4 { background: #ffc4c4; }
-.even.priority-4, .even.priority-4:hover { color: #900; }
-.even.priority-4 { background: #ffd4d4; }
-.priority-4 a { color: #900; }
-.odd.priority-4 , .even.priority-4  { border-color: #ffb4b4; }
+.odd.priority-high3, .odd.priority-high3:hover { color: #900; }
+.odd.priority-high3 { background: #ffc4c4; }
+.even.priority-high3, .even.priority-high3:hover { color: #900; }
+.even.priority-high3 { background: #ffd4d4; }
+.priority-high3 a { color: #900; }
+.odd.priority-high3 , .even.priority-high3  { border-color: #ffb4b4; }
 
-.odd.priority-3, .odd.priority-3:hover { color: #900; }
-.odd.priority-3 { background: #fee; }
-.even.priority-3, .even.priority-3:hover { color: #900; }
-.even.priority-3 { background: #fff2f2; }
-.priority-3 a { color: #900; }
-.odd.priority-3 , .even.priority-3  { border-color: #fcc; }
+.odd.priority-high2, .odd.priority-3:hover { color: #900; }
+.odd.priority-high2 { background: #fee; }
+.even.priority-high2, .even.priority-3:hover { color: #900; }
+.even.priority-high2 { background: #fff2f2; }
+.priority-high2 a { color: #900; }
+.odd.priority-high2 , .even.priority-high2  { border-color: #fcc; }
 
-.odd.priority-1, .odd.priority-1:hover { color: #559; }
-.odd.priority-1 { background: #eaf7ff; }
-.even.priority-1, .even.priority-1:hover { color: #559; }
-.even.priority-1 { background: #f2faff; }
-.priority-1 a { color: #559; }
-.odd.priority-1, .even.priority-1 { border-color: #add7f3; }
+.odd.priority-lowest, .odd.priority-lowest:hover { color: #559; }
+.odd.priority-lowest { background: #eaf7ff; }
+.even.priority-lowest, .even.priority-lowest:hover { color: #559; }
+.even.priority-lowest { background: #f2faff; }
+.priority-lowest a { color: #559; }
+.odd.priority-lowest, .even.priority-lowest { border-color: #add7f3; }
 /* */
 
 /* Time Grid */
