@@ -9,6 +9,6 @@ Thanks go to the following people for patches and contributions:
 
 2. development since 2012
 
-* Steffen Schüssler
+* Steffen Schüssler <software@neffets.de>
 * Rumega
 

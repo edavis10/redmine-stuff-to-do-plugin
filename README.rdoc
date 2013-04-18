@@ -46,6 +46,8 @@ This pane lists extra items for the user.  These items are used as overflow for 
 
 This pane lists all the open issues that are assigned to the user or the projects visible to the user.  They are the pool of things that a user can draw on as they work.
 
+TODO: describe the "time_grid" feature
+
 === Workflow
 
 The standard workflow for this plugin is as follows:
@@ -63,5 +65,5 @@ This plugin is licensed under the GNU GPL v2.  See COPYRIGHT.txt and GPL.txt for
 
 == Project help
 
-If you need help you can contact the maintainer at his email address (See CREDITS.txt) or create an issue in the Bug Tracker.  The bug tracker is located at  https://projects.littlestreamsoftware.com
+If you need help you can contact the maintainer at his email address (See CREDITS.txt) or comment on github. If You are a developer feel free to fork und pull Your changes on github.
 
