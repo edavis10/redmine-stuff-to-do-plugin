@@ -13,25 +13,49 @@ module StuffToDoIssuePatch
       has_many :stuff_to_dos, :as => :stuff
       has_and_belongs_to_many :time_grid_users, :class_name => 'User', :join_table => 'time_grid_issues_users'
 
-      named_scope :with_time_entries_for_user, lambda {|user_id|
-        {
-          :include => :time_entries,
-          :conditions => ["#{TimeEntry.table_name}.user_id = (?)", user_id]
+      if Rails::VERSION::MAJOR >= 3
+        scope :with_time_entries_for_user, lambda {|user_id|
+          {
+            :include => :time_entries,
+            :conditions => ["#{TimeEntry.table_name}.user_id = (?)", user_id]
+          }
         }
-      }
+      else
+        named_scope :with_time_entries_for_user, lambda {|user_id|
+          {
+            :include => :time_entries,
+            :conditions => ["#{TimeEntry.table_name}.user_id = (?)", user_id]
+          }
+        }
+      end
       
-      named_scope :with_time_entries_within_date, lambda {|date_from, date_to,|
-        {
-          :include => :time_entries,
-          :conditions => ["#{TimeEntry.table_name}.spent_on > (:from) AND #{TimeEntry.table_name}.spent_on < (:to)",
-                          {:from => date_from, :to => date_to}]
+      if Rails::VERSION::MAJOR >= 3
+        scope :with_time_entries_within_date, lambda {|date_from, date_to,|
+          {
+            :include => :time_entries,
+            :conditions => ["#{TimeEntry.table_name}.spent_on > (:from) AND #{TimeEntry.table_name}.spent_on < (:to)",
+                            {:from => date_from, :to => date_to}]
+          }
         }
-      }
+      else
+        named_scope :with_time_entries_within_date, lambda {|date_from, date_to,|
+          {
+            :include => :time_entries,
+            :conditions => ["#{TimeEntry.table_name}.spent_on > (:from) AND #{TimeEntry.table_name}.spent_on < (:to)",
+                            {:from => date_from, :to => date_to}]
+          }
+        }
+      end
 
       # Redmine 0.8.x compatibility method
       unless ::Issue.respond_to?(:visible)
-        named_scope :visible, lambda {|*args| { :include => :project,
-            :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+        if Rails::VERSION::MAJOR >= 3
+          scope :visible, lambda {|*args| { :include => :project,
+              :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+        else
+          named_scope :visible, lambda {|*args| { :include => :project,
+              :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
+        end
       end
     end
 

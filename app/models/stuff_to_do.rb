@@ -15,14 +15,24 @@ class StuffToDo < ActiveRecord::Base
   belongs_to :user
   acts_as_list :scope => :user
   
-  named_scope :doing_now, lambda { |user|
-    {
-      :conditions => { :user_id => user.id },
-      :limit => 5,
-      :order => 'position ASC'
+  if Rails::VERSION::MAJOR >= 3
+    scope :doing_now, lambda { |user|
+      {
+        :conditions => { :user_id => user.id },
+        :order => 'position ASC',
+        :limit => 5
+      }
     }
-  }
-
+  else
+    named_scope :doing_now, lambda { |user|
+      {
+        :conditions => { :user_id => user.id },
+        :order => 'position ASC',
+        :limit => 5
+      }
+    }
+  end
+  
   # TODO: Rails bug
   #
   # ActiveRecord ignores :offset if :limit isn't added also.  But since we 
@@ -30,14 +40,25 @@ class StuffToDo < ActiveRecord::Base
   #
   # http://dev.rubyonrails.org/ticket/7257
   #
-  named_scope :recommended, lambda { |user|
-    {
-      :conditions => { :user_id => user.id },
-      :limit => self.count,
-      :offset => 5,
-      :order => 'position ASC'
+  if Rails::VERSION::MAJOR >= 3
+    scope :recommended, lambda { |user|
+      {
+        :conditions => { :user_id => user.id },
+        :order => 'position ASC',
+        :limit => self.count,
+        :offset => 5
+      }
     }
-  }
+  else
+    named_scope :recommended, lambda { |user|
+      {
+        :conditions => { :user_id => user.id },
+        :order => 'position ASC',
+        :limit => self.count,
+        :offset => 5
+      }
+    }
+  end
   
   # Filters the issues that are available to be added for a user.
   #
@@ -113,7 +134,13 @@ class StuffToDo < ActiveRecord::Base
   # Project based ids need to be prefixed with +project+
   def self.reorder_list(user, ids)
     ids ||= []
-    id_position_mapping = ids.to_hash
+    #id_position_mapping = ids.to_hash
+    i = 0
+    id_position_mapping = {}
+    ids.each do |value|
+      id_position_mapping[i] = value
+      i = i+1
+    end
 
     issue_ids = {}
     project_ids = {}
@@ -192,17 +219,16 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.conditions_for_available(filter_by)
-    conditions_builder = ARCondition.new(["#{IssueStatus.table_name}.is_closed = ?", false ])
-    conditions_builder.add(["#{Project.table_name}.status = ?", Project::STATUS_ACTIVE])
-
+    scope = self
+    conditions = "#{IssueStatus.table_name}.is_closed = 0"
+    conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
     case 
     when filter_by.is_a?(User)
-      conditions_builder.add(["assigned_to_id = ?", filter_by.id])
+      conditions << " AND (" << "assigned_to_id = %d" % [filter_by.id] << ")"
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
-      conditions_builder.add(["#{table_name}.id = (?)", filter_by.id])
+      conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
     end
-
-    conditions_builder.conditions
+    conditions
   end
 end

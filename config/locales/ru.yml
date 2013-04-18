@@ -15,5 +15,5 @@ ru:
   stuff_to_do_label_filter: Фильтр
   stuff_to_do_label_filter_by: Фильтровать по ...
   stuff_to_do_drag_issue_create_list: "Назначенные задачи"
-
-
+  stuff_to_do_use_time_grid: "Отображать расписание"
+  stuff_to_do_below_threshold: "У пользователя %{user} осталось %{count} задач, рекомендуемых к исполнению. Дополните этот спиcок до %{threshold}."
