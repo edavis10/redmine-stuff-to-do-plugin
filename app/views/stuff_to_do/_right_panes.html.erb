@@ -23,3 +23,4 @@
 
   </div>
   <%= javascript_tag("var filter = #{params[:filter].nil? ? 'null' : "'" + params[:filter].to_s + "'" }") %>
+  <%= javascript_tag("var project_id = #{params[:project_id].nil? ? 'null' : "'" + params[:project_id].to_s + "'" }") %>

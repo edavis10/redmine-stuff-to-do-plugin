@@ -95,6 +95,10 @@ jQuery(function($) {
     if (filter != null) {
         data = data + '&filter=' + filter;
     }
+    
+    if (project_id != null) {
+    	data = data + '&project_id=' + project_id;
+    }
 
     data = addAuthenticityToken(data);
 
