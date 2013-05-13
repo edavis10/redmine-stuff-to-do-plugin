@@ -6,7 +6,7 @@ class StuffToDoFilter
   def initialize
     self.users = User.active
     self.priorities = get_priorites
-    self.statuses = IssueStatus.find(:is_closed => false)
+    self.statuses = IssueStatus.find(:all)
   end
   
   def each
