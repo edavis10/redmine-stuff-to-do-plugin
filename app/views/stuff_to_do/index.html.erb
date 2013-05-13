@@ -6,7 +6,7 @@
 </div>
 
 <div class="menu">
-  <% if User.current.admin? %>
+  <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, :global => true) %>
   <div class="user">
     <% form = form_tag({ :controller => 'stuff_to_do', :action => 'index'}, :method => :get, :id => 'user_switch' ) do  %>
     <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
