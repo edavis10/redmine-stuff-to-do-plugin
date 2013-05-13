@@ -226,7 +226,6 @@ class StuffToDo < ActiveRecord::Base
     case 
     when filter_by.is_a?(User)
       conditions << " AND (" << "assigned_to_id = %d" % [filter_by.id] << ")"
-    end
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
