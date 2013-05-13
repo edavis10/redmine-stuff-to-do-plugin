@@ -220,11 +220,13 @@ class StuffToDo < ActiveRecord::Base
 
   def self.conditions_for_available(filter_by)
     scope = self
+    #for Postgres:# conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions = "#{IssueStatus.table_name}.is_closed = 0"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
     case 
     when filter_by.is_a?(User)
       conditions << " AND (" << "assigned_to_id = %d" % [filter_by.id] << ")"
+    end
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
