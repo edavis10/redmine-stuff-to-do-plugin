@@ -12,7 +12,12 @@ class StuffToDoMailer < Mailer
       @count = number_of_next_items
       @user = user
 
-      mail(:to => @to, :subject => @subject, :template_name => "recommended_below_threshold")
+      mail(:to => @to,
+        :subject => @subject,
+        :threshold => @threshold,
+        :count => @count,
+        :user => @user,
+        :template_name => "recommended_below_threshold")
     else
       recipients Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
       subject "What's Recommended is below the threshold"

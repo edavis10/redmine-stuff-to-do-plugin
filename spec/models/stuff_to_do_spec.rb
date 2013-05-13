@@ -243,20 +243,20 @@ describe StuffToDo, '#remove_associations_to' do
   it 'should deliver a StuffToDoMailer notification if the StuffToDos are below the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues + 1 })
     User.should_receive(:find_by_id).with(@user.id).and_return(@user)
-    StuffToDoMailer.should_receive(:deliver_recommended_below_threshold).with(@user, 4)
+    StuffToDoMailer.should_receive(:recommended_below_threshold).with(@user, 4)
     StuffToDo.remove_associations_to(@issue)
   end
 
   it 'should deliver a StuffToDoMailer notification if the StuffToDos are at the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues })
     User.should_receive(:find_by_id).with(@user.id).and_return(@user)
-    StuffToDoMailer.should_receive(:deliver_recommended_below_threshold).with(@user, 4)
+    StuffToDoMailer.should_receive(:recommended_below_threshold).with(@user, 4)
     StuffToDo.remove_associations_to(@issue)
   end
 
   it 'should not deliver any StuffToDoMailer notification if the StuffToDos are above the threshold' do
     Setting.should_receive(:plugin_stuff_to_do_plugin).and_return({'threshold' => @number_of_next_issues - 1 })
-    StuffToDoMailer.should_not_receive(:deliver_recommended_below_threshold)
+    StuffToDoMailer.should_not_receive(:recommended_below_threshold)
     StuffToDo.remove_associations_to(@issue)
   end
   

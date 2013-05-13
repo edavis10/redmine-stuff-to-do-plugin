@@ -109,7 +109,7 @@ class StuffToDo < ActiveRecord::Base
 
       if threshold && threshold.to_i >= count
         user = User.find_by_id(user_id)
-        StuffToDoMailer.deliver_recommended_below_threshold(user, count)
+        StuffToDoMailer.recommended_below_threshold(user, count)
       end
     end
     
