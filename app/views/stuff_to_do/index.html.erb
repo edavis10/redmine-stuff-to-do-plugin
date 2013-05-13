@@ -14,6 +14,7 @@
     <% end %>
     <%= form if Rails::VERSION::MAJOR >= 3 %>
   </div>
+  <% end %>
 
   <div class="filter">
     <% form = form_tag({}, :id => 'filter_form') do %>
@@ -21,7 +22,6 @@
     <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
     <% end %>
   </div>
-  <% end %>
   <%= form if Rails::VERSION::MAJOR >= 3 %>
 </div>
 <div style="clear:right;"></div>
