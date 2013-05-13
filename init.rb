@@ -33,12 +33,7 @@ Redmine::Plugin.register :stuff_to_do_plugin do
            })
 
   # A new item is added to the project menu
-  if Rails::VERSION::MAJOR >= 3
-    menu :top_menu, :stuff_to_do, { :controller => 'stuff_to_do', :action => 'index'}, :caption => "Stuff_to_do", :if => Proc.new{ User.current.logged? }
-
-  else
-    menu :top_menu, :stuff_to_do, { :controller => 'stuff_to_do', :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? }
-  end
+  menu :top_menu, :stuff_to_do, { :controller => 'stuff_to_do', :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? }
 
   project_module :stuff_to_do do
     permission :view_others_stuff_to_do, {:stuff_to_do => :index}
