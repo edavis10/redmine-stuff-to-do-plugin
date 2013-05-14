@@ -145,7 +145,8 @@ jQuery(function($) {
     },
 
     getRecordId = function(jqueryElement) {
-        return jqueryElement.attr('id').split('_').last();
+      splitarr = jqueryElement.attr('id').split('_');
+      return splitarr[splitarr.length-1];
     },
 
     removeItemFromTimeGridIfNeeded = function (event, ui) {
