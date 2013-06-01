@@ -9,6 +9,7 @@ jQuery(function($) {
 	    $.ajax({
 	        type: "GET",
 	        url: 'stuff_to_do/available_issues.js',
+	        dataType: 'html',
 	        data: { filter : $('#filter').val(), user_id : $('#user_id').val(), project_id : $('#project_id').val() },
 	        success: function(response) {
 	            $('#available-pane').html(response);
@@ -23,6 +24,7 @@ jQuery(function($) {
         $.ajax({
             type: "GET",
             url: 'stuff_to_do/available_issues.js',
+            dataType: 'html',
             data: { filter : $('#filter').val(), user_id : $('#user_id').val(), project_id : $('#project_id').val() },
             success: function(response) {
                 $('#available-pane').html(response);
@@ -105,6 +107,7 @@ jQuery(function($) {
     $.ajax({
         type: "POST",
         url: 'stuff_to_do/reorder.js',
+        dataType: 'html',
         data: data,
         success: function(response) {
             $('#panes').html(response);
@@ -120,6 +123,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/add_to_time_grid.js',
+            dataType: 'html',
             data: addAuthenticityToken('issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize()),
             success: function(response) {
                 $('#time-grid').html(response);
@@ -134,6 +138,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/remove_from_time_grid.js',
+            dataType: 'html',
             data: addAuthenticityToken('issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize()),
             success: function(response) {
                 $('#time-grid').html(response);
@@ -202,6 +207,7 @@ jQuery(function($) {
         $.ajax({
             type: "POST",
             url: 'stuff_to_do/save_time_entry.js',
+            dataType: 'html',
             data: addAuthenticityToken($(form).serialize()),
             success: function(response) {
                 $('#time-grid').before(response).remove();
