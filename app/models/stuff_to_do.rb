@@ -72,9 +72,14 @@ class StuffToDo < ActiveRecord::Base
     return [] if filter.blank?
       
     if filter.is_a?(Project)
-      potential_stuff_to_do = active_and_visible_projects.sort
+      potential_stuff_to_do = active_and_visible_projects(user).sort
     else
-      potential_stuff_to_do = Issue.find(:all,
+      if User.current.allowed_to?(:view_all_reportee_issues, nil, { :global => true }) or (User == User.current)
+        visible_issues =  Issue
+      else
+        visible_issues =  Issue.visible       
+      end
+      potential_stuff_to_do = visible_issues.find(:all,
                                          :include => [:status, :priority, :project],
                                          :conditions => conditions_for_available(user, filter, project),
                                          :order => "#{Issue.table_name}.created_on DESC")
@@ -229,13 +234,12 @@ class StuffToDo < ActiveRecord::Base
     end
   end
 
-  # Redmine 0.8.x compatibility method.
-  def self.active_and_visible_projects
-    if ::Project.respond_to?(:active) && ::Project.respond_to?(:visible)
-      return ::Project.active.visible
-    else
-      return ::Project.find(:all, :conditions => Project.visible_by)
+  def self.active_and_visible_projects(user=User.current)
+    projects = Project.active.where(Project.visible_condition(user))
+    if !User.current.allowed_to_globally?(:view_all_reportee_issues, {}) and (user != User.current)
+      projects = projects.where(Project.visible_condition(User.current))
     end
+    projects
   end
 
   def self.use_setting

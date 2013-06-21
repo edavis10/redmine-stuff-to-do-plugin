@@ -1,6 +1,16 @@
-      <li class="stuff-to-do-item project <%= project_counter.odd? ? "odd" : "even" %>" id="stuff_project<%= project.id %>">
-        <div class="project-details">
-        <%= link_to(image_tag('package.png'), :controller => 'projects', :action => 'show', :id => project) %> <%= h project.name %>
-        </div>
-        <div style="clear:left;"></div>
-      </li>
+<li class="stuff-to-do-item project <%= project_counter.odd? ? "odd" : "even" %>" id="stuff_project<%= project.id %>">
+<div class="project-details">      
+<% if !User.current.allowed_to? :view_issues, project and !User.current.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+  <em><%= l(:stuff_to_do_project_unathorized) %></em>
+  </div>
+<% else %>
+   <% if project.visible?(User.current) %>
+    <%= link_to(image_tag('package.png'), :controller => 'projects', :action => 'show', :id => project) %>
+   <% else %>
+    <%= image_tag('package.png') %>
+   <% end %>
+   <%= h project.name %>
+  </div>
+<% end %>
+<div style="clear:left;"></div>
+</li>
