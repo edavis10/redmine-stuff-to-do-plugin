@@ -7,8 +7,8 @@ class EscalationAlertController < ApplicationController
 
     users.each do |user|
       escalations = Array.new
-      issues = Issue.where('due_date NOT NULL AND assigned_to_id = ?', user.id)
-      issues += Issue.where('due_date NOT NULL AND author_id = ? AND assigned_to_id IS NULL', user.id)
+      issues = Issue.where('due_date IS NOT NULL AND assigned_to_id = ?', user.id)
+      issues += Issue.where('due_date IS NOT NULL AND author_id = ? AND assigned_to_id IS NULL', user.id)
 
       issues.each do |issue|
         message_dates = intervals.map{|i| issue.due_date - i}
