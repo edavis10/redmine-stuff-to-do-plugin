@@ -2,7 +2,7 @@
 
 <% @issues.each do |issue| %>
 ---  <%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
-<%= url_for(:controller => 'issues', :action => 'show', :id => issue, :host => Setting.host_name) %>
+<%= issue_url(issue) %>
 * <%= t('escalation_mailer.field_status') %>: <%= issue.status %>
 * <%= t('escalation_mailer.field_priority') %>: <%= issue.priority %>
 * <%= t('escalation_mailer.field_due_date') %>: <%= Setting.format_date issue.due_date %>

@@ -1,7 +1,7 @@
 <p><%= t('escalation_mailer.mail_header') %>:</p>
 
 <% @issues.each do |issue| %>
-<p><%= link_to "##{issue.id}: #{issue.subject}", "#{Setting.host_name}#{url_for(:controller => 'issues', :action => 'show', :id => issue)}" %></p>
+<p><%= link_to "##{issue.id}: #{issue.subject}", issue_url(issue) %></p>
 <ul>
 <li> <%= t('escalation_mailer.field_status') %>: <%= issue.status %> </li>
 <li> <%= t('escalation_mailer.field_priority') %>: <%= issue.priority %> </li>
