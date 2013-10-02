@@ -1,0 +1,13 @@
+<p><%= t('escalation_mailer.mail_header') %>:</p>
+
+<% @issues.each do |issue| %>
+<p><%= link_to "##{issue.id}: #{issue.subject}", "#{Setting.host_name}#{url_for(:controller => 'issues', :action => 'show', :id => issue)}" %></p>
+<ul>
+<li> <%= t('escalation_mailer.field_status') %>: <%= issue.status %> </li>
+<li> <%= t('escalation_mailer.field_priority') %>: <%= issue.priority %> </li>
+<li> <%= t('escalation_mailer.field_due_date') %>: <%= Setting.format_date issue.due_date %> </li>
+<li> <%= t('escalation_mailer.field_done_ratio') %>: <%= issue.done_ratio %>% </li>
+</ul>
+<br>
+<% end %>
+

@@ -1,0 +1,13 @@
+# German strings go here for Rails i18n
+de:
+  escalation_mailer:
+    mail_subject: "Redmine Eskalationsmail"
+    mail_header: "Folgende Tickets drohen abzulaufen"
+    field_status: "Status"
+    field_priority: "Priorität"
+    field_due_date: "Ablaufdatum"
+    field_done_ratio: "Erledigt"
+
+  settings:
+    intervals_label: "Eskalationsintervalle"
+

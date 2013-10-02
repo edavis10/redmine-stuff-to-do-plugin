@@ -1,3 +1,8 @@
-= escalataion_alert
 
-Description goes here
+Just copy the escalation_alert plugin directory to your plugin directory. Then restart redmine.
+
+After restart, you can configure intervals of days when emails should be sent to the user.
+For example: "[1-3],5,7" means that the assignee (or the author if the issue has no assignee)
+will get an email on the days 1,2,3,5,7 before the due_date of the issue.
+
+To start sending mails just call the URL "#{rails_root}/escalation_alert".
