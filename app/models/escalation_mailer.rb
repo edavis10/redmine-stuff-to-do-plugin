@@ -4,8 +4,8 @@ class EscalationMailer < ActionMailer::Base
     @issues = issues
 
     mail(:to => user.mail,
-         :from => 'escalation@enervision.de',
-         :subject => 'Escalation Notification') do |format|
+         :from => 'bugmaster@enervision.de',
+         :subject => 'Redmine Wiedervorlage') do |format|
       format.html
       format.text if Setting.plain_text_mail?
     end
