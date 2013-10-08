@@ -1,6 +1,8 @@
 class AddEscalationNotificationToUser < ActiveRecord::Migration
   def self.up
-    CustomField.create({:type => 'UserCustomField', :name => 'Wiedervorlage', :field_format => 'bool', :editable => true})
+    c = CustomField.create({:name => 'Wiedervorlage', :field_format => 'bool', :editable => true})
+    c.type = 'UserCustomField'
+    c.save
   end
 
   def self.down
