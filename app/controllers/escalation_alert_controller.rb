@@ -1,6 +1,8 @@
 class EscalationAlertController < ApplicationController
   unloadable
 
+  accept_api_auth :check_for_escalations
+
   def check_for_escalations
     subscribed = CustomField.find_by_name_and_type 'Wiedervorlage', 'UserCustomField'
     users = User.where('type = "User"')
