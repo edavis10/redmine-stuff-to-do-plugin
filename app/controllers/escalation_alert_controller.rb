@@ -17,7 +17,7 @@ class EscalationAlertController < ApplicationController
         issues.each do |issue|
           message_dates = intervals.map{|i| issue.due_date - i}
 
-          if issue.due_date < Date.today or message_dates.include? Date.today
+          if (issue.due_date < Date.today or message_dates.include? Date.today) and not issue.closed?
             escalations << issue
           end
         end
