@@ -17,6 +17,7 @@ en:
   stuff_to_do_drag_issue_create_list: "Drag issues here to create a new list."
   stuff_to_do_drag_issue_remove_list: "Drag issues here to remove them from a list."
   stuff_to_do_use_as_stuff_to_do: "Use as Stuff To Do items"
+  stuff_to_do_statuses_available: Statuses available as Stuff To Do Items
   stuff_to_do_time_grid: "Time Grid"
   stuff_to_do_time_grid_save_error: "{{count}} time entries could not be saved."
   stuff_to_do_time_grid_save_notice: "{{count}} time entries saved."

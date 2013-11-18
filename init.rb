@@ -35,7 +35,8 @@ Redmine::Plugin.register :stuff_to_do_plugin do
              'use_as_stuff_to_do' => '0',
              'threshold' => '1',
              'email_to' => 'example1@example.com,example2@example.com',
-             'use_time_grid' => '0'
+             'use_time_grid' => '0',
+             'statuses_for_stuff_to_do' => [1]
            })
 
   # A new item is added to the project menu
