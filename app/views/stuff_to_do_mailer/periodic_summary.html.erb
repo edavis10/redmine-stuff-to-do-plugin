@@ -1,0 +1,21 @@
+<p>
+Here's the team's Stuff To Do update!
+</p>
+
+<% @users_stuff_to_dos_hash.each do |user, stuff_to_do| %>
+  <h2><%= user.try(:name) || user.try(:mail) %></h2>
+
+  <% if stuff_to_do[:doing_now] %>
+    <h3><%= l(:stuff_to_do_what_im_doing_now) %></h3>
+    <%= render :partial => 'item', :collection => stuff_for(stuff_to_do[:doing_now]) %>
+  <% end %>
+
+  <% if stuff_to_do[:recommended] %>
+    <h3><%= l(:stuff_to_do_what_is_recommended) %></h3>
+    <%= render :partial => 'item', :collection => stuff_for(stuff_to_do[:recommended]) %>
+  <% end %>
+
+  <p>
+  <%= link_to "View user's Stuff To Do", :controller => 'stuff_to_do', :user_id => user.id, :only_path => false %>
+  </p>
+<% end %>

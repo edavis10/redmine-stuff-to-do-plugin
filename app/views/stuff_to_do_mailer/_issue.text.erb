@@ -1,4 +1,4 @@
-<% if !@user.allowed_to? :view_issues, issue.project and !@user.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+<% if !@bypass_user_allowed_to_view  and !@user.allowed_to? :view_issues, issue.project and !@user.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
   <%= l(:stuff_to_do_issue_unathorized) %>
 <% else %>
   - <%= h(issue.project.name) %> - <%= h(issue.status.name) %> - <%= h(issue.subject) %>
