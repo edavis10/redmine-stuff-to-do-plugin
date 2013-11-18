@@ -167,6 +167,14 @@ class StuffToDo < ActiveRecord::Base
     reorder_projects(user, project_ids)
   end
 
+  def self.available_status?(issue)
+    ( Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'] & ['all', issue.status] ).size > 0
+  end
+
+  def self.unavailable_status?(issue)
+    !self.available_status?(issue)
+  end
+
   private
 
   def self.reorder_issues(user, issue_ids)
