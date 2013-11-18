@@ -1,0 +1,5 @@
+<% if item.class == Issue %>
+<%= render :partial => 'issue', :locals => {:issue_counter => item_counter}, :object => item %>
+<% else %>
+<%= render :partial => 'project', :locals => {:project_counter => item_counter}, :object => item %>
+<% end %>

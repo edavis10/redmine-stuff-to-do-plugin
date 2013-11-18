@@ -1,4 +1,5 @@
 class StuffToDoMailer < Mailer
+  add_template_helper(StuffToDoHelper)
 
   default :to => Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
 
@@ -36,5 +37,18 @@ class StuffToDoMailer < Mailer
 
       render_multipart("recommended_below_threshold", body)
     end
+  end
+
+  def periodic(user, doing_now, recommended)
+    @user = user
+    @doing_now = doing_now
+    @recommended = recommended
+
+    mail(:to => @user.mail,
+         :subject => "Your Stuff To Do",
+         :user => @user) do |format|
+           format.text
+           format.html
+         end
   end
 end

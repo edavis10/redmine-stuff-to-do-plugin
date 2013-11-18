@@ -1,0 +1,17 @@
+<p>
+Here's your Stuff To Do update!
+</p>
+
+<% if @doing_now %>
+  <h3><%= l(:stuff_to_do_what_im_doing_now) %></h3>
+  <%= render :partial => 'item', :collection => stuff_for(@doing_now) %>
+<% end %>
+
+<% if @recommended %>
+  <h3><%= l(:stuff_to_do_what_is_recommended) %></h3>
+  <%= render :partial => 'item', :collection => stuff_for(@recommended) %>
+<% end %>
+
+<p>
+<%= link_to "View your Stuff To Do", :controller => 'stuff_to_do', :user_id => @user.id, :only_path => false %>
+</p>
