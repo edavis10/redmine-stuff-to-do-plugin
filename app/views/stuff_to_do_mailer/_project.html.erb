@@ -5,7 +5,7 @@
   </div>
 <% else %>
    <% if project.visible?(@user) %>
-    <%= link_to(image_tag('package.png'), :controller => 'projects', :action => 'show', :id => project) %>
+    <%= link_to(image_tag('package.png'), project_url(project)) %>
    <% else %>
     <%= image_tag('package.png') %>
    <% end %>
