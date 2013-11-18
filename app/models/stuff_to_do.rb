@@ -251,7 +251,9 @@ class StuffToDo < ActiveRecord::Base
     scope = self
     #for Postgres:# conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions = "#{IssueStatus.table_name}.is_closed = false"
-    conditions << " AND (#{IssueStatus.table_name}.id IN (#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+    unless Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].include? 'all'
+      conditions << " AND (#{IssueStatus.table_name}.id IN (#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+    end
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
     conditions << " AND ((" << "assigned_to_id = %d" % [user.id] << ")"
     if(user.is_a?(User))
