@@ -9,8 +9,9 @@
           <% else %>
             <%= image_tag('ticket.png') + '#' + h(issue.id) %>
           <% end %>
-          - <%= h(issue.project.name) %> -
-          <%= h(issue.subject) %>
+          - <%= h(issue.project.name) %>
+          - <small><%= h(issue.status.name) %></small>
+          - <%= h(issue.subject) %>
           </div>
   
           <% if issue.estimated_hours && issue.estimated_hours > 0 %>
