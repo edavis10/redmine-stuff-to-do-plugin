@@ -73,7 +73,7 @@ module StuffToDoIssuePatch
     #   be removed
     def update_next_issues
       self.reload
-      StuffToDo.remove_associations_to(self) if self.closed?
+      StuffToDo.remove_associations_to(self) if self.closed? || StuffToDo.unavailable_status?(self)
       StuffToDo.remove_stale_assignments(self)
       return true
     end

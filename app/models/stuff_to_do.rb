@@ -167,6 +167,14 @@ class StuffToDo < ActiveRecord::Base
     reorder_projects(user, project_ids)
   end
 
+  def self.available_status?(issue)
+    ( Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'] & ['all', issue.status] ).size > 0
+  end
+
+  def self.unavailable_status?(issue)
+    !self.available_status?(issue)
+  end
+
   private
 
   def self.reorder_issues(user, issue_ids)
@@ -249,6 +257,9 @@ class StuffToDo < ActiveRecord::Base
   def self.conditions_for_available(user, filter_by, project)
     scope = self
     conditions = "#{IssueStatus.table_name}.is_closed = false"
+    unless Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].include? 'all'
+      conditions << " AND (#{IssueStatus.table_name}.id IN (#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+    end
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
     conditions << " AND ((" << "assigned_to_id = %d" % [user.id] << ")"
     if(user.is_a?(User))
