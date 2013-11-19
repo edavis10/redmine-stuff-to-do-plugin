@@ -1,0 +1,25 @@
+      <li class="stuff-to-do-item <%= issue.css_classes if issue.respond_to?(:css_classes) %> <%= issue_counter.odd? ? "odd" : "even" %>" id="stuff_<%= issue.id %>">
+        <div class="issue-details">
+        <% if !@bypass_user_allowed_to_view and !@user.allowed_to? :view_issues, issue.project and !@user.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+          <em><%= l(:stuff_to_do_issue_unathorized) %></em>
+          </div>
+        <% else %>
+          <% if @bypass_user_allowed_to_view or @user.allowed_to? :view_issues, issue.project %>
+            <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), issue_url(issue)) %>
+          <% else %>
+            <%= image_tag('ticket.png') + '#' + h(issue.id) %>
+          <% end %>
+          - <%= h(issue.project.name) %>
+          - <small><%= h(issue.status.name) %></small>
+          - <%= h(issue.subject) %>
+          </div>
+  
+          <% if issue.estimated_hours && issue.estimated_hours > 0 %>
+          <div class="estimate"><%= h(l_hours(issue.estimated_hours)) %> &nbsp;</div>
+          <% end %>
+  
+          <div class="progress"><%= progress_bar(issue.done_ratio, :width => '100%') %></div>
+
+        <% end %>
+        <div style="clear:left;"></div>
+      </li>

@@ -1,0 +1,5 @@
+<% if !@bypass_user_allowed_to_view and !@user.allowed_to? :view_issues, project and !@user.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+<%= l(:stuff_to_do_project_unathorized) %>
+<% else %>
+<%= h project.name %>
+<% end %>
