@@ -257,7 +257,8 @@ class StuffToDo < ActiveRecord::Base
   def self.conditions_for_available(user, filter_by, project)
     scope = self
     conditions = "#{IssueStatus.table_name}.is_closed = false"
-    unless Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].include? 'all'
+    trackers = Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do']
+    if not trackers.nil? and not trackers.include? 'all'
       conditions << " AND (#{IssueStatus.table_name}.id IN (#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
     end
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
