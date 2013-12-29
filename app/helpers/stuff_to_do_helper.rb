@@ -60,41 +60,6 @@ module StuffToDoHelper
     stuff_to_do_items.reject {|item| item.class != Issue }
   end
 
-  def total_hours_for_user_on_day(issue, user, date)
-    total = issue.time_entries.inject(0.0) {|sum, time_entry|
-      if time_entry.user_id == user.id && time_entry.spent_on == date
-        sum += time_entry.hours
-      end
-      sum
-    }
-
-    total != 0.0 ? total : nil
-  end
-
-  def total_hours_for_issue_for_user(issue, user)
-    total = issue.time_entries.inject(0.0) {|sum, time_entry|
-      if time_entry.user_id == user.id
-        sum += time_entry.hours
-      end
-      sum
-    }
-    total
-  end
-
-  def total_hours_for_date(issues, user, date)
-    issues.collect {|issue| total_hours_for_user_on_day(issue, user, date)}.compact.sum
-  end
-
-  def total_hours_for_user(issues, user)
-    issues.collect {|issue| total_hours_for_issue_for_user(issue, user)}.compact.sum
-  end
-
-  # Redmine 0.8.x compatibility
-  def l_hours(hours)
-    hours = hours.to_f
-    l((hours < 2.0 ? :label_f_hour : :label_f_hour_plural), ("%.2f" % hours.to_f))
-  end unless Object.method_defined?('l_hours')
-  
   def stuff_to_do_to_csv(doing_now, recommended, available, user, options={})
     decimal_separator = l(:general_csv_decimal_separator)
     encoding = l(:general_csv_encoding)

@@ -52,17 +52,6 @@ div.pane-summary table.progress { float: right; margin: 1px 6px;}
 .odd.priority-lowest, .even.priority-lowest { border-color: #add7f3; }
 /* */
 
-/* Time Grid */
-#time-grid-table tbody tr { height: 3em; }
-#time-grid-table td.time-grid-date { text-align: right; }
-#time-grid-table td.time-grid-date, #time-grid-table th.time-grid-date { width: 6%; }
-#time-grid-table th.time-grid-project, #time-grid-table td.time-grid-project { width: 25%; }
-#time-grid-table th.time-grid-issue, #time-grid-table td.time-grid-issue { width: 25%; }
-#time-grid-table td.time-grid-running-total { text-align: right; }
-#time-grid-table td.time-grid-grand-total { text-align: right; }
-.daily-totals td.label { text-align:right; }
-input.save-time-grid { float: right; margin-top: 10px; margin-bottom: 10px; }
-
 /*** Context menu, based off of the Redmine version ***/
 .context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
 
