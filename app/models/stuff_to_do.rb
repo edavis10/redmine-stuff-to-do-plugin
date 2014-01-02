@@ -168,6 +168,7 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.available_status?(issue)
+    return true if Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].nil?
     ( Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'] & ['all', issue.status] ).size > 0
   end
 
