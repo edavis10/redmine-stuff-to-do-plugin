@@ -18,5 +18,5 @@ de:
 
   activerecord:
     attributes:
-      custom_field:
+      custom_field_value:
         reminder_subscription: "Wiedervorlage"
