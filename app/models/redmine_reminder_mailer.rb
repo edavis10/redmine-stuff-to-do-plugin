@@ -1,4 +1,4 @@
-class EscalationMailer < ActionMailer::Base
+class RedmineReminderMailer < ActionMailer::Base
 
   include Redmine::I18n
 
@@ -6,12 +6,12 @@ class EscalationMailer < ActionMailer::Base
     { :host => Setting.host_name, :protocol => Setting.protocol }
   end
 
-  def escalation(issues, user)
+  def reminder(issues, user)
     @issues = issues
 
     mail(:to => user.mail,
-         :from: => Setting.mail_from,
-         :subject => t('escalation_mailer.mail_subject'),
+         :from => Setting.mail_from,
+         :subject => t('redmine_reminder_mailer.mail_subject'),
          'X-Mailer' => 'Redmine',
          'X-Redmine-Host' => Setting.host_name,
          'X-Redmine-Site' => Setting.app_title,

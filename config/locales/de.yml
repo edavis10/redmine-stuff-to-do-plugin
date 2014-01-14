@@ -1,14 +1,22 @@
 # German strings go here for Rails i18n
 de:
-  escalation_mailer:
-    mail_subject: "Redmine Eskalationsmail"
+  redmine_reminder_mailer:
+    mail_subject: "Redmine Erinnerungsmail"
     mail_header: "Folgende Tickets drohen abzulaufen"
     field_status: "Status"
     field_priority: "Priorität"
     field_due_date: "Ablaufdatum"
     field_done_ratio: "Erledigt"
+    number_of_issues:
+      one: "Diese Mail erinnert an ein Ticket das bald abläuft"
+      other: "Diese Mail erinnert an %{count} Tickets die bald ablaufen"
 
   settings:
-    intervals_label: "Eskalationsintervalle"
+    intervals_label: "Erinnerungsintervalle"
 
-  field_escalation_notification: Wiedervorlage abonnieren
+  field_reminder_notification: "Wiedervorlage abonnieren"
+
+  activerecord:
+    attributes:
+      custom_field:
+        reminder_subscription: "Wiedervorlage"

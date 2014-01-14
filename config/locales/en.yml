@@ -1,3 +1,22 @@
 # English strings go here for Rails i18n
 en:
-  my_label: "My label"
+  redmine_reminder_mailer:
+    mail_subject: "Redmine Reminder"
+    mail_header: "The following issues are about to expire"
+    field_status: "State"
+    field_priority: "Priority"
+    field_due_date: "Expiration date"
+    field_done_ratio: "Done ratio"
+    number_of_issues:
+      one: "This mail reminds of one issue which is about to expire"
+      other: "This mail reminds of %{count} issues which are about to expire"
+
+  settings:
+    intervals_label: "Remember intervals"
+
+  field_reminder_notification: "Subscribe to remembering mailservice"
+
+  activerecord:
+    attributes:
+      custom_field:
+        reminder_subscription: "Reminder Mail"
