@@ -1,7 +1,7 @@
 # Redmine Stuff To Do Plugin
 
 The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload.
-Master branch supports version 2.x only.  Previous versions use 0.4.0.
+Master branch supports version 2.x and 2.3.3. More versions are to be tested. Previous versions use 0.4.0.
 
 ![StuffToDo](img/StuffToDo.png "Stuff to Do")
 
