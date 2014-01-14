@@ -1,17 +1,17 @@
 de:
-  stuff_to_do_title: Selbstverwaltung
-  stuff_to_do_what_im_doing_now: "Was ich gerade mache" 
-  stuff_to_do_what_is_recommended: "Was ist als nächstes zu tun" 
-  stuff_to_do_what_is_available: "Was gibt es zu tun" 
-  stuff_to_do_text_order_im_doing_it: "In dieser Reihenfolge mache ich es" 
+  stuff_to_do_title: "ToDo"
+  stuff_to_do_what_im_doing_now: "Was ich gerade mache"
+  stuff_to_do_what_is_recommended: "Was ist als nächstes zu tun"
+  stuff_to_do_what_is_available: "Was gibt es zu tun"
+  stuff_to_do_text_order_im_doing_it: "In dieser Reihenfolge mache ich es"
   stuff_to_do_text_by_project_manager: Vom Manager
-  stuff_to_do_label_view_user_list: "Aufgaben eines anderen Benutzers anzeigen:" 
-  stuff_to_do_text_total_progress: "Gesamtfortschritt" 
-  stuff_to_do_text_total_estimates: "Gesamteschätzung" 
+  stuff_to_do_label_view_user_list: "Aufgaben eines anderen Benutzers anzeigen:"
+  stuff_to_do_text_total_progress: "Gesamtfortschritt"
+  stuff_to_do_text_total_estimates: "Gesamteschätzung"
   stuff_to_do_label_project_manager_emails: Projektmanager E-Mails
   stuff_to_do_label_threshold: Schwellwert
   stuff_to_do_label_email_to: E-Mail Adressen
-  stuff_to_do_text_settings: "Beim Überschreiten des Schwellwerts unten wird eine Mail an die Empfänger gesendet. Mehrere Empfänger können durch Komma getrennt angegeben werden." 
+  stuff_to_do_text_settings: "Beim Überschreiten des Schwellwerts unten wird eine Mail an die Empfänger gesendet. Mehrere Empfänger können durch Komma getrennt angegeben werden."
   stuff_to_do_label_filter: Filter
   stuff_to_do_label_filter_by: Filtern nach...
   stuff_to_do_drag_issue_create_list: Ticket hierher ziehen, um eine neue Liste zu erstellen.
@@ -24,13 +24,13 @@ de:
   stuff_to_do_time_grid_daily_totals: "Summe Tageswert"
   stuff_to_do_time_grid_running_total: Summe Absoluter Wert
   stuff_to_do_use_time_grid: "Zeitübersicht verwenden"
-  field_stuff_to_do_enabled: "Selbstverwaltung Liste aktivieren"
+  field_stuff_to_do_enabled: "ToDo Liste aktivieren"
   stuff_to_do_add_to_front: "jetzt gleich machen"
   stuff_to_do_add_to_back: "später machen"
   stuff_to_do_remove: "von Liste entfernen"
   stuff_to_do_reportee: "Reporter"
-  stuff_to_do_reportees: "Reporter" 
-  stuff_to_do_reportees_for: "Reporter für: " 
+  stuff_to_do_reportees: "Reporter"
+  stuff_to_do_reportees_for: "Reporter für: "
   stuff_to_do_cannot_create_reportee_error: "Reporter kann nicht gespeichert werden"
   stuff_to_do_manage_reportees: "Reporter für ihre Aufgaben verwalten"
   stuff_to_do_reportee_new: "Reporter anlegen"
@@ -38,3 +38,8 @@ de:
   stuff_to_do_issue_unathorized: "Sie haben keine Berechtigung zur Anzeige des Tickets."
   stuff_to_do_project_unathorized: "Sie haben keine Berechtigung zur Anzeige des Projekts."
   stuff_to_do_title_user: "%{user}'s ToDos"
+  permission_view_stuff_to_do: "ToDo Liste benutzen"
+  permission_view_others_stuff_to_do: "ToDo Liste anderer Nutzer ändern"
+  permission_manage_stuff_to_do_reportees: "Reporter konfigurieren"
+  permission_view_all_reportee_issues: "Sehe alle verfügbaren Reporter Tickets"
+  permission_view_all_reportee_stuff_to_do: "Sehe all Reporter Tickets mit Name"

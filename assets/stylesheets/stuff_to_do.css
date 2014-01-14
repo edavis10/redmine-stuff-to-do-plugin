@@ -10,7 +10,8 @@ div.pane ol { list-style: none; padding-left: 15px;}
 div.pane ol li { padding: 1px 0; }
 div.pane ol li:hover { background-color:#ffffdd; }
 div.pane ol li.empty-list { background-color:#FFFFEE; padding:100px; text-align:center; font-style:italic; }
-div.menu { float:right; text-align: right; }
+div.menu { float:right; text-align: right; width:79%;}
+h1 {float:left; width:19%;}
 
 .drop-accepted { background-color:#FFFFEE; height: 16px; width: 100%; border: 1px solid #000000; }
 
@@ -56,26 +57,26 @@ div.pane-summary table.progress { float: right; margin: 1px 6px;}
 .context-menu { position: absolute; z-index: 40; font-size: 0.9em;}
 
 .context-menu, .context-menu li, .context-menu a {
-	display:block;
-	margin:0;
-	padding:0;
-	border:0;
+  display:block;
+  margin:0;
+  padding:0;
+  border:0;
 }
 
 .context-menu {
-	width:150px;
-	border-top:1px solid #ddd;
-	border-left:1px solid #ddd;
-	border-bottom:1px solid #777;
-	border-right:1px solid #777;
-	background:white;
-	list-style:none;
+  width:150px;
+  border-top:1px solid #ddd;
+  border-left:1px solid #ddd;
+  border-bottom:1px solid #777;
+  border-right:1px solid #777;
+  background:white;
+  list-style:none;
 }
 
 .context-menu li {
-	position:relative;
-	padding:1px;
-	z-index:39;
+  position:relative;
+  padding:1px;
+  z-index:39;
 }
 .context-menu li.folder ul { position:absolute; left:168px; /* IE6 */ top:-2px; }
 .context-menu li.folder>ul { left:148px; }
@@ -85,21 +86,21 @@ div.pane-summary table.progress { float: right; margin: 1px 6px;}
 .context-menu.reverse-x li.folder>ul { right:148px; }
 
 .context-menu a {
-	border:1px solid white;
-	text-decoration:none !important;
-	background-repeat: no-repeat;
-	background-position: 1px 50%;
-	padding: 1px 0px 1px 20px;
-	width:100%; /* IE */
+  border:1px solid white;
+  text-decoration:none !important;
+  background-repeat: no-repeat;
+  background-position: 1px 50%;
+  padding: 1px 0px 1px 20px;
+  width:100%; /* IE */
 }
 .context-menu li>a { width:auto; } /* others */
 .context-menu a.disabled, .context-menu a.disabled:hover {color: #ccc;}
 .context-menu li a.submenu { background:url("../images/sub.gif") right no-repeat; }
 .context-menu a:hover { border-color:gray; background-color:#eee; color:#2A5685; }
-.context-menu li.folder a:hover { background-color:#eee; }	
-.context-menu li.folder:hover { z-index:40; }		
+.context-menu li.folder a:hover { background-color:#eee; }
+.context-menu li.folder:hover { z-index:40; }
 .context-menu ul ul, .context-menu  li:hover ul ul { display:none; }
-.context-menu li:hover ul, .context-menu li:hover li:hover ul {	display:block; }
+.context-menu li:hover ul, .context-menu li:hover li:hover ul { display:block; }
 
 /* selected element */
 .context-menu-selection { background-color:#507AAA !important; color:#f8f8f8 !important; }

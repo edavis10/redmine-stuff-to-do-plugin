@@ -1,10 +1,6 @@
 <% html_title(l(:stuff_to_do_title)) %>
 <h1><%= l(:stuff_to_do_title) %></h1>
 
-<div id="stuff-to-do-error" class="flash error" style="display:none">
-
-</div>
-
 <div class="menu">
   <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, :global => true) %>
   <div class="user">
@@ -14,9 +10,9 @@
     <% end %>
   </div>
   <% else %>
-  	<%= hidden_field_tag "user_id", @user.id %>
-	<% end %>
-	
+    <%= hidden_field_tag "user_id", @user.id %>
+  <% end %>
+
   <div class="filter">
     <%= form_tag({}, :id => 'filter_form') do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
@@ -26,6 +22,12 @@
     <% end %>
   </div>
 </div>
+
+<div id="stuff-to-do-error" class="flash error" style="display:none">
+
+</div>
+
+
 <div style="clear:right;"></div>
 
 <%= render :partial => 'panes' %>
@@ -37,10 +39,10 @@
   <h3 class="title"><%= l(:label_export_options, :export_format => 'CSV') %></h3>
   <%= form_tag(params.merge({:format => 'csv',:page=>nil}), :method => :get, :id => 'csv-export-form') do %>
   <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, :global => true) %>
-		  <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
-		    <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
+      <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
+        <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
   <% end %>
-  
+
   <label><%= check_box_tag 'available', 'yes', true %> <%= l(:stuff_to_do_what_is_available) %></label><br />
   <label><%= check_box_tag 'description', 'no', false %> <%= l(:field_description) %></label>
   </p>

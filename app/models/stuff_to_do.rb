@@ -14,7 +14,7 @@ class StuffToDo < ActiveRecord::Base
   belongs_to :stuff, :polymorphic => true
   belongs_to :user
   acts_as_list :scope => :user
-  
+
   if Rails::VERSION::MAJOR >= 3
     scope :doing_now, lambda { |user|
       {
@@ -32,10 +32,10 @@ class StuffToDo < ActiveRecord::Base
       }
     }
   end
-  
+
   # TODO: Rails bug
   #
-  # ActiveRecord ignores :offset if :limit isn't added also.  But since we 
+  # ActiveRecord ignores :offset if :limit isn't added also.  But since we
   # want all the records, we need to provide a limit that will include everything
   #
   # http://dev.rubyonrails.org/ticket/7257
@@ -59,7 +59,7 @@ class StuffToDo < ActiveRecord::Base
       }
     }
   end
-  
+
   # Filters the issues that are available to be added for a user.
   #
   # A filter can be a record:
@@ -70,15 +70,16 @@ class StuffToDo < ActiveRecord::Base
   #
   def self.available(user, project, filter=nil)
     return [] if filter.blank?
-      
+
     if filter.is_a?(Project)
       potential_stuff_to_do = active_and_visible_projects(user).sort
     else
       if User.current.allowed_to?(:view_all_reportee_issues, nil, { :global => true }) or (User == User.current)
         visible_issues =  Issue
       else
-        visible_issues =  Issue.visible       
+        visible_issues =  Issue.visible
       end
+
       potential_stuff_to_do = visible_issues.find(:all,
                                          :include => [:status, :priority, :project],
                                          :conditions => conditions_for_available(user, filter, project),
@@ -86,10 +87,10 @@ class StuffToDo < ActiveRecord::Base
     end
 
     stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
-    
+
     return potential_stuff_to_do - stuff_to_do
   end
-  
+
   def self.assigned(user)
 
     return StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
@@ -122,10 +123,10 @@ class StuffToDo < ActiveRecord::Base
         StuffToDoMailer.recommended_below_threshold(user, count).deliver
       end
     end
-    
+
     return true
   end
-  
+
   # Destroys all +NextIssues+ on an +issue+ that are not the assigned to user
   def self.remove_stale_assignments(issue)
     if issue.assigned_to_id.nil?
@@ -136,7 +137,7 @@ class StuffToDo < ActiveRecord::Base
                              issue.assigned_to_id])
     end
   end
-  
+
   # Reorders the list of StuffToDo items for +user+ to be in the order of
   # +ids+.  New StuffToDos will be created if needed and old
   # StuffToDos will be removed if they are unassigned.
@@ -205,13 +206,13 @@ class StuffToDo < ActiveRecord::Base
         stuff_to_do.user_id = user.id
 
         stuff_to_do.save # TODO: Check return
-        
+
         # Have to resave next_issue since acts_as_list automatically moves it
         # to the bottom on create
         stuff_to_do.insert_at(position + 1)  # acts_as_list is 1 based
       end
     end
-  
+
   end
 
   # Destroys saved records that are +ids_found_in_database+ but are
@@ -223,12 +224,12 @@ class StuffToDo < ActiveRecord::Base
       removed_stuff_to_do.destroy
     end
   end
-  
+
   def self.remove(user_id, id)
     removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user_id, id)
     removed_stuff_to_do.destroy
   end
-  
+
   def self.add(user_id, id, to_front)
     if (find_by_user_id_and_stuff_id(user_id, id).nil?) #make sure it's not already there
       stuff_to_do = self.new
@@ -236,7 +237,7 @@ class StuffToDo < ActiveRecord::Base
               stuff_to_do.stuff_type = 'Issue'
               stuff_to_do.user_id = user_id
               stuff_to_do.save # TODO: Check return
-              
+
               if to_front == true
                 stuff_to_do.insert_at(1)
               end
@@ -257,25 +258,22 @@ class StuffToDo < ActiveRecord::Base
 
   def self.conditions_for_available(user, filter_by, project)
     scope = self
-    conditions = "#{IssueStatus.table_name}.is_closed = false"
+    conditions = { "#{IssueStatus.table_name}.is_closed" => false }
     trackers = Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do']
     if not trackers.nil? and not trackers.include? 'all'
-      conditions << " AND (#{IssueStatus.table_name}.id IN (#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+      conditions["#{IssueStatus.table_name}.id"] = "#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
     end
-    conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
-    conditions << " AND ((" << "assigned_to_id = %d" % [user.id] << ")"
-    if(user.is_a?(User))
-      user.group_ids.each do |group_id|
-        conditions << " OR (" << "assigned_to_id = %d" % [group_id] << ")"
-      end
-    end
-    conditions << ")"
-    case 
+
+    conditions["#{Project.table_name}.status"] = Project::STATUS_ACTIVE
+    conditions["assigned_to_id"] = user.id
+    conditions["assigned_to_id"] = [user.id] + user.group_ids if(user.is_a?(User))
+
+    case
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
-      conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
+      conditions["#{table_name}.id"] = filter_by.id
     end
-    conditions << ( " AND (" << "#{Issue.table_name}.project_id = %d" % [project.id] << ")" ) unless project.nil?
+    conditions["#{Issue.table_name}.project_id"] = project.id unless project.nil?
     conditions
   end
 end
