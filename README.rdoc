@@ -7,6 +7,7 @@ This plugin ensures that everytime the assignee of an issue changes, the old ass
 == Installation
 
 1. To install this plugin just clone it in your redmine's plugins folder
+2. Run `rake redmine:plugins:migrate RAILS_ENV=production` in your redmine folder
 2. Restart your webserver
 3. If you wish you can use the cron.sh script to install a cronjob which automatically triggers email delivery
 
