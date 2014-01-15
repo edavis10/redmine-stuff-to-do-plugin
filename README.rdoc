@@ -1,4 +1,4 @@
-= Escalation alert
+= Redmine Reminder
 
 == Features
 
