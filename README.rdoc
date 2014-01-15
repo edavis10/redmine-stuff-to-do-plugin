@@ -11,6 +11,8 @@ This plugin ensures that everytime the assignee of an issue changes, the old ass
 2. Restart your webserver
 3. If you wish you can use the cron.sh script to install a cronjob which automatically triggers email delivery
 
+Note that redmine must be able to send emails, so you have to configure email server access for redmine.
+
 == Usage
 
 You can define intervals when a reminder mail will be sent. To do that go to +Administration -> Plugins -> Redmine reminder Settings+.
