@@ -4,7 +4,7 @@ class RedmineReminderController < ApplicationController
   accept_api_auth :check_for_escalations
 
   def send_reminders
-    subscribed = CustomField.find_by_name_and_type 'reminder_subscription', 'UserCustomField'
+    subscribed = CustomField.find_by_name_and_type 'Ticket-reminder Subscription', 'UserCustomField'
     users = User.where('type = "User"')
     intervals = expand_intervals Setting.plugin_redmine_reminder['intervals']
 
