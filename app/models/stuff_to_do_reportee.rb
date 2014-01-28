@@ -8,9 +8,8 @@ class StuffToDoReportee < ActiveRecord::Base
   validates_presence_of :user
   validate :validate_reportee_or_group, :validate_reportee, :validate_group
   
-  def self.reportees_for(user)
-      
-      reportees = user.pref[:stuff_to_do_view_all_reportees] ? User.active : user_reportees_for(user) | reportees_from_groups_for(user)
+  def self.reportees_for(user)      
+      reportees = user.allowed_to_view_all_reportees? ? User.active : user_reportees_for(user) | reportees_from_groups_for(user)
       return reportees
   end
   

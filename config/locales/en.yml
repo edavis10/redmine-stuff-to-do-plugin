@@ -35,7 +35,6 @@ en:
   stuff_to_do_cannot_create_reportee_error: "Cannot add reportee"
   stuff_to_do_manage_reportees: "Manage Reportees"
   stuff_to_do_reportee_new: "New Reportees"
-  field_stuff_to_do_view_all_reportees: "View All Reportee"
   stuff_to_do_issue_unathorized: "Not authorized to view this issue."
   stuff_to_do_project_unathorized: "Not authorized to view this project."
   stuff_to_do_title_user: "%{user}'s Stuff to Do"

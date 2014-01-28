@@ -36,7 +36,6 @@ de:
   stuff_to_do_cannot_create_reportee_error: "Reporter kann nicht gespeichert werden"
   stuff_to_do_manage_reportees: "Reporter für ihre Aufgaben verwalten"
   stuff_to_do_reportee_new: "Reporter anlegen"
-  field_stuff_to_do_view_all_reportees: "Reporter anzeigen"
   stuff_to_do_issue_unathorized: "Sie haben keine Berechtigung zur Anzeige des Tickets."
   stuff_to_do_project_unathorized: "Sie haben keine Berechtigung zur Anzeige des Projekts."
   stuff_to_do_title_user: "%{user}'s To-Dos"
