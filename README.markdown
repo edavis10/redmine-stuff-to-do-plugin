@@ -30,9 +30,10 @@ A copy of the plugin can be downloaded from [Little Stream Software](https://pro
 5. Setup permissions
   1.  Use Stuff to Do - allow a user to manage their own Stuff to Do list
   2. View Others Stuff to Do - allow a user to view the Stuff to Do list of their assignees (set in account/user settings)
-  3.  Manage Stuff to Do Reportees - allow a user to select whose Stuff to Do list they can view
-  4.  View All Reportee Issues - when viewing another's stuff to do list, view all available issues, even if they would not normally be visible to the current user
-  5.  View All Reportee Stuff to Do - when viewing another's stuff to do list, view all issues that are currently in their Doing Now and Recommended lists
+  3.  View all users stuff to do - view the stuff to do of all users, even if they are not your assignee
+  4.  Manage Stuff to Do Reportees - allow a user to select whose Stuff to Do list they can view
+  5.  View All Reportee Issues - when viewing another's stuff to do list, view all available issues, even if they would not normally be visible to the current user
+  6.  View All Reportee Stuff to Do - when viewing another's stuff to do list, view all issues that are currently in their Doing Now and Recommended lists
 6. Click the Stuff To Do link in the top left menu
 
 ## Usage
