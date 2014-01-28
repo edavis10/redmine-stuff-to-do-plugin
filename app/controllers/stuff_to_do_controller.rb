@@ -65,6 +65,15 @@ class StuffToDoController < ApplicationController
       format.js { render :partial => 'right_panes', :layout => false}
     end
   end
+
+  def clear
+    StuffToDo.where(:user_id => @user).destroy_all
+
+    respond_to do |format|
+      format.html { redirect_to :action => 'index', :user_id => @user }
+      format.js { redirect_to :action => 'index', :user_id => @user }
+    end
+  end
   
   def time_grid
     get_time_grid

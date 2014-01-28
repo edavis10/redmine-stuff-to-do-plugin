@@ -46,6 +46,8 @@
         <p><%= l(:stuff_to_do_text_total_estimates) %> <%= l_hours(total_estimates(issues_for(@recommended))) %></p>
       </div>
     </div>
+
+    <%= link_to l(:button_clear), url_for(:controller => :stuff_to_do, :action => :clear, :user_id => @user), :confirm => l(:stuff_to_do_clear_confirm) %>
   </div>
 
 
