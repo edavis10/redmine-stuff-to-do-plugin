@@ -32,9 +32,13 @@
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
-  <%= javascript_include_tag 'jquery-1.2.6.min.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'ui/ui.core.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'ui/ui.sortable.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery-1.4.2.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.ui.core.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.ui.widget.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.ui.mouse.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.ui.draggable.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.ui.sortable.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.ui.touch-punch.min.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_include_tag 'jquery.contextMenu.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_include_tag 'facebox.js', :plugin => 'stuff_to_do_plugin' %>
   <%= javascript_tag("jQuery.noConflict();") %>
