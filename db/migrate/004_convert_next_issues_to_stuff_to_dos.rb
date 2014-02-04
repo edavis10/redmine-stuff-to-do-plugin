@@ -1,6 +1,8 @@
 # Compatibiliy class used by migrations
 class NextIssue < ActiveRecord::Base
-  set_table_name 'next_issues'
+  set_table_name do
+    "#{table_name_prefix}next_issues"
+  end
 end
 
 class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
