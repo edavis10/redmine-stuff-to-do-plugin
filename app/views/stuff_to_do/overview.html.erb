@@ -1,0 +1,89 @@
+<% html_title(l(:stuff_to_do_title)) %>
+<h1><%= l(:stuff_to_do_title) %></h1>
+
+<div id="stuff-to-do-error" class="flash error" style="display:none"></div>
+
+<div class="overview">Overview</div>
+
+
+<div class="authors-blocks">
+
+  <% @selected_users.each do |user| %>
+
+  <% @doing_now = StuffToDo.doing_now(user) %>
+  <%
+     @projects, @issues = user.projects.all(:limit => 5), []
+     stuff_for(@doing_now).each { |item| @issues.push(item) if item.class == Issue  }  %>
+
+  <div class="job-block pane" id="users_<%= user.id %>">
+    <h1><%= link_to user.name, :controller => 'stuff_to_do', :action => 'index', :user_id => user.id  %></h1>
+
+    <div class="project-names">
+      <% @projects.each do |project| %>
+      <% if project.issues.open.first(:conditions => {:assigned_to_id => user.id }) %>
+      <div class="one-line">
+        <%= link_to( h(project.name), :controller => 'projects', :action => 'show', :id => project) %>
+        <span><%= total_hours_for_user project.issues, user %></span>
+        <div class="progress"><span style="width:<%= progress_bar_for_project(project, user) %>%;"></span></div>
+      </div>
+      <% end %>
+      <% end %>
+    </div>
+
+
+    <h2><a href="#" title="current issues">Current Issues</a></h2>
+
+    <div class="issues" data-user_id="<%= user.id %>">
+      <% @issues[0..5].each do |item| %>
+      <div class="one-line" data-item_id="<%= item.id %>" data-owner_id="<%= user.id %>">
+        <%= link_to( h("#{item.project.name} - #{item.subject}"), :controller => 'issues', :action => 'show', :id => item) %>
+        <span><%= item.estimated_hours %></span>
+        <div class="progress"><span style="width:<%= item.done_ratio.to_f %>%;"></span></div>
+      </div>
+      <% end %>
+    </div>
+
+
+  </div>
+  <% end %>
+</div>
+
+
+
+
+<% if User.current.admin? %>
+
+<div class="filter">
+  <div class="filter-label">Filter by teammember</div>
+
+  <% form_tag({ :controller => 'stuff_to_do', :action => 'overview'}, :method => :get,
+  :id => 'user_switch', :class => "filter-by-name" ) do  %>
+
+  <ul>
+    <% @users.each do |user| %>
+    <li>
+      <%= check_box_tag :"users[]", user.id, @selected_users.include?(user) %><label><%= user.name %></label>
+    </li>
+    <% end %>
+  </ul>
+
+  <button>Select</button>
+  <% end %>
+</div>
+
+<% end %>
+
+
+<% content_for :header_tags do %>
+<%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
+<%= stylesheet_link_tag "stuff_to_do_overview.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
+<%= javascript_include_tag 'jquery.js', :plugin => 'stuff_to_do_plugin' %>
+<%= javascript_include_tag 'jquery.contextMenu.js', :plugin => 'stuff_to_do_plugin' %>
+<%= javascript_include_tag 'facebox.js', :plugin => 'stuff_to_do_plugin' %>
+<%= javascript_include_tag 'jquery-ui.min.js', :plugin => 'stuff_to_do_plugin' %>
+<%= javascript_tag("jQuery.noConflict();") %>
+<%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
+<%= javascript_include_tag 'stuff-to-do-overview.js', :plugin => 'stuff_to_do_plugin' %>
+<%= javascript_tag("var user_id = #{@user.id};") %>
+<%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+<% end %>

@@ -1,0 +1,44 @@
+<% html_title(l(:stuff_to_do_title)) %>
+<h1><%= l(:stuff_to_do_title) %></h1>
+
+<div id="stuff-to-do-error" class="flash error" style="display:none">
+
+</div>
+
+<div class="menu">
+  <% if User.current.admin? %>
+  <div class="user">
+    <% form_tag({ :controller => 'stuff_to_do', :action => 'index'}, :method => :get, :id => 'user_switch' ) do  %>
+    <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
+    <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
+    <% end %>
+  </div>
+
+  <div class="filter">
+    <% form_tag({}, :id => 'filter_form') do %>
+    <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
+    <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
+    <% end %>
+  </div>
+  <% end %>
+</div>
+<div style="clear:right;"></div>
+
+<%= render :partial => 'panes' %>
+
+<div style="clear:both;"></div>
+
+<%= render :partial => 'time_grid' if !Setting.plugin_stuff_to_do_plugin['use_time_grid'].blank? && Setting.plugin_stuff_to_do_plugin['use_time_grid'] != "0" %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
+  <%= javascript_include_tag 'jquery-1.2.6.min.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'ui/ui.core.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'ui/ui.sortable.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.contextMenu.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'facebox.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_tag("jQuery.noConflict();") %>
+  <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_tag("var user_id = #{@user.id};") %>
+  <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
+<% end %>

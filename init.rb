@@ -21,7 +21,7 @@ Dispatcher.to_prepare do
   Project.send(:include, StuffToDoProjectPatch)
   Issue.send(:include, StuffToDoIssuePatch)
   User.send(:include, StuffToDoUserPatch)
-  
+
   # Needed for the compatibility check
   begin
     require_dependency 'issue_priority'
@@ -49,6 +49,8 @@ Redmine::Plugin.register :stuff_to_do_plugin do
              'use_time_grid' => '0'
            })
 
-  menu(:top_menu, :stuff_to_do, {:controller => "stuff_to_do", :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? })
+  menu(:top_menu, :stuff_to_do, {:controller => "stuff_to_do", :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? && !User.current.admin? })
+
+  menu(:top_menu, :stuff_to_do_overview, {:controller => "stuff_to_do", :action => 'overview'}, :caption => :stuff_to_do_title, :if => Proc.new{ User.current.logged? && User.current.admin? })
 
 end
