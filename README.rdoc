@@ -7,7 +7,7 @@ This plugin ensures that everytime the assignee of an issue changes, the old ass
 == Installation
 
 1. To install this plugin just clone it in your redmine's plugins folder
-2. Run `rake redmine:plugins:migrate RAILS_ENV=production` in your redmine folder
+2. Run ```rake redmine:plugins:migrate RAILS_ENV=production``` in your redmine folder
 2. Restart your webserver
 3. If you wish you can use the cron.sh script to install a cronjob which automatically triggers email delivery
 
@@ -16,9 +16,9 @@ Note that redmine must be able to send emails, so you have to configure email se
 == Usage
 
 You can define intervals when a reminder mail will be sent. To do that go to +Administration -> Plugins -> Redmine reminder Settings+.
-But if you want to get such reminder mails you have to subscribe to them.
 For example: "[1-3],5,7" means that the assignee (or the author if the issue has no assignee)
-will get an email on the days 1,2,3,5,7 before the due date of the issue. Independant of these intervals all users will get emails for expired issues every day.
+will get an email on the days 1,2,3,5,7 before the due date of the issue. Independant of these intervals all users which subscribed will get emails for expired issues every day.
+If a user now wants to subscribe to reminder mails, he has to go to /my/account page and tick the checkbox 'Ticket-reminder Subscription'.
 
 To trigger the event of sending emails just call the URL "#{rails_root}/redmine_reminder". You could do that automatically by configuring a cronjob which calls the +cron.sh+ script delivered with this plugin. You just have to enter the api key of a user with appropriate permissions in this script.
 
