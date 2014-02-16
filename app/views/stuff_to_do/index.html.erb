@@ -32,6 +32,9 @@
 
 <div style="clear:both;"></div>
 
+<% other_formats_links do |f| %>
+  <%= f.link_to 'CSV', :url => params, :onclick => "showModal('csv-export-options', '330px'); return false;" %>
+<% end %>
 
 <%= render :partial => 'time_grid' if !Setting.plugin_stuff_to_do_plugin['use_time_grid'].blank? && Setting.plugin_stuff_to_do_plugin['use_time_grid'] != "0" %>
 
