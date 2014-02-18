@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <%= link_to l(:button_clear), url_for(:controller => :stuff_to_do, :action => :clear, :user_id => @user), :confirm => l(:stuff_to_do_clear_confirm) %>
+    <%= link_to l(:button_clear), url_for(:controller => :stuff_to_do, :action => :clear, :user_id => @user), :confirm => l(:stuff_to_do_clear_confirm), :class => 'icon icon-del' %>
   </div>
 
 
