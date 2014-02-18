@@ -4,13 +4,14 @@ ol#available { overflow-y:auto; height: 500px; }
 ol#recommended { overflow-y:auto; height: 300px; }
 li.issue, li.project { cursor: move; }
 li.project { font-weight: bold; }
-div.pane h3 { color: #507AAA; }
+div.pane h3 { margin-top: 20px; }
 span.subtitle { font-size: smaller; color: #CCCCCC }
 div.pane ol { list-style: none; padding-left: 15px;}
 div.pane ol li { padding: 1px 0; }
 div.pane ol li:hover { background-color:#ffffdd; }
 div.pane ol li.empty-list { background-color:#FFFFEE; padding:100px; text-align:center; font-style:italic; }
-div.menu { float:right; text-align: right; }
+div.menu .user { float: left; }
+div.menu .filter { float: right; }
 
 .drop-accepted { background-color:#FFFFEE; height: 16px; width: 100%; border: 1px solid #000000; }
 

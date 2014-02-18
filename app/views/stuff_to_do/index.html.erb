@@ -1,10 +1,11 @@
 <% html_title(l(:stuff_to_do_title)) %>
-<h1><%= l(:stuff_to_do_title) %></h1>
+<h2><%= l(:stuff_to_do_title) %></h2>
 
 <div id="stuff-to-do-error" class="flash error" style="display:none">
 
 </div>
 
+<fieldset id="filters">
 <div class="menu">
   <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, :global => true) %>
   <div class="user">
@@ -20,12 +21,13 @@
   <div class="filter">
     <%= form_tag({}, :id => 'filter_form') do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
-    <%= select_tag("filter", filter_options(@filters, params[:filter])) %><br>
+    <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
     <label for="project_id"><%= l(:label_project_plural) %></label>
     <%= select_tag("project_id", project_options(StuffToDo.active_and_visible_projects(@user), params[:project_id])) %>
     <% end %>
   </div>
 </div>
+</fieldset>
 <div style="clear:right;"></div>
 
 <%= render :partial => 'panes' %>
