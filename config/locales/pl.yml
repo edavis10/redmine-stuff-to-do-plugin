@@ -1,22 +1,7 @@
 # Polish strings go here for Rails i18n
-en:
-  redmine_reminder_mailer:
-    mail_subject: "Przypominacz Redmine"
-    mail_header: "Zbliża się termin realizacji poniższych zagadnień:"
-    field_status: "Status"
-    field_priority: "Priorytet"
-    field_due_date: "Planowana data oddania"
-    field_done_ratio: "Procent realizacji"
-    number_of_issues:
-      one: "Ten email przypomina o jednym zagadnieniu, którego termin realizacji się zbliża."
-      other: "Ten email przypomina o %{count} zagadnieniach, których termin realizacji się zbliża"
-
+pl:
   settings:
     intervals_label: "Przedziały czasowe przypomnień"
 
-  field_reminder_notification: "Zapisz się do serwisu przypomnień email"
-
-  activerecord:
-    attributes:
-      custom_field:
-        reminder_subscription: "Przypominacz email"
+  field_subscribe_to_reminder: "Zapisz się do serwisu przypomnień email"
+  redmine_reminder_account_settings_title: "Resubmission"

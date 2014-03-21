@@ -1,10 +1,12 @@
+require_dependency 'hooks/view_hooks'
+
 Redmine::Plugin.register :redmine_reminder do
-  name 'Redmine reminder'
+  name 'Redmine Reminder'
   author 'Kevin Neuenfeldt'
   description 'This plugin can be used to automatically send emails to officers of issues which are about to expire.'
-  version '0.1.0'
+  version '0.2.0'
   url 'https://github.com/raafael911/redmine_reminder.git'
   author_url ''
 
-  settings :default => { :intervals => '' }, :partial => 'settings/redmine_reminder_settings'
+  settings :default => { :days => 7 }, :partial => 'settings/redmine_reminder_settings'
 end

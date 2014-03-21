@@ -1,3 +1,11 @@
 #!/bin/bash
 
-curl -v -H "X-Redmine-API-Key: " -X GET -k http://localhost/redmine_reminder
+# Absolute path to your redmine installation here
+REDMINE_ROOT=
+
+# Name of your production environment (most cases "production")
+RAILS_ENV=production
+
+# These lines do the actual work
+cd $REDMINE_ROOT
+rake redmine:redmine_reminder:send_reminder_mails

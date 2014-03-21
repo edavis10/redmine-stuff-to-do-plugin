@@ -1,22 +1,7 @@
 # German strings go here for Rails i18n
 de:
-  redmine_reminder_mailer:
-    mail_subject: "Redmine Erinnerungsmail"
-    mail_header: "Folgende Tickets drohen abzulaufen"
-    field_status: "Status"
-    field_priority: "Priorität"
-    field_due_date: "Ablaufdatum"
-    field_done_ratio: "Erledigt"
-    number_of_issues:
-      one: "Diese Mail erinnert an ein Ticket das bald abläuft"
-      other: "Diese Mail erinnert an %{count} Tickets die bald ablaufen"
+  field_subscribe_to_reminder: "Wiedervorlage abonnieren"
+  redmine_reminder_account_settings_title: "Wiedervorlage"
 
   settings:
-    intervals_label: "Erinnerungsintervalle"
-
-  field_reminder_notification: "Wiedervorlage abonnieren"
-
-  activerecord:
-    attributes:
-      custom_field_value:
-        reminder_subscription: "Wiedervorlage"
+    days_label: "Anzahl Tage in der Zukunft für die Erinnerungen verschickt werden sollen"

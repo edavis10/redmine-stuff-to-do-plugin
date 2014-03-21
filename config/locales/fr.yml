@@ -1,22 +1,7 @@
 # French strings go here for Rails i18n
 fr:
-  redmine_reminder_mailer:
-    mail_subject: "Rappel des demandes en attente"
-    mail_header: "Les tickets suivants expirent prochainement"
-    field_status: "Etat"
-    field_priority: "Priorite"
-    field_due_date: "Echeance"
-    field_done_ratio: "Progression"
-    number_of_issues:
-      one: "Ce mail rassemble les tickets expirant prochainement"
-      other: "Ce mail rassemble les %{count} tickets expirant prochainement"
+  field_subscribe_to_reminder: "Souscrire aux rappels"
+  redmine_reminder_account_settings_title: "Rappels"
 
   settings:
     intervals_label: "Intervalles de rappel"
-
-  field_reminder_notification: "Souscrire aux rappels"
-
-  activerecord:
-    attributes:
-      custom_field:
-        reminder_subscription: "Mails de rappel"
