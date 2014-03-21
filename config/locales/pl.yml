@@ -1,7 +1,7 @@
 # Polish strings go here for Rails i18n
 pl:
   settings:
-    intervals_label: "Przedziały czasowe przypomnień"
+    days_label: "Przedziały czasowe przypomnień"
 
   field_subscribe_to_reminder: "Zapisz się do serwisu przypomnień email"
   redmine_reminder_account_settings_title: "Resubmission"
