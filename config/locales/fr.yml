@@ -4,4 +4,4 @@ fr:
   redmine_reminder_account_settings_title: "Rappels"
 
   settings:
-    intervals_label: "Intervalles de rappel"
+    days_label: "Nombre de jours pendant lesquels les rappels seront envoyés"
