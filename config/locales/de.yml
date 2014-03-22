@@ -1,6 +1,7 @@
 # German strings go here for Rails i18n
 de:
   field_subscribe_to_reminder: "Wiedervorlage abonnieren"
+  field_custom_reminder_period_days: "Anzahl Tage vor Ablaufdatum an denen ich erinnert werden möchte"
   redmine_reminder_account_settings_title: "Wiedervorlage"
 
   settings:

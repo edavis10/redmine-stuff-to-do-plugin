@@ -1,6 +1,7 @@
 # English strings go here for Rails i18n
 en:
   field_subscribe_to_reminder: "Subscribe to resubmission"
+  field_custom_reminder_period_days: "Number of days before due date where I want to be reminded"
   redmine_reminder_account_settings_title: "Resubmission"
 
   settings:

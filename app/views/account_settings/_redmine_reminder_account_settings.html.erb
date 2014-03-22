@@ -1,9 +1,9 @@
-</fieldset>
 <fieldset class="box">
   <legend><%=l(:redmine_reminder_account_settings_title)%></legend>
   <div class="tabular">
     <%= labelled_fields_for :pref, @user.pref do |pref_fields| %>
         <p><%= pref_fields.check_box :subscribe_to_reminder %></p>
+        <p><%= pref_fields.text_field :custom_reminder_period_days, :size=> 2, :placeholder => 7 %></p>
     <% end %>
   </div>
 </fieldset>

@@ -1,7 +1,8 @@
 # French strings go here for Rails i18n
 fr:
   field_subscribe_to_reminder: "Souscrire aux rappels"
+  #field_custom_reminder_period_days: ""
   redmine_reminder_account_settings_title: "Rappels"
 
   settings:
-    days_label: "Nombre de jours pendant lesquels les rappels seront envoyés"
+    days_label: "Intervalles de rappel"
