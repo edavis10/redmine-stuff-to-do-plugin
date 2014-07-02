@@ -7,13 +7,9 @@ Dir[File.join(File.dirname(__FILE__),'vendor','plugins','*')].each do |dir|
   Dependencies.load_once_paths.delete(path)
 end
 
-# Patches to Ruby, oh my
-require 'stuff_to_do_array_patch'
-
 # Patches to the Redmine core.
-require 'dispatcher'
 
-Dispatcher.to_prepare do
+ActionDispatch::Callbacks.to_prepare do
   require_dependency 'project'
   require_dependency 'issue'
   require_dependency 'user'

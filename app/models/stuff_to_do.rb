@@ -15,12 +15,8 @@ class StuffToDo < ActiveRecord::Base
   belongs_to :user
   acts_as_list :scope => :user
   
-  named_scope :doing_now, lambda { |user|
-    {
-      :conditions => { :user_id => user.id },
-      :limit => 5,
-      :order => 'position ASC'
-    }
+  scope :doing_now, ->(user) {
+    where(user_id: user.id).limit(5).order('position ASC')
   }
 
   # TODO: Rails bug
@@ -30,13 +26,8 @@ class StuffToDo < ActiveRecord::Base
   #
   # http://dev.rubyonrails.org/ticket/7257
   #
-  named_scope :recommended, lambda { |user|
-    {
-      :conditions => { :user_id => user.id },
-      :limit => self.count,
-      :offset => 5,
-      :order => 'position ASC'
-    }
+  scope :recommended, ->(user) {
+    where(user_id: user.id).limit(StuffToDo.count).offset(5).order('position ASC')
   }
   
   # Filters the issues that are available to be added for a user.
@@ -53,10 +44,11 @@ class StuffToDo < ActiveRecord::Base
     if filter.is_a?(Project)
       potential_stuff_to_do = active_and_visible_projects.sort
     else
-      potential_stuff_to_do = Issue.find(:all,
-                                         :include => [:status, :priority, :project],
-                                         :conditions => conditions_for_available(filter),
-                                         :order => "#{Issue.table_name}.created_on DESC")
+      potential_stuff_to_do = filter_issues(
+        Issue.includes(:status, :priority, :project).
+          order("#{Issue.table_name}.created_on DESC"),
+        filter
+      ).all
     end
 
     stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
@@ -113,7 +105,7 @@ class StuffToDo < ActiveRecord::Base
   # Project based ids need to be prefixed with +project+
   def self.reorder_list(user, ids)
     ids ||= []
-    id_position_mapping = ids.to_hash
+    id_position_mapping = Hash[*ids.map{|v| [ids.index(v), v]}.flatten]
 
     issue_ids = {}
     project_ids = {}
@@ -191,18 +183,18 @@ class StuffToDo < ActiveRecord::Base
     USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 
-  def self.conditions_for_available(filter_by)
-    conditions_builder = ARCondition.new(["#{IssueStatus.table_name}.is_closed = ?", false ])
-    conditions_builder.add(["#{Project.table_name}.status = ?", Project::STATUS_ACTIVE])
+  def self.filter_issues(dataset, filter_by)
+    dataset = dataset.where("#{IssueStatus.table_name}.is_closed" => false).
+      where("#{Project.table_name}.status" => Project::STATUS_ACTIVE)
 
     case 
     when filter_by.is_a?(User)
-      conditions_builder.add(["assigned_to_id = ?", filter_by.id])
+      dataset = dataset.where(assigned_to_id: filter_by.id)
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
-      conditions_builder.add(["#{table_name}.id = (?)", filter_by.id])
+      dataset = dataset.where("#{table_name}.id" => filter_by.id)
     end
 
-    conditions_builder.conditions
+    dataset
   end
 end
