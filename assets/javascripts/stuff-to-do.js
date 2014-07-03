@@ -87,7 +87,7 @@ jQuery(function($) {
 
     $.ajax({
         type: "POST",
-        url: '/stuff_to_do/reorder.js',
+        url: 'reorder.js',
         data: data,
         success: function(response) {
             $('#panes').html(response);
