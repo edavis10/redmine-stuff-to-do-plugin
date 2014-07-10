@@ -2,8 +2,8 @@
         <div class="issue-details">
         <%= link_to(image_tag('ticket.png'), :controller => 'issues', :action => 'show', :id => issue) %>
         #<%= h(issue.id) %>
-        - <%= h(issue.project.name) %> -
-        <%= h(issue.subject) %>
+        - <%= link_to (issue.project.name, :controller => 'issues', :action => 'show', :id => issue) %> -
+        <%= link_to (issue.subject, :controller => 'issues', :action => 'show', :id => issue) %>
         </div>
 
         <% if issue.estimated_hours && issue.estimated_hours > 0 %>
