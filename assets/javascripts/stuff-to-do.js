@@ -267,4 +267,22 @@ jQuery(function($) {
 
     });
 
+    $('.time_grid_change_week').live('click', function(ev) {
+      ev.preventDefault();
+      $.get(this.href + '&format=js', function(content) {
+        $('#time-grid').replaceWith(content);
+      }, 'html');
+    });
+    $('.time-grid-apply-date').live('click', function(ev) {
+      ev.preventDefault();
+      $.get(this.href + '?format=js&' + $('#query_form').serialize(), function(content) {
+        $('#time-grid').replaceWith(content);
+      }, 'html');
+    });
+    $('.time-grid-reset-date').live('click', function(ev) {
+      ev.preventDefault();
+      $.get(this.href + '?format=js', function(content) {
+        $('#time-grid').replaceWith(content);
+      }, 'html');
+    });
 });
