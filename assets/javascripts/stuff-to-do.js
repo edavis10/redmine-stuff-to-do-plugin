@@ -8,8 +8,9 @@ jQuery(function($) {
         if ($('#filter').val() != '') {
             $.ajax({
                 type: "GET",
-                url: 'stuff_to_do/available_issues.js',
+                url: 'available_issues.js',
                 data: $('#filter').serialize(),
+                dataType: 'html',
                 success: function(response) {
                     $('#available-pane').html(response);
                     attachSortables();
@@ -89,6 +90,7 @@ jQuery(function($) {
         type: "POST",
         url: 'reorder.js',
         data: data,
+        dataType: 'html',
         success: function(response) {
             $('#panes').html(response);
             attachSortables();
@@ -104,6 +106,7 @@ jQuery(function($) {
             type: "POST",
             url: 'stuff_to_do/add_to_time_grid.js',
             data: addAuthenticityToken('issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize()),
+            dataType: 'html',
             success: function(response) {
                 $('#time-grid').html(response);
                 attachSortables();
@@ -118,6 +121,7 @@ jQuery(function($) {
             type: "POST",
             url: 'stuff_to_do/remove_from_time_grid.js',
             data: addAuthenticityToken('issue_id=' + getRecordId(issue) + '&' + $('#query_form').serialize()),
+            dataType: 'html',
             success: function(response) {
                 $('#time-grid').html(response);
                 attachSortables();
@@ -186,6 +190,7 @@ jQuery(function($) {
             type: "POST",
             url: 'stuff_to_do/save_time_entry.js',
             data: addAuthenticityToken($(form).serialize()),
+            dataType: 'html',
             success: function(response) {
                 $('#time-grid').before(response).remove();
                 $('.time-grid-flash').not(':empty').show();
