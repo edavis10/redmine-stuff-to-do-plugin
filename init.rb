@@ -1,4 +1,4 @@
-require_dependency 'hooks/view_hooks'
+require_dependency 'hooks/redmine_reminder_view_hooks'
 
 Redmine::Plugin.register :redmine_reminder do
   name 'Redmine Reminder'
