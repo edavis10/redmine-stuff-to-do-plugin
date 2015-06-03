@@ -15,7 +15,13 @@ class StuffToDo < ActiveRecord::Base
   belongs_to :user
   acts_as_list :scope => :user
 
-  if Rails::VERSION::MAJOR >= 3
+  if Rails::VERSION::MAJOR >= 4
+    scope :doing_now, ->(user) {
+      where(user_id: user.id).
+      order(position: :asc).
+      limit(5)
+    }
+  elsif Rails::VERSION::MAJOR >= 3
     scope :doing_now, lambda { |user|
       {
         :conditions => { :user_id => user.id },
@@ -40,7 +46,13 @@ class StuffToDo < ActiveRecord::Base
   #
   # http://dev.rubyonrails.org/ticket/7257
   #
-  if Rails::VERSION::MAJOR >= 3
+  if Rails::VERSION::MAJOR >= 4
+    scope :recommended, ->(user) {
+      where(user_id: user.id).
+      order(position: :asc).
+      offset(5)
+    }
+  elsif Rails::VERSION::MAJOR >= 3
     scope :recommended, lambda { |user|
       {
         :conditions => { :user_id => user.id },
@@ -80,20 +92,24 @@ class StuffToDo < ActiveRecord::Base
         visible_issues =  Issue.visible
       end
 
-      potential_stuff_to_do = visible_issues.find(:all,
-                                         :include => [:status, :priority, :project],
-                                         :conditions => conditions_for_available(user, filter, project),
-                                         :order => "#{Issue.table_name}.created_on DESC")
+      #potential_stuff_to_do = visible_issues.find(:all,
+      #                                   :include => [:status, :priority, :project],
+      #                                   :conditions => conditions_for_available(user, filter, project),
+      #                                   :order => "#{Issue.table_name}.created_on DESC")
+      potential_stuff_to_do = visible_issues.includes(:project, :status, :priority)
+                                            .where(conditions_for_available(user, filter, project))
+                                            .order(created_on: :desc)
     end
 
-    stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+    #stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+    stuff_to_do = StuffToDo.where(:user_id => user.id).collect(&:stuff)
 
     return potential_stuff_to_do - stuff_to_do
   end
 
   def self.assigned(user)
-
-    return StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+    #return StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+    return StuffToDo.where(user_id: user.id).collect(&:stuff)
   end
 
   def self.using_projects_as_items?
@@ -188,7 +204,8 @@ class StuffToDo < ActiveRecord::Base
   end
 
   def self.reorder_items(type, user, ids)
-    list = self.find_all_by_user_id_and_stuff_type(user.id, type)
+    #list = self.find_all_by_user_id_and_stuff_type(user.id, type)
+    list = self.where(user_id: user.id, stuff_type: type)
     stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
 
     remove_missing_records(user, stuff_to_dos_found, ids.values)
@@ -220,27 +237,30 @@ class StuffToDo < ActiveRecord::Base
   def self.remove_missing_records(user, ids_found_in_database, ids_to_use)
     removed = ids_found_in_database - ids_to_use
     removed.each do |id|
-      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
-      removed_stuff_to_do.destroy
+      #removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
+      removed_stuff_to_do = self.where(user_id: user.id, stuff_id: id)
+      removed_stuff_to_do.destroy_all
     end
   end
 
   def self.remove(user_id, id)
-    removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user_id, id)
-    removed_stuff_to_do.destroy
+    #removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user_id, id)
+    removed_stuff_to_do = self.where(user_id: user_id, stuff_id: id)
+    removed_stuff_to_do.destroy_all
   end
 
   def self.add(user_id, id, to_front)
-    if (find_by_user_id_and_stuff_id(user_id, id).nil?) #make sure it's not already there
+    #if (find_by_user_id_and_stuff_id(user_id, id).nil?) #make sure it's not already there
+    if not (where(user_id: user_id, stuff_id: id).exists?) #make sure it's not already there
       stuff_to_do = self.new
-              stuff_to_do.stuff_id = id
-              stuff_to_do.stuff_type = 'Issue'
-              stuff_to_do.user_id = user_id
-              stuff_to_do.save # TODO: Check return
+      stuff_to_do.stuff_id = id
+      stuff_to_do.stuff_type = 'Issue'
+      stuff_to_do.user_id = user_id
+      stuff_to_do.save # TODO: Check return
 
-              if to_front == true
-                stuff_to_do.insert_at(1)
-              end
+      if to_front == true
+        stuff_to_do.insert_at(1)
+      end
     end
   end
 
@@ -264,7 +284,7 @@ class StuffToDo < ActiveRecord::Base
       conditions["#{IssueStatus.table_name}.id"] = "#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
     end
 
-    conditions["#{Project.table_name}.status"] = Project::STATUS_ACTIVE
+    conditions["projects"] = {"status" => Project::STATUS_ACTIVE}
     conditions["assigned_to_id"] = user.id
     conditions["assigned_to_id"] = [user.id] + user.group_ids if(user.is_a?(User))
 

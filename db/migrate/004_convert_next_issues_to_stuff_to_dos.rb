@@ -1,11 +1,11 @@
 # Compatibiliy class used by migrations
 class NextIssue < ActiveRecord::Base
-  set_table_name 'next_issues'
+  self.table_name = 'next_issues'
 end
 
 class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
   def self.up
-    NextIssue.find(:all).each do |next_issue|
+    NextIssue.all.each do |next_issue|
       StuffToDo.create!({
                           :user_id => next_issue.user_id,
                           :position => next_issue.position,
