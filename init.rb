@@ -4,7 +4,7 @@ Redmine::Plugin.register :redmine_reminder do
   name 'Redmine Reminder'
   author 'Kevin Neuenfeldt'
   description 'This plugin can be used to automatically send emails to assignees of issues which are about to expire.'
-  version '0.3.0'
+  version '0.4.0'
   url 'https://github.com/raafael911/redmine_reminder.git'
   author_url ''
 
