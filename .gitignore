@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *.tar.gz
 *.zip
 .DS_Store
@@ -6,6 +5,3 @@ coverage
 doc
 pkg
 rdoc
-=======
->>>>>>> aa844ad272fe5775d36c68e86105c8792e557271
-/.project

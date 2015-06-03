@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 de:
   stuff_to_do_title: "ToDo"
   stuff_to_do_what_im_doing_now: "Was ich gerade mache"
@@ -44,13 +43,3 @@ de:
   permission_manage_stuff_to_do_reportees: "Reporter konfigurieren"
   permission_view_all_reportee_issues: "Sehe alle verfügbaren Reporter Tickets"
   permission_view_all_reportee_stuff_to_do: "Sehe all Reporter Tickets mit Name"
-=======
-# German strings go here for Rails i18n
-de:
-  field_subscribe_to_reminder: "Wiedervorlage abonnieren"
-  field_custom_reminder_period_days: "Anzahl Tage vor Ablaufdatum an denen ich erinnert werden möchte"
-  redmine_reminder_account_settings_title: "Wiedervorlage"
-
-  settings:
-    days_label: "Anzahl Tage in der Zukunft für die Erinnerungen verschickt werden sollen"
->>>>>>> aa844ad272fe5775d36c68e86105c8792e557271

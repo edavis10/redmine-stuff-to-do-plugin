@@ -1,6 +1,5 @@
 # Plugin's routes
 # See: http://guides.rubyonrails.org/routing.html
-<<<<<<< HEAD
 
 if Rails::VERSION::MAJOR >= 3
   RedmineApp::Application.routes.draw do
@@ -27,5 +26,3 @@ else
     end
   end
 end
-=======
->>>>>>> aa844ad272fe5775d36c68e86105c8792e557271

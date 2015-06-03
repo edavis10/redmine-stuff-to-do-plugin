@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 require 'redmine'
 
 # Patches to the Redmine core.
@@ -50,17 +49,4 @@ Redmine::Plugin.register :stuff_to_do_plugin do
       User.current.allowed_to?({:controller => 'stuff_to_do', :action => 'index'} ,nil, :global => true) && !User.current.nil? && User.current.pref[:stuff_to_do_enabled]
     })
 
-=======
-require_dependency 'hooks/redmine_reminder_view_hooks'
-
-Redmine::Plugin.register :redmine_reminder do
-  name 'Redmine Reminder'
-  author 'Kevin Neuenfeldt'
-  description 'This plugin can be used to automatically send emails to assignees of issues which are about to expire.'
-  version '0.4.0'
-  url 'https://github.com/raafael911/redmine_reminder.git'
-  author_url ''
-
-  settings :default => { :days => 7 }, :partial => 'settings/redmine_reminder_settings'
->>>>>>> aa844ad272fe5775d36c68e86105c8792e557271
 end
