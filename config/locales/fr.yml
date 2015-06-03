@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 fr:
   stuff_to_do_title: "Choses à faire"
   stuff_to_do_what_im_doing_now: "Ce que je fais maintenant"
@@ -15,3 +16,13 @@ fr:
   stuff_to_do_text_settings: "Un email est envoyé au manager du projet quand le nombre de choses recommandées atteint le niveau suivant. Plusieurs destinataires email peuvent être spécifiés en séparant leurs adresses email par des virgules."
   stuff_to_do_label_filter: "Filtre"
   stuff_to_do_label_filter_by: "Filtrer par ..."
+=======
+# French strings go here for Rails i18n
+fr:
+  field_subscribe_to_reminder: "Souscrire aux rappels"
+  #field_custom_reminder_period_days: ""
+  redmine_reminder_account_settings_title: "Rappels"
+
+  settings:
+    days_label: "Intervalles de rappel"
+>>>>>>> aa844ad272fe5775d36c68e86105c8792e557271
