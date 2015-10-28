@@ -1,0 +1,21 @@
+stuff_to_do_title: Rzeczy do zrobienia
+stuff_to_do_what_im_doing_now: "Co robię teraz"
+stuff_to_do_what_is_recommended: "Co jest polecane jako kolejne do wykonania"
+stuff_to_do_what_is_available: "Co jest dostepne?"
+stuff_to_do_text_order_im_doing_it: "W kolejności robię to"
+stuff_to_do_text_by_project_manager: Przez Project Managera
+stuff_to_do_label_view_user_list: "Oglądanie listy innych użytkowników:"
+stuff_to_do_text_total_progress: "Całkowity postęp"
+stuff_to_do_text_total_estimates: "Suma szacowań"
+stuff_to_do_label_project_manager_emails: Wiadomości Project Managera
+stuff_to_do_label_threshold: Próg
+stuff_to_do_label_email_to: Email
+stuff_to_do_text_settings: "Email zostanie wysłany do Project Managera jezeli użytkownik uzyska zadany próg.Wiele adresów email może być podane poprzez oddzielenie ich kropką."
+stuff_to_do_label_filter: Filter
+stuff_to_do_label_filter_by: Filter po ...
+stuff_to_do_drag_issue_create_list: Przeciagnij zgłoszenia by stworzyć nową listę
+stuff_to_do_drag_issue_remove_list: Przeciągnij zgłoszenia tutaj by je usunąć z listy
+stuff_to_do_use_as_stuff_to_do: Użyj jako element listy do zrobienia 
+stuff_to_do_time_grid: "Siatka czasu"
+stuff_to_do_time_grid_save_error: "%d wpis czasu nie mógł zostac zapisany."
+stuff_to_do_time_grid_save_notice: "%d wpis czasu został zapisany."
