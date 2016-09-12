@@ -6,7 +6,7 @@ class StuffToDoFilter
   def initialize
     self.users = User.active
     self.priorities = get_priorites
-    self.statuses = IssueStatus.find(:all)
+self.statuses = IssueStatus
   end
   
   def each
@@ -14,7 +14,7 @@ class StuffToDoFilter
       {
         :users => self.users.sort,
         :priorities => self.priorities.sort,
-        :statuses => self.statuses.sort
+        :statuses => self.statuses ? self.statuses.sorted : []
       }.each do |group, items|
         yield group, items
       end

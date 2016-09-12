@@ -132,7 +132,7 @@ class StuffToDoController < ApplicationController
   def get_time_grid
     @date = parse_date_from_params
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
-    @issues = User.current.time_grid_issues.visible.all(:order => "#{Issue.table_name}.id ASC")
+    @issues = User.current.time_grid_issues.visible.order("#{Issue.table_name}.id ASC").to_a
     @time_entry = TimeEntry.new
   end
 

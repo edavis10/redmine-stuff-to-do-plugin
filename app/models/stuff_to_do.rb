@@ -11,17 +11,15 @@ class StuffToDo < ActiveRecord::Base
     'Only Projects' => '2'
   }
 
-  belongs_to :stuff, :polymorphic => true
-  belongs_to :user
+belongs_to :stuff, polymorphic: true
+belongs_to :user
   acts_as_list :scope => :user
   
   if Rails::VERSION::MAJOR >= 3
     scope :doing_now, lambda { |user|
-      {
-        :conditions => { :user_id => user.id },
-        :order => 'position ASC',
-        :limit => 5
-      }
+      where( :user_id => user.id )
+      .order('position ASC')
+      .limit(5)
     }
   else
     named_scope :doing_now, lambda { |user|
@@ -42,12 +40,10 @@ class StuffToDo < ActiveRecord::Base
   #
   if Rails::VERSION::MAJOR >= 3
     scope :recommended, lambda { |user|
-      {
-        :conditions => { :user_id => user.id },
-        :order => 'position ASC',
-        :limit => self.count,
-        :offset => 5
-      }
+      where( :user_id => user.id )
+        .order('position ASC')
+        .limit(self.count)
+        .offset(5)
     }
   else
     named_scope :recommended, lambda { |user|
@@ -74,13 +70,13 @@ class StuffToDo < ActiveRecord::Base
     if filter.is_a?(Project)
       potential_stuff_to_do = active_and_visible_projects.sort
     else
-      potential_stuff_to_do = Issue.find(:all,
-                                         :include => [:status, :priority, :project],
-                                         :conditions => conditions_for_available(filter),
-                                         :order => "#{Issue.table_name}.created_on DESC")
+      potential_stuff_to_do = Issue
+                                     .where( conditions_for_available(filter) )
+                                     .eager_load( :status, :priority, :project )
+                                     .order("#{Issue.table_name}.created_on DESC")
     end
 
-    stuff_to_do = StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
     
     return potential_stuff_to_do - stuff_to_do
   end
@@ -210,12 +206,12 @@ class StuffToDo < ActiveRecord::Base
     if ::Project.respond_to?(:active) && ::Project.respond_to?(:visible)
       return ::Project.active.visible
     else
-      return ::Project.find(:all, :conditions => Project.visible_by)
+return ::Project.where(Project.visible_by)
     end
   end
 
   def self.use_setting
-    USE.index(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
+    USE.key(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 
   def self.conditions_for_available(filter_by)
