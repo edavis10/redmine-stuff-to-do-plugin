@@ -48,7 +48,7 @@ belongs_to :user
   else
     named_scope :recommended, lambda { |user|
       {
-        :conditions => { :user_id => user.id },
+        :conditions => [ "user_id = ?", user.id ],
         :order => 'position ASC',
         :limit => self.count,
         :offset => 5
@@ -100,7 +100,12 @@ stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
 
     # Deliver an email for each user who is below the threshold
     user_ids.uniq.each do |user_id|
-      count = self.count(:conditions => { :user_id => user_id})
+      if Rails::VERSION::MAJOR >= 3
+        count = self.select( "user_id = %d" % user_id ).count( :id )
+      else
+        count = self.count(:conditions => { :user_id => user_id})
+      end
+
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
 
       if threshold && threshold.to_i >= count
