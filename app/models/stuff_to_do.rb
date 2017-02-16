@@ -169,7 +169,8 @@ stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
   end
 
   def self.reorder_items(type, user, ids)
-    list = self.find_all_by_user_id_and_stuff_type(user.id, type)
+    #list = self.find_all_by_user_id_and_stuff_type(user.id, type)
+    list = self.where(user_id: user.id, stuff_type: type).to_a
     stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
 
     remove_missing_records(user, stuff_to_dos_found, ids.values)

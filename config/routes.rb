@@ -8,6 +8,7 @@ if Rails::VERSION::MAJOR >= 3
     post 'stuff_to_do/:action.:format' => 'stuff_to_do'
     get 'time_grid' => 'stuff_to_do#time_grid'
     post 'time_grid' => 'stuff_to_do#time_grid'
+    get 'time_grid/:date' => 'stuff_to_do#time_grid'
   end
 end
 if Rails::VERSION::MAJOR < 3

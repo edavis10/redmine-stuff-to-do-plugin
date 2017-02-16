@@ -1,4 +1,4 @@
-<% form_tag({:action => 'time_grid'}, :id => 'query_form') do %>
+<% form = form_tag({:action => 'time_grid'}, :id => 'query_form', remote: true) do %>
 <fieldset id="date-range"><legend><%= l(:label_date_range) %></legend>
     <%= select_month(@date.month, :prefix => "month", :discard_type => true) %>
     <%= select_day(@date.day, :prefix => "day", :discard_type => true) %>
@@ -6,39 +6,71 @@
 </fieldset>
 
 <p style="float:right; margin:0px;">
-<%= link_to("&#171; #{l(:label_previous)} #{l(:label_week).downcase}",
+<%= link_to("« #{l(:label_previous)} #{l(:label_week).downcase}",
                    { :url => { :action => 'time_grid', :date => @date - 7 },
                      :remote => true,
                      :update => "time-grid"
                    },
                    {
-                     :href => url_for(:action => 'time_grid', :date => @date - 7)
+                     :href => url_for(:action => 'time_grid', :date => @date - 7),
+                     :class => "gridsubmit"
                    })
                    %> |
-<%= link_to("#{l(:label_next)} #{l(:label_week).downcase}  &#187;", 
+<%= link_to("#{l(:label_next)} #{l(:label_week)} »", 
                    { :url => { :action => 'time_grid', :date => @date + 7 },
                      :remote => true,
                      :update => "time-grid"
                    },
                    {
-                     :href => url_for(:action => 'time_grid', :date => @date + 7)
+                     :href => url_for(:action => 'time_grid', :date => @date + 7),
+                     :class => "gridsubmit"
                    })
                    %>
 </p>
 
 <p class="buttons">
-<%= link_to l(:button_apply), 
-                   { :url => { :action => 'time_grid' },
+<%= link_to l(:button_apply),
+                   { :url => { :action => "time_grid" },
                      :remote => true,
-                     :update => "time-grid",
-                     :with => "Form.serialize('query_form')"
-                   }, :class => 'icon icon-checked' %>
-                   
+                     :action => "time_grid",
+                     :update => "time-grid"
+                   },
+                   {
+                     :id => "time_grid_button_submit",
+                     :class => "icon icon-checked gridsubmit"
+                   }
+%>
+ 
 <%= link_to l(:button_clear),
-                   { :url => { :action => 'time_grid' }, 
+                   { :url => { :action => "time_grid" },
                      :remote => true,
-                     :update => "time-grid",
-                   }, :class => 'icon icon-reload' %>
+                     :update => "time-grid"
+                   },
+                   {
+                     :class => "icon icon-reload"
+                   }
+%>
 </p>
+<% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
+
+<%= javascript_tag do %>
+$(document).ready(
+    function () {
+        $("a.gridsubmit")
+            /* ajax:success sometimes not called */
+            .on("ajax:complete", function (evt, data, status, xhr) {
+                console.log(data.statusText);
+                if (data.statusText == "OK") {
+                    $("#time-grid").html(data.responseText);
+                }
+            });
+        $("#time_grid_button_submit")
+            .on("ajax:beforeSend", function (evt, data, status, xhr) {
+                status.url = status.url.replace(/time_grid.*\?.*/, 'time_grid?' + $("#query_form").serialize());
+                console.log(status.url);
+            });
+    }
+);
 <% end %>
 

@@ -38,6 +38,8 @@ class StuffToDoController < ApplicationController
   end
   
   def time_grid
+    get_time_grid
+    Rails.logger.debug "get_time_grid issues = #{@spent_issues.inspect}"
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
       format.js { render :partial => 'time_grid', :layout => false}
@@ -47,7 +49,7 @@ class StuffToDoController < ApplicationController
   def add_to_time_grid
     issue = Issue.visible.find_by_id(params[:issue_id])
     # Issue exists and isn't already in user's list
-    if issue && !User.current.time_grid_issues.exists?(issue)
+    if issue && !User.current.time_grid_issues.exists?(issue.id)
       User.current.time_grid_issues << issue
     end
     get_time_grid
@@ -132,7 +134,8 @@ class StuffToDoController < ApplicationController
   def get_time_grid
     @date = parse_date_from_params
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
-    @issues = User.current.time_grid_issues.visible.order("#{Issue.table_name}.id ASC").to_a
+    @spent_issues = User.current.time_grid_issues.visible.order("#{Issue.table_name}.id ASC").to_a
+    #Rails.logger.debug "get_time_grid issues = #{@spent_issues.inspect}"
     @time_entry = TimeEntry.new
   end
 

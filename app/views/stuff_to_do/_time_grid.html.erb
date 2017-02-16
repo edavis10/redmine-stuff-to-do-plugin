@@ -19,7 +19,7 @@
       <th class="time-grid-date">
         <%= day_name(day.cwday) %>
         <br />
-        <%= day.day %>
+        <%= "#{day.day}.#{day.month}."  %>
       </th>
       <% day = day + 1 %>
       <% end %>
@@ -27,13 +27,15 @@
     </tr>
   </thead>
   <tbody>
-    <% @issues.each do |issue| %>
-    <% content_tag_for(:tr, issue) do %>
+    <% @spent_issues.each do |issue| %>
+    <%= content_tag_for(:tr, issue) do %>
       <td class="time-grid-project">
         <%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
       </td>
       <td class="time-grid-issue">
-        <%= link_to("##{issue.id} " + h(issue.subject), :controller => 'issues', :action => 'show', :id => issue) %>
+        <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
+        - <%= h(issue.project.name) %> -
+        <%= h(issue.subject) %>
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
@@ -54,12 +56,12 @@
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
       <td class="time-grid-date <%= h day -%> totals hascontextmenu">
-        <%= h total_hours_for_date(@issues, User.current, day) %>
+        <%= h total_hours_for_date(@spent_issues, User.current, day) %>
       </td>
       <% day = day + 1 %>
       <% end %>
       <td class="time-grid-grand-total">
-        <%= h total_hours_for_user(@issues, User.current) %>
+        <%= h total_hours_for_user(@spent_issues, User.current) %>
       </td>
     </tr>
 
@@ -80,20 +82,15 @@
 <h2><%= l(:label_spent_time) %></h2>
 
 <% form = labelled_form_for 'time_entry[]'.to_sym, @time_entry, :url => {}, :html => {:id => 'new-time-entry'} do |f| %>
-<%= form if Rails::VERSION::MAJOR >= 3 %>
 <%= error_messages_for 'time_entry' %>
 <%= back_url_hidden_field_tag %>
 
 <div class="box">
-<p><%= f.text_field :issue_id, :required => true, :size => 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
-<p>
-  <%= f.text_field :spent_on, :size => 10, :required => true, :id => 'time_entry__core'  %>
-  <% include_calendar_headers_tags %>
-  <%= image_tag("calendar.png", {:id => "time_entry__core_trigger",:class => "calendar-trigger"}) -%>
-</p>
-<p><%= f.text_field :hours, :size => 6, :required => true %></p>
-<p><%= f.text_field :comments, :size => 100, :required => true %></p>
-<p><%= f.select :activity_id, activity_collection_for_select_options, :required => true %></p>
+  <p><%= f.text_field :issue_id, :required => true, :size => 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
+  <p><%= f.date_field_tag :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
+  <p><%= f.text_field :hours, :size => 6, :required => true %></p>
+  <p><%= f.text_field :comments, :size => 100, :required => true %></p>
+  <p><%= f.select :activity_id, activity_collection_for_select_options, :required => true %></p>
 <% @time_entry.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :time_entry, value %></p>
 <% end %>
@@ -103,6 +100,7 @@
 <%= submit_tag l(:button_save) %>
 
 <% end %>
+<%= form if Rails::VERSION::MAJOR >= 3 %>
 
 </div>
 
