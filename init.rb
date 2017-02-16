@@ -22,9 +22,9 @@ Redmine::Plugin.register :stuff_to_do_plugin do
   url 'https://github.com/neffets/redmine-stuff-to-do-plugin'
   author_url 'https://github.com/neffets'
   description "The Stuff To Do plugin allows a user to order and prioritize the issues they are doing into a specific order. It will also allow other privilged users to reorder the user's workload. compatible redmine 1.x and 2.x"
-  version '0.5.1'
+  version '0.6.0'
 
-  requires_redmine :version_or_higher => '1.0.0'
+  requires_redmine :version_or_higher => '2.0.0'
 
   settings(:partial => 'settings/stuff_to_do_settings',
            :default => {
