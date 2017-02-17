@@ -85,7 +85,7 @@ class StuffToDo < ActiveRecord::Base
     
     return potential_stuff_to_do - stuff_to_do
   end
-
+  
   def self.assigned(user)
 
     return StuffToDo.where( :user_id => user.id ).collect(&:stuff)
@@ -224,14 +224,14 @@ class StuffToDo < ActiveRecord::Base
       removed_stuff_to_do.destroy
     end
   end
-
+  
   def self.remove(user_id, id)
-    removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user_id, id)
+    removed_stuff_to_do = self.find_by(:user_id =>_user_id, :stuff_id => id)
     removed_stuff_to_do.destroy
   end
   
   def self.add(user_id, id, to_front)
-    if (find_by_user_id_and_stuff_id(user_id, id).nil?) #make sure it's not already there
+    if (find_by(:user_id =>_user_id, :stuff_id => id).nil?) #make sure it's not already there
       stuff_to_do = self.new
       stuff_to_do.stuff_id = id
       stuff_to_do.stuff_type = 'Issue'
@@ -246,7 +246,6 @@ class StuffToDo < ActiveRecord::Base
 
   def self.active_and_visible_projects(user=User.current)
     projects = Project.active.where(Project.visible_condition(user))
-    #projects = self.available(user, nil, user).collect{ |issue| issue.project }.uniq
     if !User.current.allowed_to_globally?(:view_all_reportee_issues, {}) and (user != User.current)
       projects = projects.where(Project.visible_condition(User.current))
     end

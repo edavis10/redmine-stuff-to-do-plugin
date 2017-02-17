@@ -1,3 +1,5 @@
+#
+
 class StuffToDoMailer < Mailer
   add_template_helper(StuffToDoHelper)
 
