@@ -1,6 +1,8 @@
 class StuffToDoController < ApplicationController
   unloadable
 
+  include StuffToDoHelper
+
   before_filter :get_user, :get_project
   before_filter :get_time_grid, :only => [:index, :time_grid]
   helper :stuff_to_do
@@ -12,6 +14,11 @@ class StuffToDoController < ApplicationController
 
     @users = User.active
     @filters = filters_for_view
+
+    respond_to do |format|
+      format.html { render :template => 'stuff_to_do/index', :layout => !request.xhr? }
+      format.csv  { send_data(stuff_to_do_to_csv(@doing_now, @recommended, @available, @user, params), :type => 'text/csv; header=present', :filename => 'export.csv') }
+    end
   end
 
   def delete
