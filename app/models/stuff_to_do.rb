@@ -256,7 +256,6 @@ return ::Project.where(Project.visible_by)
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
     end
-    #logger.debug "Filter Conditions: #{conditions.inspect}"
     conditions
   end
 end
