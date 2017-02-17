@@ -45,7 +45,8 @@
     <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
   <% end %>
   
-  <label><%= check_box_tag 'available', '1', '1' %> <%= l(:stuff_to_do_what_is_available) %></label>
+  <label><%= check_box_tag 'available', 'yes', true %> <%= l(:stuff_to_do_what_is_available) %></label><br />
+  <label><%= check_box_tag 'description', 'no', false %> <%= l(:field_description) %></label>
   </p>
   <p class="buttons">
     <%= submit_tag l(:button_export), :name => nil, :onclick => "hideModal(this);" %>
