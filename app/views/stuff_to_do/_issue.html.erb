@@ -12,7 +12,7 @@
           <% end %>
           - <%= h(issue.project.name) %>
           - <small><%= h(issue.status.name) %></small>
-          - <%= h(issue.subject) %>
+          - <%= h((defined? issue.subject_combined) ? issue.subject_combined : issue.subject) %>
           </div>
   
           <% if issue.estimated_hours && issue.estimated_hours > 0 %>

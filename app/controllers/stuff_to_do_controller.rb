@@ -25,9 +25,9 @@ class StuffToDoController < ApplicationController
   end
 
   def delete
-     if !params[:issue_id].nil? && !params[:user_id].nil?
-       StuffToDo.remove(params[:user_id],  params[:issue_id] )
-     end
+    if !params[:issue_id].nil? && !params[:user_id].nil?
+      StuffToDo.remove(params[:user_id],  params[:issue_id] )
+    end
      
     respond_to do |format|
       format.html { redirect_to_referer_or { render :text => ('Deleting Issue from stuff-to-do.'), :layout => true} }

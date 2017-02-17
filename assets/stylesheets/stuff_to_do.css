@@ -220,7 +220,7 @@ li.stuff-to-do-item div.estimate {
   float: none;
   width: 15%;
   left: 82%;
-  top: 4px;
+  top: 0px;
   text-align: left;
   z-index: 100;
   height: 1.1em;

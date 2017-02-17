@@ -1,5 +1,5 @@
 ru:
-  stuff_to_do_title: "Текущие задачи"
+  stuff_to_do_title: "Мои дела"
   stuff_to_do_what_im_doing_now: "Выполняется:"
   stuff_to_do_what_is_recommended: "Рекомендовано к выполению далее"
   stuff_to_do_what_is_available: "доступно"
@@ -32,7 +32,7 @@ ru:
   field_stuff_to_do_view_all_reportees: "View All Reportee"
   stuff_to_do_issue_unathorized: "Нет доступа к просмотру данной задачи."
   stuff_to_do_project_unathorized: "Нет доступа к просмотру данного проекта."
-  stuff_to_do_title_user: "Текущие задачи %{user}"
+  stuff_to_do_title_user: "Опер. план %{user}"
   permission_view_stuff_to_do: "Use ToDo list"
   permission_view_others_stuff_to_do: "Change ToDo list of others"
   permission_manage_stuff_to_do_reportees: "Manage own reportees"
