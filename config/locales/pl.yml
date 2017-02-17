@@ -1,22 +1,39 @@
 pl:
-  stuff_to_do_title: "Rzeczy do zrobienia"
+  stuff_to_do_title: Rzeczy do zrobienia
   stuff_to_do_what_im_doing_now: "Co robię teraz"
   stuff_to_do_what_is_recommended: "Co jest polecane jako kolejne do wykonania"
-  stuff_to_do_what_is_available: "Co jest dostepne?"
+  stuff_to_do_what_is_available: "Co jest dostępne?"
   stuff_to_do_text_order_im_doing_it: "W kolejności robię to"
-  stuff_to_do_text_by_project_manager: "Przez Project Managera"
+  stuff_to_do_text_by_project_manager: Przez Project Managera
   stuff_to_do_label_view_user_list: "Oglądanie listy innych użytkowników:"
   stuff_to_do_text_total_progress: "Całkowity postęp"
   stuff_to_do_text_total_estimates: "Suma szacowań"
-  stuff_to_do_label_project_manager_emails: "Wiadomości Project Managera"
-  stuff_to_do_label_threshold: "Próg"
-  stuff_to_do_label_email_to: "Email"
-  stuff_to_do_text_settings: "Email zostanie wysłany do Project Managera jezeli użytkownik uzyska zadany próg.Wiele adresów email może być podane poprzez oddzielenie ich kropką."
-  stuff_to_do_label_filter: "Filter"
-  stuff_to_do_label_filter_by: "Filter po ..."
-  stuff_to_do_drag_issue_create_list: "Przeciagnij zgłoszenia by stworzyć nową listę"
-  stuff_to_do_drag_issue_remove_list: "Przeciągnij zgłoszenia tutaj by je usunąć z listy"
-  stuff_to_do_use_as_stuff_to_do: "Użyj jako element listy do zrobienia"
+  stuff_to_do_label_project_manager_emails: Wiadomości Project Managera
+  stuff_to_do_label_threshold: Próg
+  stuff_to_do_label_email_to: Email
+  stuff_to_do_text_settings: "Email zostanie wysłany do Project Managera jeżeli użytkownik uzyska zadany próg. Wiele adresów email może być podane poprzez oddzielenie ich przecinkiem."
+  stuff_to_do_label_filter: Filtr
+  stuff_to_do_label_filter_by: Filtr po ...
+  stuff_to_do_drag_issue_create_list: Przeciągnij zgłoszenia by stworzyć nową listę
+  stuff_to_do_drag_issue_remove_list: Przeciągnij zgłoszenia tutaj by je usunąć z listy
+  stuff_to_do_use_as_stuff_to_do: Użyj jako element listy do zrobienia
   stuff_to_do_time_grid: "Siatka czasu"
   stuff_to_do_time_grid_save_error: "%d wpis czasu nie mógł zostac zapisany."
   stuff_to_do_time_grid_save_notice: "%d wpis czasu został zapisany."
+  stuff_to_do_statuses_available: "Statusy zagadnień dostępnych na liście rzeczy do zrobienia"
+  field_stuff_to_do_enabled: "Lista rzeczy do zrobienia - aktywna"
+  stuff_to_do_add_to_front: "Dodaj na początek listy rzeczy do zrobienia"
+  stuff_to_do_add_to_back: "Dodaj na koniec listy rzeczy do zrobienia"
+  stuff_to_do_remove: "Usuń z listy"
+  stuff_to_do_reportee: "Reportee"
+  stuff_to_do_reportees: "Reportees"
+  stuff_to_do_reportees_for: "Reportees for: "
+  stuff_to_do_cannot_create_reportee_error: "Cannot add reportee"
+  stuff_to_do_manage_reportees: "Manage Reportees"
+  stuff_to_do_reportee_new: "New Reportees"
+  stuff_to_do_issue_unathorized: "Brak autoryzacji do przeglądania szczegółów tego zagadnienia."
+  stuff_to_do_project_unathorized: "Brak autoryzacji do przeglądania zagadnień z tego projektu."
+  stuff_to_do_title_user: "Rzeczy do zrobienia dla użytkownika %{user}"
+  stuff_to_do_clear_confirm: "Czy na pewno chcesz wyczyścić listę rzeczy do zrobienia?"
+  stuff_to_do_use_day_grid: "Używaj siatki dni"
+
