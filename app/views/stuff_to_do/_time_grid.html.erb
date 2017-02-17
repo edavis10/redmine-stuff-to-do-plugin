@@ -81,7 +81,7 @@
 <div id="logtime" style="display:none;">
 <h2><%= l(:label_spent_time) %></h2>
 
-<% form = labelled_form_for 'time_entry[]'.to_sym, @time_entry, :url => {}, :html => {:id => 'new-time-entry'} do |f| %>
+<%= labelled_form_for 'time_entry[]'.to_sym, @time_entry, :url => {}, :html => {:id => 'new-time-entry'} do |f| %>
 <%= error_messages_for 'time_entry' %>
 <%= back_url_hidden_field_tag %>
 
@@ -100,7 +100,6 @@
 <%= submit_tag l(:button_save) %>
 
 <% end %>
-<%= form if Rails::VERSION::MAJOR >= 3 %>
 
 </div>
 

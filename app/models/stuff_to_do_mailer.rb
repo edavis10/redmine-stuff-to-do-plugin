@@ -1,4 +1,10 @@
 class StuffToDoMailer < Mailer
+
+  default :to => Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
+
+  def index
+  end
+
   def recommended_below_threshold(user, number_of_next_items)
     Rails.logger.error "Language system = #{Setting.default_language}"
     set_language_if_valid Setting.default_language

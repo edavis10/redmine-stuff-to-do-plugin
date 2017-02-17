@@ -9,6 +9,10 @@ if Rails::VERSION::MAJOR >= 3
     get 'time_grid' => 'stuff_to_do#time_grid'
     post 'time_grid' => 'stuff_to_do#time_grid'
     get 'time_grid/:date' => 'stuff_to_do#time_grid'
+    get '/stuff_to_do/add' => 'stuff_to_do#add'
+    post '/stuff_to_do/add' => 'stuff_to_do#add'
+    get '/stuff_to_do/delete' => 'stuff_to_do#delete'
+    post '/stuff_to_do/delete' => 'stuff_to_do#delete'
   end
 end
 if Rails::VERSION::MAJOR < 3

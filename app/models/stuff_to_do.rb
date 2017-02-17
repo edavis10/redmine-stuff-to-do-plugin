@@ -11,8 +11,8 @@ class StuffToDo < ActiveRecord::Base
     'Only Projects' => '2'
   }
 
-belongs_to :stuff, polymorphic: true
-belongs_to :user
+  belongs_to :stuff, polymorphic: true
+  belongs_to :user
   acts_as_list :scope => :user
   
   if Rails::VERSION::MAJOR >= 3
@@ -64,11 +64,11 @@ belongs_to :user
   # * IssueStatus - issues with this status
   # * IssuePriority - issues with this priority
   #
-  def self.available(user, filter=nil)
+  def self.available(user, project, filter=nil)
     return [] if filter.blank?
 
     if filter.is_a?(Project)
-      potential_stuff_to_do = active_and_visible_projects.sort
+      potential_stuff_to_do = active_and_visible_projects(user).sort
     else
       potential_stuff_to_do = Issue
                                      .where( conditions_for_available(filter) )
@@ -76,9 +76,14 @@ belongs_to :user
                                      .order("#{Issue.table_name}.created_on DESC")
     end
 
-stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
+    stuff_to_do = StuffToDo.where( :user_id => user.id ).collect(&:stuff)
     
     return potential_stuff_to_do - stuff_to_do
+  end
+
+  def self.assigned(user)
+
+    return StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
   end
 
   def self.using_projects_as_items?
@@ -169,7 +174,6 @@ stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
   end
 
   def self.reorder_items(type, user, ids)
-    #list = self.find_all_by_user_id_and_stuff_type(user.id, type)
     list = self.where(user_id: user.id, stuff_type: type).to_a
     stuff_to_dos_found = list.collect { |std| std.stuff_id.to_i }
 
@@ -202,8 +206,27 @@ stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
   def self.remove_missing_records(user, ids_found_in_database, ids_to_use)
     removed = ids_found_in_database - ids_to_use
     removed.each do |id|
-      removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user.id, id)
+      removed_stuff_to_do = self.find_by(:user_id => user.id, :stuff_id => id)
       removed_stuff_to_do.destroy
+    end
+  end
+
+  def self.remove(user_id, id)
+    removed_stuff_to_do = self.find_by_user_id_and_stuff_id(user_id, id)
+    removed_stuff_to_do.destroy
+  end
+  
+  def self.add(user_id, id, to_front)
+    if (find_by_user_id_and_stuff_id(user_id, id).nil?) #make sure it's not already there
+      stuff_to_do = self.new
+      stuff_to_do.stuff_id = id
+      stuff_to_do.stuff_type = 'Issue'
+      stuff_to_do.user_id = user_id
+      stuff_to_do.save # TODO: Check return
+              
+      if to_front == true
+        stuff_to_do.insert_at(1)
+      end
     end
   end
 
@@ -223,7 +246,7 @@ return ::Project.where(Project.visible_by)
   def self.conditions_for_available(filter_by)
     scope = self
     #for Postgres:# conditions = "#{IssueStatus.table_name}.is_closed = false"
-    conditions = "#{IssueStatus.table_name}.is_closed = 0"
+    conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
     case 
     when filter_by.is_a?(User)

@@ -10,8 +10,8 @@ module StuffToDoIssuePatch
       unloadable # Send unloadable so it will not be unloaded in development
 
       after_save :update_next_issues
-has_many :stuff_to_dos, as: :stuff
-has_and_belongs_to_many :time_grid_users, class_name: "User", join_table: "time_grid_issues_users"
+      has_many :stuff_to_dos, :as => :stuff
+      has_and_belongs_to_many :time_grid_users, class_name: "User", join_table: "time_grid_issues_users"
 
       if Rails::VERSION::MAJOR >= 3
         scope :with_time_entries_for_user, lambda {|user_id|

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Issue, "associations" do
   it 'should have a habtm time_grid_users' do
-Issue.should(have_association(:time_grid_users, :has_and_belongs_to_many))
+    Issue.should(have_association(:time_grid_users, :has_and_belongs_to_many))
   end
 end
 

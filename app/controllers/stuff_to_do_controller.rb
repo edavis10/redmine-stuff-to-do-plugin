@@ -1,26 +1,43 @@
 class StuffToDoController < ApplicationController
   unloadable
 
-  before_filter :get_user
+  before_filter :get_user, :get_project
   before_filter :get_time_grid, :only => [:index, :time_grid]
   helper :stuff_to_do
   helper :custom_fields
   helper :timelog
   
   def index
-    @doing_now = StuffToDo.doing_now(@user)
-    @recommended = StuffToDo.recommended(@user)
-    @available = StuffToDo.available(@user, default_filters )
-    
+    load_stuff
+
     @users = User.active
     @filters = filters_for_view
   end
+
+  def delete
+     if !params[:issue_id].nil? && !params[:user_id].nil?
+       StuffToDo.remove(params[:user_id],  params[:issue_id] )
+     end
+     
+    respond_to do |format|
+      format.html { redirect_to_referer_or { render :text => ('Deleting Issue from stuff-to-do.'), :layout => true} }
+      format.js { render :partial => 'stuff-to-do', :layout => false}
+    end
+  end
   
+  def add
+    if !params[:issue_id].nil? && !params[:user_id].nil?
+      StuffToDo.add(params[:user_id], params[:issue_id], params[:to_front] == "true")         
+    end
+    respond_to do |format|
+      format.html { redirect_to_referer_or { render :text => ('Adding issue to stuff-to-do.'), :layout => true} }
+      format.js { render :partial => 'stuff-to-do', :layout => false}
+    end
+  end
+
   def reorder
     StuffToDo.reorder_list(@user, params[:stuff])
-    @doing_now = StuffToDo.doing_now(@user)
-    @recommended = StuffToDo.recommended(@user)
-    @available = StuffToDo.available(@user, get_filters )
+    load_stuff(get_filters)
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
@@ -84,6 +101,16 @@ class StuffToDoController < ApplicationController
 
   private
   
+  def get_project
+    if params[:project_id] && !params[:project_id].empty?
+      @project = Project.where(:id => params[:project_id]).first
+      if @project.nil?
+        render_404
+        return false
+      end
+    end
+  end
+  
   def get_user
     render_403 unless User.current.logged?
     
@@ -103,7 +130,7 @@ class StuffToDoController < ApplicationController
   end
 
   def get_filters
-    return default_filters unless params[:filter]
+    return default_filters if params[:filter].nil? or params[:filter].empty?
 
     id = params[:filter].split('-')[-1]
 
@@ -161,4 +188,24 @@ class StuffToDoController < ApplicationController
     date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
     date ||= Date.today
   end
+
+  def default_filters
+    if StuffToDo.using_issues_as_items?
+      return @user
+    elsif StuffToDo.using_projects_as_items?
+      return Project.new
+    else
+    # Edge case
+    return { }
+    end
+  end
+
+  def load_stuff(filters=nil)
+    filters ||= default_filters
+
+    @doing_now = StuffToDo.doing_now(@user)
+    @recommended = StuffToDo.recommended(@user)
+    @available = StuffToDo.available(@user, @project, filters )
+  end
+
 end

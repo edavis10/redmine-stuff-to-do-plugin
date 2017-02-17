@@ -34,11 +34,11 @@ end
 
 describe StuffToDo, 'associations' do
   it 'should belong to a polymorphic "stuff"' do
-StuffToDo.should(have_association(:stuff, :belongs_to))
+    StuffToDo.should(have_association(:stuff, :belongs_to))
   end
 
   it 'should belong to a user' do
-StuffToDo.should(have_association(:user, :belongs_to))
+    StuffToDo.should(have_association(:user, :belongs_to))
   end
 end
 
@@ -58,7 +58,7 @@ describe StuffToDo, '#available for user' do
 
   before(:each) do
     @user = mock_model(User)
-@find_options = { :conditions => (["1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (assigned_to_id = ?)", false, 1, @user.id]), :include => ([:status, :priority, :project]), :order => "issues.created_on DESC" }
+    @find_options = { :conditions => (["1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (assigned_to_id = ?)", false, 1, @user.id]), :include => ([:status, :priority, :project]), :order => "issues.created_on DESC" }
   end
   
   it 'should find all assigned issues for the user' do
@@ -74,7 +74,7 @@ describe StuffToDo, '#available for user' do
     next_issues = next_issues_from_issues(issues, issues.size / 2)
     
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(next_issues)
+    StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(next_issues)
     StuffToDo.available(@user, @user).should eql(issues - next_issues.collect(&:stuff))
   end
   
@@ -94,7 +94,7 @@ describe StuffToDo, '#available for status' do
   before(:each) do
     @user = mock_model(User)
     @status = mock_model(IssueStatus)
-@find_options = { :conditions => (["1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (issue_statuses.id = (?))", false, 1, @status.id]), :include => ([:status, :priority, :project]), :order => "issues.created_on DESC" }
+    @find_options = { :conditions => (["1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (issue_statuses.id = (?))", false, 1, @status.id]), :include => ([:status, :priority, :project]), :order => "issues.created_on DESC" }
   end
   
   it 'should find all issues with the status' do
@@ -110,7 +110,7 @@ describe StuffToDo, '#available for status' do
     next_issues = next_issues_from_issues(issues, issues.size / 2)
     
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(next_issues)
+    StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(next_issues)
     StuffToDo.available(@user, @status).should eql(issues - next_issues.collect(&:stuff))
   end
   
@@ -130,7 +130,7 @@ describe StuffToDo, '#available for priority' do
   before(:each) do
     @user = mock_model(User)
     @priority = mock_model(Enumeration, :opt => 'IPRI')
-@find_options = { :conditions => (["1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (enumerations.id = (?))", false, 1, @priority.id]), :include => ([:status, :priority, :project]), :order => "issues.created_on DESC" }
+    @find_options = { :conditions => (["1=1 AND (issue_statuses.is_closed = ?) AND (projects.status = ?) AND (enumerations.id = (?))", false, 1, @priority.id]), :include => ([:status, :priority, :project]), :order => "issues.created_on DESC" }
   end
 
   it 'should find all issues with the priority' do
@@ -146,7 +146,7 @@ describe StuffToDo, '#available for priority' do
     next_issues = next_issues_from_issues(issues, issues.size / 2)
     
     Issue.should_receive(:find).with(:all, @find_options).and_return(issues)
-StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(next_issues)
+    StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(next_issues)
     StuffToDo.available(@user, @priority).should eql(issues - next_issues.collect(&:stuff))
   end
   
@@ -187,7 +187,7 @@ describe StuffToDo, '#available for project' do
 
     Project.should_receive(:active).and_return(Project)
     Project.should_receive(:visible).and_return(projects)
-StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(stuff_to_dos)
+    StuffToDo.should_receive(:find).with(:all, :conditions => ({ :user_id => @user.id })).and_return(stuff_to_dos)
     
     StuffToDo.available(@user, Project.new).should eql(projects - stuff_to_dos.collect(&:stuff))
   end

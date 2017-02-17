@@ -214,3 +214,24 @@ input.save-time-grid { float: right; margin-top: 10px; margin-bottom: 10px; }
   position: absolute;
   height: expression(document.body.scrollHeight > document.body.offsetHeight ? document.body.scrollHeight : document.body.offsetHeight + 'px');
 }
+
+li.stuff-to-do-item {
+  position: relative;
+}
+li.stuff-to-do-item div.estimate {
+  position: absolute;
+  display: block;
+  float: none;
+  width: 15%;
+  left: 82%;
+  top: 4px;
+  text-align: left;
+  z-index: 100;
+  height: 1.1em;
+  overflow: hidden;
+  white-space: nowrap;
+}
+li.stuff-to-do-item div.issue-details {
+  width: 80%;
+}
+
