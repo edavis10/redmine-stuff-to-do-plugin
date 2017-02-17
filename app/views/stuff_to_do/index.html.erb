@@ -13,6 +13,8 @@
     <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
     <% end %>
   </div>
+  <% else %>
+  	<%= hidden_field_tag "user_id", @user.id %>
   <% end %>
 
   <div class="filter">

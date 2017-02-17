@@ -51,6 +51,7 @@ class StuffToDoReporteeController < ApplicationController
   
   
   def get_user
+    logger.debug "reportee::get_user User = #{User.current}"
     return deny_access unless User.current.logged?
     
     if params[:user_id]

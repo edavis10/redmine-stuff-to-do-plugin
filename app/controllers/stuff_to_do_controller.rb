@@ -123,6 +123,7 @@ class StuffToDoController < ApplicationController
   end
   
   def get_user
+    logger.debug "stuff_to_do::get_user User = #{User.current}"
     render_403 unless User.current.logged?
     
     if params[:user_id] && params[:user_id] != User.current.id.to_s
