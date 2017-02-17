@@ -3,7 +3,7 @@ class StuffToDoController < ApplicationController
 
   include StuffToDoHelper
 
-  before_filter :get_user
+  before_filter :get_user, :get_project
   before_filter :get_time_grid, :only => [:index, :time_grid]
   helper :stuff_to_do
   helper :custom_fields
@@ -12,7 +12,7 @@ class StuffToDoController < ApplicationController
   def index
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
-    @available = StuffToDo.available(@user, default_filters )
+    @available = StuffToDo.available(@user, @project, default_filters )
 
     @users = StuffToDoReportee.reportees_for(User.current)
     @users << User.current unless @users.include?(User.current)
@@ -47,7 +47,9 @@ class StuffToDoController < ApplicationController
 
   def reorder
     StuffToDo.reorder_list(@user, params[:stuff])
-    load_stuff(get_filters)
+    @doing_now = StuffToDo.doing_now(@user)
+    @recommended = StuffToDo.recommended(@user)
+    @available = StuffToDo.available(@user, @project, get_filters )
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}
@@ -56,7 +58,7 @@ class StuffToDoController < ApplicationController
   end
   
   def available_issues
-    @available = StuffToDo.available(@user, get_filters)
+    @available = StuffToDo.available(@user, @project, get_filters)
 
     respond_to do |format|
       format.html { redirect_to :action => 'index'}

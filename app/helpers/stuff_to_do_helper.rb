@@ -33,6 +33,16 @@ module StuffToDoHelper
     
     return html
   end
+  
+  def project_options(projects, selected = nil)
+    html = options_for_select([[l(:label_project_all), '']]) # Blank
+
+    html << project_tree_options_for_select(projects, :selected => selected) do |p|
+      { :value => p.id }
+    end      
+    
+    return html
+  end
 
   # Returns the stuff for a collection of StuffToDo items, removing anything
   # that have been deleted.
