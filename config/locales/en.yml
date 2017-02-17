@@ -20,6 +20,8 @@ en:
   stuff_to_do_time_grid: "Time Grid"
   stuff_to_do_time_grid_save_error: "{{count}} time entries could not be saved."
   stuff_to_do_time_grid_save_notice: "{{count}} time entries saved."
+  stuff_to_do_time_grid_daily_totals: "Daily Totals"
+  stuff_to_do_time_grid_running_total: Running Total
   stuff_to_do_use_time_grid: "Use Time Grid"
   stuff_to_do_below_threshold: "%{user} has only %{count} recommended items left in their Stuff To Do which is below the threshold of %{threshold}."
   field_stuff_to_do_enabled: "Stuff to Do enabled"

@@ -23,7 +23,7 @@
       </th>
       <% day = day + 1 %>
       <% end %>
-      <th class="time-grid-running-total">Running Total</th>
+      <th class="time-grid-running-total"><%= l(:stuff_to_do_time_grid_running_total) %></th>
     </tr>
   </thead>
   <tbody>
@@ -51,7 +51,7 @@
     <% end %>
     <tr class="daily-totals">
       <td colspan="2" class="label">
-        Daily Totals
+        <%= l(:stuff_to_do_time_grid_daily_totals) %>
       </td>
       <% day = @calendar.startdt
       while day <= @calendar.enddt %>
