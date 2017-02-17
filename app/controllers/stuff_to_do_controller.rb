@@ -133,7 +133,7 @@ class StuffToDoController < ApplicationController
   end
   
   def filters_for_view
-    StuffToDoFilter.new
+    StuffToDoFilter.new(:user => @user)
   end
 
   def get_filters

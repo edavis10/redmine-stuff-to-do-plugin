@@ -3,10 +3,10 @@ class StuffToDoFilter
   attr_accessor :priorities
   attr_accessor :statuses
   
-  def initialize
-    self.users = User.active
+  def initialize(params = {})
+    self.users = [params[:user]]
     self.priorities = get_priorites
-self.statuses = IssueStatus
+    self.statuses = IssueStatus.where(:is_closed => false)
   end
   
   def each

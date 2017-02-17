@@ -71,7 +71,7 @@ class StuffToDo < ActiveRecord::Base
       potential_stuff_to_do = active_and_visible_projects(user).sort
     else
       potential_stuff_to_do = Issue
-                                     .where( conditions_for_available(filter) )
+                                     .where( conditions_for_available(user, filter) )
                                      .eager_load( :status, :priority, :project )
                                      .order("#{Issue.table_name}.created_on DESC")
     end
@@ -243,11 +243,12 @@ return ::Project.where(Project.visible_by)
     USE.key(Setting.plugin_stuff_to_do_plugin['use_as_stuff_to_do'])
   end
 
-  def self.conditions_for_available(filter_by)
+  def self.conditions_for_available(user, filter_by)
     scope = self
     #for Postgres:# conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
+    conditions << " AND (" << "assigned_to_id = %d" % [user.id] << ")" if (filter_by.nil || ! filter_by.is_a?(User))
     case 
     when filter_by.is_a?(User)
       conditions << " AND (" << "assigned_to_id = %d" % [filter_by.id] << ")"
@@ -255,6 +256,7 @@ return ::Project.where(Project.visible_by)
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
     end
+    #logger.debug "Filter Conditions: #{conditions.inspect}"
     conditions
   end
 end
