@@ -33,3 +33,5 @@ en:
   stuff_to_do_manage_reportees: "Manage Reportees"
   stuff_to_do_reportee_new: "New Reportees"
   field_stuff_to_do_view_all_reportees: "View All Reportee"
+  stuff_to_do_issue_unathorized: "Not authorized to view this issue."
+  stuff_to_do_project_unathorized: "Not authorized to view this project."
