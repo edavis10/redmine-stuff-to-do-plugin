@@ -39,11 +39,6 @@ Redmine::Plugin.register :stuff_to_do_plugin do
              'statuses_for_stuff_to_do' => ['all']
            })
 
-  # A new item is added to the project menu
-  menu( :top_menu, :stuff_to_do, { :controller => 'stuff_to_do', :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{
-    User.current.allowed_to?({:controller => 'stuff_to_do', :action => 'index'}, nil, :global => true) && !User.current.nil? && User.current.pref[:stuff_to_do_enabled]
-  })
-
   project_module :stuff_to_do do
     permission :view_stuff_to_do, {:stuff_to_do => :index}
     permission :view_others_stuff_to_do, {:stuff_to_do => :index}
@@ -52,5 +47,9 @@ Redmine::Plugin.register :stuff_to_do_plugin do
     permission :view_all_reportee_issues, {:stuff_to_do => :index }
     permission :view_all_reportee_stuff_to_do, {:stuff_to_do => :index }
   end
+
+  menu(:top_menu, :stuff_to_do, { :controller => 'stuff_to_do', :action => 'index'}, :caption => :stuff_to_do_title, :if => Proc.new{
+    User.current.allowed_to?({:controller => 'stuff_to_do', :action => 'index'}, nil, :global => true) && !User.current.nil? && User.current.pref[:stuff_to_do_enabled]
+  })
 
 end

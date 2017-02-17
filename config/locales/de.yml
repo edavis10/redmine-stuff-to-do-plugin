@@ -1,5 +1,5 @@
 de:
-  stuff_to_do_title: "To-Do Liste"
+  stuff_to_do_title: "ToDo Liste"
   stuff_to_do_what_im_doing_now: "Was ich gerade mache"
   stuff_to_do_what_is_recommended: "Was ist als nächstes zu tun"
   stuff_to_do_what_is_available: "Was gibt es zu tun"
@@ -17,15 +17,15 @@ de:
   stuff_to_do_drag_issue_create_list: "Ticket hierher ziehen, um eine neue Liste zu erstellen."
   stuff_to_do_drag_issue_remove_list: "Ticket hierher ziehen, um das Element von einer Liste zu löschen."
   stuff_to_do_use_as_stuff_to_do: "Als 'Aufgaben' verwenden"
-  stuff_to_do_statuses_available: Tickets mit folgenden Status als Todo vorschlagen
+  stuff_to_do_statuses_available: "Tickets mit folgenden Status als ToDo vorschlagen"
   stuff_to_do_time_grid: "Zeitübersicht"
   stuff_to_do_time_grid_save_error: "{{count}} Zeiterfassungen konnten nicht gespeichert werden"
   stuff_to_do_time_grid_save_notice: "{{count}} Zeiterfassungen  gespeichert."
   stuff_to_do_time_grid_daily_totals: "Summe Tageswert"
-  stuff_to_do_time_grid_running_total: Summe Absoluter Wert
+  stuff_to_do_time_grid_running_total: "Summe Absoluter Wert"
   stuff_to_do_use_time_grid: "Zeitübersicht verwenden"
-  stuff_to_do_below_threshold: "%{user} hat nur %{count} empfohlene Aufgaben in der To-Do Liste, das ist weniger als der Schwellwert von %{threshold}."
-  field_stuff_to_do_enabled: "To-Do Liste aktivieren"
+  stuff_to_do_below_threshold: "%{user} hat nur %{count} empfohlene Aufgaben in der ToDo Liste, das ist weniger als der Schwellwert von %{threshold}."
+  field_stuff_to_do_enabled: "ToDo Liste aktivieren"
   stuff_to_do_add_to_front: "jetzt gleich machen"
   stuff_to_do_add_to_back: "später machen"
   stuff_to_do_remove: "von Liste entfernen"
@@ -37,4 +37,4 @@ de:
   stuff_to_do_reportee_new: "Reporter anlegen"
   stuff_to_do_issue_unathorized: "Sie haben keine Berechtigung zur Anzeige des Tickets."
   stuff_to_do_project_unathorized: "Sie haben keine Berechtigung zur Anzeige des Projekts."
-  stuff_to_do_title_user: "%{user}'s To-Dos"
+  stuff_to_do_title_user: "%{user}'s ToDos"
