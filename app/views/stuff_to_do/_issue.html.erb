@@ -1,6 +1,7 @@
-      <li class="stuff-to-do-item <%= issue.css_classes if issue.respond_to?(:css_classes) %> <%= issue_counter.odd? ? "odd" : "even" %>" id="stuff_<%= issue.id %>">
+      <% is_authorized = User.current.allowed_to?(:view_issues, issue.project) or User.current.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+      <li class="hascontextmenu stuff-to-do-item <%= issue.css_classes if issue.respond_to?(:css_classes) and is_authorized %> <%= issue_counter.odd? ? "odd" : "even" %>" id="stuff_<%= issue.id %>">
         <div class="issue-details">
-        <% if !User.current.allowed_to? :view_issues, issue.project and !User.current.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+        <% unless is_authorized %>
           <em><%= l(:stuff_to_do_issue_unathorized) %></em>
           </div>
         <% else %>

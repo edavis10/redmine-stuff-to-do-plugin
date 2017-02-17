@@ -47,13 +47,13 @@ module StuffToDoHelper
   # Returns the stuff for a collection of StuffToDo items, removing anything
   # that have been deleted.
   def stuff_for(stuff_to_do_items)
-    return stuff_to_do_items.collect(&:stuff).compact
+    return stuff_to_do_items.collect(&:stuff)
   end
 
   # Returns the issues for a collection of StuffToDo items, removing anything
   # that have been deleted or isn't an Issue
   def issues_for(stuff_to_do_items)
-    return remove_non_issues(stuff_to_do_items.collect(&:stuff).compact)
+    return remove_non_issues(stuff_to_do_items.collect(&:stuff))
   end
 
   def remove_non_issues(stuff_to_do_items)

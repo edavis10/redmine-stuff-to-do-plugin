@@ -38,11 +38,11 @@ class StuffToDoReportee < ActiveRecord::Base
   end
   
   def self.available_reportees_for(user)
-    return User.active - reportees_for(user) - [user]
+    return User.active.sort - reportees_for(user) - [user]
   end
   
   def self.available_groups_for(user)
-    return Group.active - groups_for(user)
+    return Group.active.sort - groups_for(user)
   end
   
   
@@ -52,7 +52,7 @@ class StuffToDoReportee < ActiveRecord::Base
   
   def validate_reportee
     errors.add(:reportee, :equals_user) if !reportee.nil? && (reportee == user)
-    errors.add(:reportee, :reportee_not_unique) if !user.nil? && !reportee.nil? && StuffToDoReportee.where(:user_id => user.id, :reportee_id => reportee.id).count > 0
+    errors.add(:reportee, :reportee_not_unique) if !user.nil? && !reportee.nil? && StuffToDoReportee.where(:user_id => reportee.id, :reportee_id => user.id).count > 0
     
     if !reportee.nil? && !user.nil?
       StuffToDoReportee.groups_for(user).each do |group|

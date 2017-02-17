@@ -16,7 +16,7 @@ class StuffToDo < ActiveRecord::Base
   acts_as_list :scope => :user
   
   if Rails::VERSION::MAJOR >= 3
-    scope :doing_now, lambda { |user|
+    scope :doing_now, ->(user) {
       where( :user_id => user.id )
       .order('position ASC')
       .limit(5)
@@ -39,7 +39,7 @@ class StuffToDo < ActiveRecord::Base
   # http://dev.rubyonrails.org/ticket/7257
   #
   if Rails::VERSION::MAJOR >= 3
-    scope :recommended, lambda { |user|
+    scope :recommended, ->(user) {
       where( :user_id => user.id )
         .order('position ASC')
         .limit(self.count)
@@ -88,7 +88,7 @@ class StuffToDo < ActiveRecord::Base
 
   def self.assigned(user)
 
-    return StuffToDo.find(:all, :conditions => { :user_id => user.id }).collect(&:stuff)
+    return StuffToDo.where( :user_id => user.id ).collect(&:stuff)
   end
 
   def self.using_projects_as_items?

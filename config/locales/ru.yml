@@ -1,8 +1,8 @@
 ru:
-  stuff_to_do_title: "Мои дела"
-  stuff_to_do_what_im_doing_now: "Что я делаю сейчас"
+  stuff_to_do_title: "Текущие задачи"
+  stuff_to_do_what_im_doing_now: "Выполняется:"
   stuff_to_do_what_is_recommended: "Рекомендовано к выполению далее"
-  stuff_to_do_what_is_available: "что доступно"
+  stuff_to_do_what_is_available: "доступно"
   stuff_to_do_text_order_im_doing_it: "По порядку выполнения мною"
   stuff_to_do_text_by_project_manager: Управляющим проектом
   stuff_to_do_label_view_user_list: "Просмотреть список задач другого пользователя:"
@@ -19,7 +19,7 @@ ru:
   stuff_to_do_drag_issue_remove_list: Drag issues here to remove them from a list.
   stuff_to_do_use_as_stuff_to_do: Use as Stuff To Do items
   stuff_to_do_statuses_available: Statuses available as Stuff To Do Items
-  field_stuff_to_do_enabled: "Stuff to Do enabled"
+  field_stuff_to_do_enabled: "Включить"
   stuff_to_do_add_to_front: "Добавить в начало"
   stuff_to_do_add_to_back: "Добавить в конец"
   stuff_to_do_remove: "Удалить"
@@ -30,12 +30,16 @@ ru:
   stuff_to_do_manage_reportees: "Manage Reportees"
   stuff_to_do_reportee_new: "New Reportees"
   field_stuff_to_do_view_all_reportees: "View All Reportee"
-  stuff_to_do_issue_unathorized: "Not authorized to view this issue."
-  stuff_to_do_project_unathorized: "Not authorized to view this project."
-  stuff_to_do_title_user: "%{user}'s Stuff to Do"
+  stuff_to_do_issue_unathorized: "Нет доступа к просмотру данной задачи."
+  stuff_to_do_project_unathorized: "Нет доступа к просмотру данного проекта."
+  stuff_to_do_title_user: "Текущие задачи %{user}"
   permission_view_stuff_to_do: "Use ToDo list"
   permission_view_others_stuff_to_do: "Change ToDo list of others"
   permission_manage_stuff_to_do_reportees: "Manage own reportees"
   permission_view_all_reportee_issues: "See all available issues of reportees"
   permission_view_all_reportee_stuff_to_do: "See all issues of reportees with name"
+
+  stuff_to_do_manage_managers: "Настроить руководителей"
+  stuff_to_do_manager: "Руководитель"
+  stuff_to_do_manager_new: "Новые руководители"
 
