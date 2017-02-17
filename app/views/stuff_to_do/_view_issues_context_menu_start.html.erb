@@ -4,7 +4,11 @@
 	<% if !assigned_to.nil? && assigned_to.is_a?(User) && (assigned_to == User.current || User.current.allowed_to?(:view_others_stuff_to_do, nil, :global => true)) %>
 		<% if StuffToDo.available(assigned_to, @project, assigned_to).count(@issue) > 0 %>
 			<li class="folder">
-				<a href="#" class="submenu"><%= l(:stuff_to_do_title) %></a>
+			  <% if assigned_to == User.current %>
+				  <a href="#" class="submenu"><%= l(:stuff_to_do_title) %></a>
+			  <% else %>
+			    <a href="#" class="submenu"><%= l(:stuff_to_do_title_user, :user => assigned_to.name) %></a>
+			  <% end %>
 				<ul>
 					<li><%= context_menu_link l(:stuff_to_do_add_to_front), {:controller => 'stuff_to_do', :action => 'add', :issue_id => @issue.id, :to_front => true, :user_id => assigned_to } %>
 					<li><%= context_menu_link l(:stuff_to_do_add_to_back), {:controller => 'stuff_to_do', :action => 'add', :issue_id => @issue.id, :to_front => false, :user_id => assigned_to } %>
