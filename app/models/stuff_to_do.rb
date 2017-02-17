@@ -248,10 +248,14 @@ return ::Project.where(Project.visible_by)
     #for Postgres:# conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
-    conditions << " AND (" << "assigned_to_id = %d" % [user.id] << ")" if (filter_by.nil || ! filter_by.is_a?(User))
+    conditions << " AND ((" << "assigned_to_id = %d" % [user.id] << ")"
+    if(user.is_a?(User))
+      user.group_ids.each do |group_id|
+        conditions << " OR (" << "assigned_to_id = %d" % [group_id] << ")"
+      end
+    end
+    conditions << ")"
     case 
-    when filter_by.is_a?(User)
-      conditions << " AND (" << "assigned_to_id = %d" % [filter_by.id] << ")"
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
       conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
