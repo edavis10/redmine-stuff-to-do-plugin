@@ -13,9 +13,12 @@ if Rails::VERSION::MAJOR >= 3
     post '/stuff_to_do/add' => 'stuff_to_do#add'
     get '/stuff_to_do/delete' => 'stuff_to_do#delete'
     post '/stuff_to_do/delete' => 'stuff_to_do#delete'
+    match '/stuff_to_do/reportees', :to=> 'stuff_to_do_reportee#index', :via => 'get'
+    match '/stuff_to_do/reportees/add', :to=> 'stuff_to_do_reportee#add', :via => [:get, :post]
+    match '/stuff_to_do/reportees/delete', :to=> 'stuff_to_do_reportee#delete', :via => [:get, :post]
   end
-end
-if Rails::VERSION::MAJOR < 3
+
+else
   ActionController::Routing::Routes.draw do |map|
     map.with_options :controller => 'stuff_to_do' do |stuff_routes|
       stuff_routes.with_options :conditions => {:method => :get} do |stuff_views|

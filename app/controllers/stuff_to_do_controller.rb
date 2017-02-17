@@ -3,16 +3,20 @@ class StuffToDoController < ApplicationController
 
   include StuffToDoHelper
 
-  before_filter :get_user, :get_project
+  before_filter :get_user
   before_filter :get_time_grid, :only => [:index, :time_grid]
   helper :stuff_to_do
   helper :custom_fields
   helper :timelog
   
   def index
-    load_stuff
+    logger.debug "user = #{@user.name}"
+    @doing_now = StuffToDo.doing_now(@user)
+    @recommended = StuffToDo.recommended(@user)
+    @available = StuffToDo.available(@user, default_filters )
 
-    @users = User.active
+    @users = StuffToDoReportee.reportees_for(User.current)
+    @users << User.current unless @users.include?(User.current)
     @filters = filters_for_view
 
     respond_to do |format|

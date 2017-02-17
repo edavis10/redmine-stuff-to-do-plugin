@@ -26,4 +26,10 @@ en:
   stuff_to_do_add_to_front: "Add to Front"
   stuff_to_do_add_to_back: "Add to Back"
   stuff_to_do_remove: "Remove"
-
+  stuff_to_do_reportee: "Reportee"
+  stuff_to_do_reportees: "Reportees" 
+  stuff_to_do_reportees_for: "Reportees for: " 
+  stuff_to_do_cannot_create_reportee_error: "Cannot add reportee"
+  stuff_to_do_manage_reportees: "Manage Reportees"
+  stuff_to_do_reportee_new: "New Reportees"
+  field_stuff_to_do_view_all_reportees: "View All Reportee"

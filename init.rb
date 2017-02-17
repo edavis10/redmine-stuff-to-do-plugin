@@ -46,6 +46,7 @@ Redmine::Plugin.register :stuff_to_do_plugin do
   project_module :stuff_to_do do
     permission :view_stuff_to_do, {:stuff_to_do => :index}
     permission :view_others_stuff_to_do, {:stuff_to_do => :index}
+    permission :manage_stuff_to_do_reportees, {:stuff_to_do => :index}
   end
 
 end

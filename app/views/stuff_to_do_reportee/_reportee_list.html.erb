@@ -1,0 +1,67 @@
+<div class="splitcontentleft">
+<% if StuffToDoReportee.user_reportees_for(@user).any? || StuffToDoReportee.groups_for(@user).any? %>
+  <table class="list users">
+    <thead><tr>
+      <th><%= l(:stuff_to_do_reportee) %></th>
+      <th style="width:15%"></th>
+    </tr></thead>
+    <tbody>
+    <% StuffToDoReportee.groups_for(@user).sort.each do |group| %>
+    	<% unless group.nil? %>
+	      <tr id="group-<%= group.id %>" class="<%= cycle 'odd', 'even' %>">
+	        <td class="group"><%= group.to_s %></td>
+	        <td class="buttons">
+	          <%= delete_link({:controller => 'stuff_to_do_reportee', :action => 'delete', :user_id => @user.id, :group_id => group.id},
+		          :remote => true,
+		          :method => :post) %>
+	        </td>
+	      </tr>
+      <% end %>
+    <% end %>
+    
+    <% StuffToDoReportee.user_reportees_for(@user).sort.each do |reportee| %>
+    	<% unless reportee.nil? %>
+	      <tr id="user-<%= reportee.id %>" class="<%= cycle 'odd', 'even' %>">
+	        <td class="user"><%= link_to_user reportee %></td>
+	        <td class="buttons">
+	          <%= delete_link({:controller => 'stuff_to_do_reportee', :action => 'delete', :user_id => @user.id, :reportee_id => reportee.id},
+		          :remote => true,
+		          :method => :post) %>
+	        </td>
+	      </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+</div>
+
+<div class="splitcontentright">
+<% if StuffToDoReportee.available_reportees_for(@user).any? ||  StuffToDoReportee.available_groups_for(@user).any? %>
+ <%= form_for(@user, :remote => true, :url => 'reportees/add', 
+               :html => {:method => :post  }) do |f| %>
+    <fieldset><legend><%=l(:stuff_to_do_reportee_new)%></legend>
+
+		<% if StuffToDoReportee.available_groups_for(@user).any? %>
+			<p><%= label_tag "group_reportees", l(:label_group_plural) %>
+			<div id="group_reportees">
+				<%= principals_check_box_tags 'group_ids[]', StuffToDoReportee.available_groups_for(@user) %>
+			</div>
+		<% end %>
+
+		<%if StuffToDoReportee.available_reportees_for(@user).any? %>
+			<p><%= label_tag "user_reportees", l(:label_user_plural) %>
+	    <div id="user_reportees">
+	      <%= principals_check_box_tags 'reportee_ids[]', StuffToDoReportee.available_reportees_for(@user) %>
+	    </div>
+    <% end %>
+    
+    <%= hidden_field_tag 'user_id', @user.id %>
+
+    <p><%= submit_tag l(:button_add) %></p>
+    </fieldset>
+  <% end %> 
+<% end %>
+</div>

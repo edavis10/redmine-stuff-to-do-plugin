@@ -1,0 +1,8 @@
+$('#content').html('<%= escape_javascript(render :partial => 'stuff_to_do_reportee/reportee_list') %>');
+<% StuffToDoReportee.groups_for(@user).each do |group| %>
+  $('#group-<%= group.id %>').effect("highlight");
+<% end %>
+<% StuffToDoReportee.user_reportees_for(@user).each do |user| %>
+  $('#user-<%= user.id %>').effect("highlight");
+<% end %>
+
