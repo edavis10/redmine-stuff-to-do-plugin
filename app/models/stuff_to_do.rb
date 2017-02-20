@@ -125,7 +125,7 @@ class StuffToDo < ActiveRecord::Base
 
     # Deliver an email for each user who is below the threshold
     user_ids.uniq.each do |user_id|
-      count = self.count(:conditions => { :user_id => user_id})
+      count = self.where(:user_id => user_id).count
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
 
       if threshold && threshold.to_i >= count
