@@ -11,4 +11,7 @@ Thanks go to the following people for patches and contributions:
 
 * Steffen Schüssler <software@neffets.de>
 * Rumega
-
+* ande3577
+* wojts
+* JohnBat27
+* JangoSteve
