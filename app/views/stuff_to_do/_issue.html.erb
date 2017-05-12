@@ -14,12 +14,14 @@
           - <small><%= h(issue.status.name) %></small>
           - <%= h((defined? issue.subject_combined) ? issue.subject_combined : issue.subject) %>
           </div>
+
+          <% due = issue.due_date.nil? ? '' : I18n.localize(issue.due_date, :format => :long) %>
   
           <% if issue.estimated_hours && issue.estimated_hours > 0 %>
           <div class="estimate"><%= h(l_hours(issue.estimated_hours)) %> &nbsp;</div>
           <% end %>
   
-          <div class="progress"><%= progress_bar(issue.done_ratio, :width => '100%') %></div>
+          <div class="progress"><%= progress_bar(issue.done_ratio, :width => '100%', :legend => due) %></div>
 
         <% end %>
         <div style="clear:left;"></div>

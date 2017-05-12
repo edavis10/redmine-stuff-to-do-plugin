@@ -1,5 +1,6 @@
 cs:
   stuff_to_do_title: Rozpis práce
+  project_module_stuff_to_do: Rozpis práce
   stuff_to_do_what_im_doing_now: "Na čem právě dělám"
   stuff_to_do_what_is_recommended: "Na čem bych měl pracovat dále"
   stuff_to_do_what_is_available: "Co je dostupné"
@@ -10,7 +11,30 @@ cs:
   stuff_to_do_text_total_estimates: "Celkové Odhady"
   stuff_to_do_label_project_manager_emails: Emaily Projektového Manažera
   stuff_to_do_label_threshold: Mez
-  stuff_to_do_label_email_to: Email. adresy
+  stuff_to_do_label_email_to: Email
   stuff_to_do_text_settings: "Email je zaslán projektovému manažerovi jakmile počet uživatelových úkolů klesne pod danou mez. Je možno specifikovat více emailů oddělených čárkami."
   stuff_to_do_label_filter: Filtr
   stuff_to_do_label_filter_by: Filtrovat ...
+  stuff_to_do_drag_issue_create_list: Zde přesuňte úkoly.
+  stuff_to_do_drag_issue_remove_list: Zde přesuňte úkoly.
+  stuff_to_do_use_as_stuff_to_do: Do rozpisu práce použít tyto položky
+  stuff_to_do_statuses_available: Statusy úkolů dostupné v rozpisu práce
+  field_stuff_to_do_enabled: "Zapnout Rozpis práce"
+  stuff_to_do_add_to_front: "Přidat"
+  stuff_to_do_add_to_back: "Zpět"
+  stuff_to_do_remove: "Odstranit"
+  stuff_to_do_reportee: "Uživatel"
+  stuff_to_do_reportees: "Uživatelé"
+  stuff_to_do_reportees_for: "Uživatelé pro: "
+  stuff_to_do_cannot_create_reportee_error: "Nelze přidat"
+  stuff_to_do_manage_reportees: "Správa uživatelů v Rozpisu práce"
+  stuff_to_do_reportee_new: "Uživatelé"
+  field_stuff_to_do_view_all_reportees: "Zobrazit všechny uživatele"
+  stuff_to_do_issue_unathorized: "Nelze zobrazit tento úkol."
+  stuff_to_do_project_unathorized: "Nelze zobrazit tento projekt."
+  stuff_to_do_title_user: "%{user} - Rozpis práce"
+  permission_view_stuff_to_do: "Použít Rozpis práce"
+  permission_view_others_stuff_to_do: "Editovat Rozpis práce ostatních"
+  permission_manage_stuff_to_do_reportees: "Správa uživatelů v Rozpisu práce"
+  permission_view_all_reportee_issues: "See all available issues of reportees"
+  permission_view_all_reportee_stuff_to_do: "See all issues of reportees with name"
