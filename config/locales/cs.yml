@@ -20,9 +20,9 @@ cs:
   stuff_to_do_use_as_stuff_to_do: Do rozpisu práce použít tyto položky
   stuff_to_do_statuses_available: Statusy úkolů dostupné v rozpisu práce
   field_stuff_to_do_enabled: "Zapnout Rozpis práce"
-  stuff_to_do_add_to_front: "Přidat"
-  stuff_to_do_add_to_back: "Zpět"
-  stuff_to_do_remove: "Odstranit"
+  stuff_to_do_add_to_front: "Přidat na začátek"
+  stuff_to_do_add_to_back: "Přidat na konec"
+  stuff_to_do_remove: "Odebrat z rozpisu"
   stuff_to_do_reportee: "Uživatel"
   stuff_to_do_reportees: "Uživatelé"
   stuff_to_do_reportees_for: "Uživatelé pro: "
