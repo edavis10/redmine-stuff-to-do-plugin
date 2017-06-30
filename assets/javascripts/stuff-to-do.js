@@ -83,7 +83,7 @@ jQuery(function($) {
       },
       receive : function (event, ui) {
         $(ui.sender).sortable('cancel');
-        if (isAddingAnIssueToTimeGrid($(event.target))) {
+        if (isAddingAnIssueToTimeGrid($(ui.sender))) {
           var std_item = ui.item;
           // Only add issues that are missing.
           if (!isProjectItem(std_item) && !isItemInTimeGrid(std_item)) {
