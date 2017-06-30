@@ -226,12 +226,12 @@ class StuffToDo < ActiveRecord::Base
   end
   
   def self.remove(user_id, id)
-    removed_stuff_to_do = self.find_by(:user_id =>_user_id, :stuff_id => id)
+    removed_stuff_to_do = self.find_by(:user_id => user_id, :stuff_id => id)
     removed_stuff_to_do.destroy
   end
   
   def self.add(user_id, id, to_front)
-    if (find_by(:user_id =>_user_id, :stuff_id => id).nil?) #make sure it's not already there
+    if (find_by(:user_id => user_id, :stuff_id => id).nil?) #make sure it's not already there
       stuff_to_do = self.new
       stuff_to_do.stuff_id = id
       stuff_to_do.stuff_type = 'Issue'
