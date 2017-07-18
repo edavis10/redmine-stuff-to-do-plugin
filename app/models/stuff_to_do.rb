@@ -236,7 +236,13 @@ class StuffToDo < ApplicationRecord
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     trackers = Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do']
     if not trackers.nil? and not trackers.include? 'all'
-      conditions["#{IssueStatus.table_name}.id"] = "#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+      # conditions["#{IssueStatus.table_name}.id"] = "#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+
+      status_id = []
+      trackers.each do |tracker|
+        status_id << tracker.to_i
+      end
+      conditions["#{IssueStatus.table_name}.id"] = status_id
     end
 
     conditions["projects"] = {"status" => Project::STATUS_ACTIVE}
