@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stuff_to_do_plugin}
-  s.version = "0.6.2"
+  s.version = "0.6.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Davis, Steffen Schüssler"]
-  s.date = %q{2017-06-30}
+  s.date = %q{2017-07-23}
   s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload. compatible redmine 2.x and 3.x}
   s.email = %q{software@neffets.de}
   s.extra_rdoc_files = [
@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.files = [
     "COPYRIGHT.txt",
      "CREDITS.txt",
+     "Gemfile",
      "GPL.txt",
      "README.rdoc",
      "Rakefile",
