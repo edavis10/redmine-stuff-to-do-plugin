@@ -214,12 +214,20 @@ input.save-time-grid { float: right; margin-top: 10px; margin-bottom: 10px; }
 li.stuff-to-do-item {
   position: relative;
 }
-li.stuff-to-do-item div.estimate {
+li.stuff-to-do-item div.issue-details {
+  width: 79%;
+}
+li.stuff-to-do-item div.issue-extras {
+  width: 20%;
+  position: relative;
+  float: left;
+}
+li.stuff-to-do-item div.issue-extras div.estimate {
   position: absolute;
   display: block;
   float: none;
-  width: 15%;
-  left: 82%;
+  width: 50%;
+  left: 2%;
   top: 0px;
   text-align: left;
   z-index: 100;
@@ -227,8 +235,8 @@ li.stuff-to-do-item div.estimate {
   overflow: hidden;
   white-space: nowrap;
 }
-li.stuff-to-do-item div.issue-details {
-  width: 80%;
+li.stuff-to-do-item div.issue-extras div.progress {
+  width: 100%;
 }
 
 #user_reportees label, #group_reportees label

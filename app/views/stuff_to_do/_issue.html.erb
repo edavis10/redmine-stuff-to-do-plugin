@@ -1,10 +1,12 @@
       <% is_authorized = User.current.allowed_to?(:view_issues, issue.project) or User.current.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
       <li class="hascontextmenu stuff-to-do-item <%= issue.css_classes if issue.respond_to?(:css_classes) and is_authorized %> <%= issue_counter.odd? ? "odd" : "even" %>" id="stuff_<%= issue.id %>">
-        <div class="issue-details">
         <% unless is_authorized %>
-          <em><%= l(:stuff_to_do_issue_unathorized) %></em>
+          <div class="issue-details">
+            <em><%= l(:stuff_to_do_issue_unathorized) %></em>
           </div>
         <% else %>
+          <div class="issue-details">
+          <%= check_box_tag 'ids[]', issue.id, false, :id => nil %>
           <% if User.current.allowed_to? :view_issues, issue.project %>
             <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
           <% else %>
@@ -15,6 +17,7 @@
           - <%= h((defined? issue.subject_combined) ? issue.subject_combined : issue.subject) %>
           </div>
 
+          <div class="issue-extras hascontextmenu" id="issue_<%= issue.id %>">
           <% due = issue.due_date.nil? ? '' : format_date(issue.due_date) %>
   
           <% if issue.estimated_hours && issue.estimated_hours > 0 %>
@@ -22,6 +25,7 @@
           <% end %>
   
           <div class="progress"><%= progress_bar(issue.done_ratio, :width => '100%', :legend => due) %></div>
+          </div>
 
         <% end %>
         <div style="clear:left;"></div>
