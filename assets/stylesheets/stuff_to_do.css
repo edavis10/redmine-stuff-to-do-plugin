@@ -1,7 +1,7 @@
 #ajax-indicator { z-index: 300; }
 div.calendar {z-index: 200; }
-ol#available { overflow-y:auto; /*height: 500px;*/ }
-ol#recommended { overflow-y:auto; /*height: 300px;*/ }
+div.pane { overflow: hidden; margin-left: 1em; margin-right: 1.2em; }
+div.pane ol { overflow: auto; max-height: 800px; }
 li.issue, li.project { cursor: move; }
 li.project { font-weight: bold; }
 div.pane h3 { margin-top: 20px; }
@@ -215,10 +215,10 @@ li.stuff-to-do-item {
   position: relative;
 }
 li.stuff-to-do-item div.issue-details {
-  width: 79%;
+  width: 78%;
 }
 li.stuff-to-do-item div.issue-extras {
-  width: 20%;
+  width: 18%;
   position: relative;
   float: left;
 }
