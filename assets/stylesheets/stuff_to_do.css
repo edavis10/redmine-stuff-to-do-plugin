@@ -230,7 +230,7 @@ li.stuff-to-do-item div.issue-extras div.estimate {
   left: 2%;
   top: 0px;
   text-align: left;
-  z-index: 100;
+  z-index: 10;
   height: 1.1em;
   overflow: hidden;
   white-space: nowrap;
