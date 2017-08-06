@@ -148,4 +148,10 @@ module StuffToDoHelper
     export
   end
 
+  def compare_versions(requirement, current)
+    current = current.split('.').collect(&:to_i)
+    requirement = requirement.split('.').collect(&:to_i)
+    requirement <=> current.slice(0, requirement.size)
+  end
+
 end

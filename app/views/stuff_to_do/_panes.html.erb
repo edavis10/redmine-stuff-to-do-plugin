@@ -13,4 +13,5 @@
 <% end %>
 </div>
 
-<%= context_menu %>
+<%= (compare_versions('3.4.0', Redmine::VERSION.to_s) <= 0) && context_menu; %>
+
