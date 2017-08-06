@@ -13,5 +13,5 @@
 <% end %>
 </div>
 
-<%= (compare_versions('3.4.0', Redmine::VERSION.to_s) <= 0) && context_menu; %>
+<%= (StuffToDoHelper.compare_versions('3.4.0', Redmine::VERSION.to_s) <= 0) && context_menu; %>
 
