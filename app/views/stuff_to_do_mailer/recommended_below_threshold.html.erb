@@ -1,3 +1,3 @@
-<% @userRef = link_to(h(@user.name), controller: 'users', action: 'show', id: @user, only_path: false) %>
+<% @userRef = link_to(h(@user.name), controller: 'users', action: 'show', id: @user) %>
 <%= l(:stuff_to_do_below_threshold, user: @userRef, count: @count, threshold: @threshold).html_safe %><p />
-<%= link_to l(:stuff_to_do_title), controller: 'stuff_to_do', action: 'index', user_id: @user.id, only_path: false %>
+<%= link_to l(:stuff_to_do_title), controller: 'stuff_to_do', action: 'index', user_id: @user.id %>
