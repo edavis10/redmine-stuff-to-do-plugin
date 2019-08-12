@@ -23,8 +23,8 @@
 <p>
   <label><%= l(:stuff_to_do_statuses_available) %></label>
   <%= select_tag('settings[statuses_for_stuff_to_do]',
-  options_for_select(IssueStatus.where(:is_closed => false).sorted.collect{ |s| [s.name, s.id] }.unshift(['All Open Statuses', 'all']), @settings['statuses_for_stuff_to_do']),
-  :multiple => true) %>
+  options_for_select(IssueStatus.where(is_closed: false).sorted.collect{ |s| [s.name, s.id] }.unshift(['All Open Statuses', 'all']), @settings['statuses_for_stuff_to_do']),
+  multiple: true) %>
 </p>
 
 <p>

@@ -11,9 +11,9 @@
 	      <tr id="group-<%= group.id %>" class="<%= cycle 'odd', 'even' %>">
 	        <td class="group"><%= group.to_s %></td>
 	        <td class="buttons">
-	          <%= delete_link({:controller => 'stuff_to_do_reportee', :action => 'delete', :user_id => @user.id, :group_id => group.id},
-		          :remote => true,
-		          :method => :post) %>
+	          <%= delete_link({ controller: 'stuff_to_do_reportee', action: 'delete', user_id: @user.id, group_id: group.id },
+		          remote: true,
+		          method: :post) %>
 	        </td>
 	      </tr>
       <% end %>
@@ -24,9 +24,9 @@
 	      <tr id="user-<%= reportee.id %>" class="<%= cycle 'odd', 'even' %>">
 	        <td class="user"><%= link_to_user reportee %></td>
 	        <td class="buttons">
-	          <%= delete_link({:controller => 'stuff_to_do_reportee', :action => 'delete', :user_id => @user.id, :reportee_id => reportee.id},
-		          :remote => true,
-		          :method => :post) %>
+	          <%= delete_link({ controller: 'stuff_to_do_reportee', action: 'delete', user_id: @user.id, reportee_id: reportee.id},
+		          remote: true,
+		          method: :post) %>
 	        </td>
 	      </tr>
       <% end %>
@@ -40,8 +40,8 @@
 
 <div class="splitcontentright">
 <% if StuffToDoReportee.available_reportees_for(@user).any? ||  StuffToDoReportee.available_groups_for(@user).any? %>
- <%= form_for(@user, :remote => true, :url => 'reportees/add', 
-               :html => {:method => :post  }) do |f| %>
+ <%= form_for(@user, remote: true, url: 'reportees/add', 
+               html: { method: :post }) do |f| %>
     <fieldset><legend><%=l(:stuff_to_do_reportee_new)%></legend>
 
 		<% if StuffToDoReportee.available_groups_for(@user).any? %>

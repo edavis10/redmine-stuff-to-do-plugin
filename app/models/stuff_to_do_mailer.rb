@@ -3,7 +3,7 @@
 class StuffToDoMailer < Mailer
   add_template_helper(StuffToDoHelper)
 
-  default :to => Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
+  default to: Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
 
   def index
   end
@@ -21,20 +21,20 @@ class StuffToDoMailer < Mailer
       @count = number_of_next_items
       @user = user
 
-      mail(:to => @to,
-        :subject => @subject,
-        :threshold => @threshold,
-        :count => @count,
-        :user => @user,
-        :template_name => "recommended_below_threshold")
+      mail(to: @to,
+        subject: @subject,
+        threshold: @threshold,
+        count: @count,
+        user: @user,
+        template_name: "recommended_below_threshold")
     else
       recipients Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
       subject "What's Recommended is below the threshold"
 
       body(
-        :threshold => Setting.plugin_stuff_to_do_plugin['threshold'],
-        :count => number_of_next_items,
-        :user => user
+        threshold: Setting.plugin_stuff_to_do_plugin['threshold'],
+        count: number_of_next_items,
+        user: user
       )
 
       render_multipart("recommended_below_threshold", body)
@@ -46,9 +46,9 @@ class StuffToDoMailer < Mailer
     @doing_now = doing_now
     @recommended = recommended
 
-    mail(:to => @user.mail,
-         :subject => "Your Stuff To Do",
-         :user => @user) do |format|
+    mail(to: @user.mail,
+         subject: "Your Stuff To Do",
+         user: @user) do |format|
            format.text
            format.html
          end
@@ -57,10 +57,10 @@ class StuffToDoMailer < Mailer
   def periodic_summary(users_stuff_to_dos_hash)
     @users_stuff_to_dos_hash = users_stuff_to_dos_hash
     @bypass_user_allowed_to_view = true
-    mail(:to => Setting.plugin_stuff_to_do_plugin['email_to'],
-         :subject => "Stuff To Do Team Summary",
-         :bypass_user_allowed_to_view => @bypass_user_allowed_to_view,
-         :users_stuff_to_do_hash => @users_stuff_to_do_hash) do |format|
+    mail(to: Setting.plugin_stuff_to_do_plugin['email_to'],
+         subject: "Stuff To Do Team Summary",
+         bypass_user_allowed_to_view: @bypass_user_allowed_to_view,
+         users_stuff_to_do_hash: @users_stuff_to_do_hash) do |format|
            format.text
            format.html
          end

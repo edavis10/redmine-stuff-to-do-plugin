@@ -1,21 +1,21 @@
-<% if !@issue.nil? && !User.current.nil? && User.current.logged? && User.current.allowed_to?(:view_stuff_to_do, nil, :global => true) && User.current.pref[:stuff_to_do_enabled] %>
+<% if !@issue.nil? && !User.current.nil? && User.current.logged? && User.current.allowed_to?(:view_stuff_to_do, nil, global: true) && User.current.pref[:stuff_to_do_enabled] %>
   <% assigned_to = @issue.assigned_to %>
   <% assigned_to = User.current if assigned_to.is_a?(Group) && User.current.is_or_belongs_to?(assigned_to) %>
-	<% if !assigned_to.nil? && assigned_to.is_a?(User) && (assigned_to == User.current || User.current.allowed_to?(:view_others_stuff_to_do, nil, :global => true)) %>
+	<% if !assigned_to.nil? && assigned_to.is_a?(User) && (assigned_to == User.current || User.current.allowed_to?(:view_others_stuff_to_do, nil, global: true)) %>
 		<% if StuffToDo.available(assigned_to, @project, assigned_to).count(@issue) > 0 %>
 				<div id="stuff-to-do">
 				<% if assigned_to == User.current %>
   			 <p><h3><%=l(:stuff_to_do_title)%></h3>
 			  <% else %>
-			   <p><h3><%=l(:stuff_to_do_title_user, :user => assigned_to.name)%></h3>
+			   <p><h3><%=l(:stuff_to_do_title_user, user: assigned_to.name)%></h3>
 			  <% end %>
-  			<p><%= link_to(l(:stuff_to_do_add_to_front), {:controller => 'stuff_to_do', :action => 'add', :issue_id => @issue.id, :to_front => true, :user_id => assigned_to }) %>
-  			<br><%= link_to(l(:stuff_to_do_add_to_back), {:controller => 'stuff_to_do', :action => 'add', :issue_id => @issue.id, :to_front => false, :user_id => assigned_to }) %>
+  			<p><%= link_to(l(:stuff_to_do_add_to_front), {controller: 'stuff_to_do', action: 'add', issue_id: @issue.id, to_front: true, user_id: assigned_to }) %>
+  			<br><%= link_to(l(:stuff_to_do_add_to_back), {controller: 'stuff_to_do', action: 'add', issue_id: @issue.id, to_front: false, user_id: assigned_to }) %>
 				</div>
 		<% elsif StuffToDo.assigned(assigned_to).count(@issue) > 0 %>
 				<div id="stuff-to-do">
 						<p><h3><%=l(:stuff_to_do_title)%></h3>
-						<p><%= link_to(l(:stuff_to_do_remove), {:controller => 'stuff_to_do', :action => 'delete', :issue_id => @issue.id, :user_id => assigned_to }) %>
+						<p><%= link_to(l(:stuff_to_do_remove), {controller: 'stuff_to_do', action: 'delete', issue_id: @issue.id, user_id: assigned_to }) %>
 				</div>
 		<% end %>
 	<% end %>

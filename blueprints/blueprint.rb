@@ -9,9 +9,9 @@ Sham.identifier { Faker::Internet.domain_word.downcase }
 Sham.message { Faker::Company.bs }
 Sham.position {|index| index }
 Sham.single_name { Faker::Internet.domain_word.capitalize }
-Sham.integer(:unique => false) { rand(100) }
+Sham.integer(unique: false) { rand(100) }
 
-Sham.permissions(:unique => false) {
+Sham.permissions(unique: false) {
   [
    :view_issues
   ]
@@ -34,7 +34,7 @@ end
 def make_project_with_enabled_modules(attributes = {})
   Project.make(attributes) do |project|
     ['issue_tracking'].each do |name|
-      project.enabled_modules.make(:name => name)
+      project.enabled_modules.make(name: name)
     end
   end
 end

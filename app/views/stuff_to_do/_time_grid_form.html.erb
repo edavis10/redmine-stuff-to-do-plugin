@@ -1,53 +1,53 @@
-<% form = form_tag({:action => 'time_grid'}, :id => 'query_form', remote: true) do %>
+<% form = form_tag({ action: 'time_grid' }, id: 'query_form', remote: true) do %>
 <fieldset id="date-range"><legend><%= l(:label_date_range) %></legend>
-    <%= select_month(@date.month, :prefix => "month", :discard_type => true) %>
-    <%= select_day(@date.day, :prefix => "day", :discard_type => true) %>
-    <%= select_year(@date.year, :prefix => "year", :discard_type => true) %>
+    <%= select_month(@date.month, prefix: "month", discard_type: true) %>
+    <%= select_day(@date.day, prefix: "day", discard_type: true) %>
+    <%= select_year(@date.year, prefix: "year", discard_type: true) %>
 </fieldset>
 
 <p style="float:right; margin:0px;">
 <%= link_to("« #{l(:label_previous)} #{l(:label_week).downcase}",
-                   { :url => { :action => 'time_grid', :date => @date - 7 },
-                     :remote => true,
-                     :update => "time-grid"
+                   { url: { action: 'time_grid', date: @date - 7 },
+                     remote: true,
+                     update: "time-grid"
                    },
                    {
-                     :href => url_for(:action => 'time_grid', :date => @date - 7),
-                     :class => "gridsubmit"
+                     href: url_for(action: 'time_grid', date: @date - 7),
+                     class: "gridsubmit"
                    })
                    %> |
 <%= link_to("#{l(:label_next)} #{l(:label_week)} »", 
-                   { :url => { :action => 'time_grid', :date => @date + 7 },
-                     :remote => true,
-                     :update => "time-grid"
+                   { url: { action: 'time_grid', date: @date + 7 },
+                     remote: true,
+                     update: "time-grid"
                    },
                    {
-                     :href => url_for(:action => 'time_grid', :date => @date + 7),
-                     :class => "gridsubmit"
+                     href: url_for(action: 'time_grid', date: @date + 7),
+                     class: "gridsubmit"
                    })
                    %>
 </p>
 
 <p class="buttons">
 <%= link_to l(:button_apply),
-                   { :url => { :action => "time_grid" },
-                     :remote => true,
-                     :action => "time_grid",
-                     :update => "time-grid"
+                   { url: { action: "time_grid" },
+                     remote: true,
+                     action: "time_grid",
+                     update: "time-grid"
                    },
                    {
-                     :id => "time_grid_button_submit",
-                     :class => "icon icon-checked gridsubmit"
+                     id: "time_grid_button_submit",
+                     class: "icon icon-checked gridsubmit"
                    }
 %>
  
 <%= link_to l(:button_clear),
-                   { :url => { :action => "time_grid" },
-                     :remote => true,
-                     :update => "time-grid"
+                   { url: { action: "time_grid" },
+                     remote: true,
+                     update: "time-grid"
                    },
                    {
-                     :class => "icon icon-reload"
+                     class: "icon icon-reload"
                    }
 %>
 </p>

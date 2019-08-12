@@ -1,4 +1,4 @@
-class CreateNextIssues < ActiveRecord::Migration
+class CreateNextIssues < ActiveRecord::Migration[4.2]
   def self.up
     create_table :next_issues do |t|
       t.column :issue_id, :integer

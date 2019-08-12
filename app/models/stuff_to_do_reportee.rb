@@ -2,7 +2,7 @@ class StuffToDoReportee < ActiveRecord::Base
   unloadable
 
   belongs_to :user
-  belongs_to :reportee, :class_name => 'User'
+  belongs_to :reportee, class_name: 'User'
   belongs_to :group
   
   validates_presence_of :user
@@ -15,7 +15,7 @@ class StuffToDoReportee < ActiveRecord::Base
   
   def self.user_reportees_for(user)
     reportees = []
-    StuffToDoReportee.where(:user_id => user.id).each do |rep|
+    StuffToDoReportee.where(user_id: user.id).each do |rep|
       reportees << rep.reportee unless rep.reportee.nil?
     end
     return reportees    
@@ -23,7 +23,7 @@ class StuffToDoReportee < ActiveRecord::Base
   
   def self.groups_for(user)
     groups = []
-    StuffToDoReportee.where(:user_id => user.id).each do |rep|
+    StuffToDoReportee.where(user_id: user.id).each do |rep|
       groups << rep.group unless rep.group.nil?
     end
     return groups
@@ -52,7 +52,7 @@ class StuffToDoReportee < ActiveRecord::Base
   
   def validate_reportee
     errors.add(:reportee, :equals_user) if !reportee.nil? && (reportee == user)
-    errors.add(:reportee, :reportee_not_unique) if !user.nil? && !reportee.nil? && StuffToDoReportee.where(:user_id => reportee.id, :reportee_id => user.id).count > 0
+    errors.add(:reportee, :reportee_not_unique) if !user.nil? && !reportee.nil? && StuffToDoReportee.where(user_id: reportee.id, reportee_id: user.id).count > 0
     
     if !reportee.nil? && !user.nil?
       StuffToDoReportee.groups_for(user).each do |group|
@@ -64,7 +64,7 @@ class StuffToDoReportee < ActiveRecord::Base
   end
   
   def validate_group
-    errors.add(:group, :group_not_unique) if !user.nil? && !group.nil? && StuffToDoReportee.where(:user_id => user.id, :group_id => group.id).count > 0 
+    errors.add(:group, :group_not_unique) if !user.nil? && !group.nil? && StuffToDoReportee.where(user_id: user.id, group_id: group.id).count > 0 
   end
   
 end

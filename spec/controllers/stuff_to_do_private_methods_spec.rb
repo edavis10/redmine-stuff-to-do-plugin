@@ -47,7 +47,7 @@ describe StuffToDoController, '#save_time_entry_from_time_grid (private)' do
     @project = mock_model(Project)
     User.current.stub!(:allowed_to?).and_return(true)
     
-    @time_entry = TimeEntry.new(:comments => 'A comment for validation')
+    @time_entry = TimeEntry.new(comments: 'A comment for validation')
     @time_entry.stub!(:project).and_return(@project)
     @time_entry.stub!(:valid?).and_return(true)
     @time_entry.stub!(:save).and_return(true)

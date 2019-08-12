@@ -1,4 +1,4 @@
-class AddStuffToDoReportees  < ActiveRecord::Migration
+class AddStuffToDoReportees  < ActiveRecord::Migration[4.2]
   def self.up 
     create_table :stuff_to_do_reportees do |t|
       t.column :user_id, :integer

@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stuff_to_do_plugin}
-  s.version = "0.6.3"
+  s.version = "0.7.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eric Davis, Steffen Schüssler"]
-  s.date = %q{2017-07-23}
-  s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload. compatible redmine 2.x and 3.x}
+  s.date = %q{2019-08-09}
+  s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload. compatible redmine 3.x and 4.x}
   s.email = %q{software@neffets.de}
   s.extra_rdoc_files = [
     "README.rdoc"
@@ -48,7 +48,9 @@ Gem::Specification.new do |s|
      "assets/images/tl.png",
      "assets/images/tr.png",
      "assets/javascripts/facebox.js",
-     "assets/javascripts/jquery-1.2.6.min.js",
+     "assets/javascripts/jquery-1.10.1.js",
+     "assets/javascripts/jquery-1.10.1.min.js",
+     "assets/javascripts/jquery-ui.min.js",
      "assets/javascripts/jquery-ui.js",
      "assets/javascripts/jquery.contextMenu.js",
      "assets/javascripts/semantic.cache",

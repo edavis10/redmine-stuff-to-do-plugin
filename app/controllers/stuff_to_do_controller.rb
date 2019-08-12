@@ -3,8 +3,13 @@ class StuffToDoController < ApplicationController
 
   include StuffToDoHelper
 
-  before_filter :get_user, :get_project
-  before_filter :get_time_grid, :only => [:index, :time_grid]
+  if Rails::VERSION::MAJOR < 3
+    before_filter :get_user, :get_project
+    before_filter :get_time_grid, only: [:index, :time_grid]
+  else
+    before_action :get_user, :get_project
+    before_action :get_time_grid, only: [:index, :time_grid]
+  end
   helper :stuff_to_do
   helper :custom_fields
   helper :timelog
@@ -19,8 +24,8 @@ class StuffToDoController < ApplicationController
     @filters = filters_for_view
 
     respond_to do |format|
-      format.html { render :template => 'stuff_to_do/index', :layout => !request.xhr? }
-      format.csv  { send_data(stuff_to_do_to_csv(@doing_now, @recommended, @available, @user, params), :type => 'text/csv; header=present', :filename => 'export.csv') }
+      format.html { render template: 'stuff_to_do/index', layout: !request.xhr? }
+      format.csv  { send_data(stuff_to_do_to_csv(@doing_now, @recommended, @available, @user, params), type: 'text/csv; header=present', filename: 'export.csv') }
     end
   end
 
@@ -30,8 +35,8 @@ class StuffToDoController < ApplicationController
     end
      
     respond_to do |format|
-      format.html { redirect_to_referer_or { render :text => ('Deleting Issue from stuff-to-do.'), :layout => true} }
-      format.js { render :partial => 'stuff-to-do', :layout => false}
+      format.html { redirect_to_referer_or { render text: ('Deleting Issue from stuff-to-do.'), layout: true} }
+      format.js { render partial: 'stuff-to-do', layout: false}
     end
   end
   
@@ -40,8 +45,8 @@ class StuffToDoController < ApplicationController
       StuffToDo.add(params[:user_id], params[:issue_id], params[:to_front] == "true")         
     end
     respond_to do |format|
-      format.html { redirect_to_referer_or { render :text => ('Adding issue to stuff-to-do.'), :layout => true} }
-      format.js { render :partial => 'stuff-to-do', :layout => false}
+      format.html { redirect_to_referer_or { render text: ('Adding issue to stuff-to-do.'), layout: true} }
+      format.js { render partial: 'stuff-to-do', layout: false}
     end
   end
 
@@ -52,8 +57,8 @@ class StuffToDoController < ApplicationController
     @available = StuffToDo.available(@user, @project, get_filters )
 
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'panes', :layout => false}
+      format.html { redirect_to action: 'index'}
+      format.js { render partial: 'panes', layout: false}
     end
   end
   
@@ -61,17 +66,17 @@ class StuffToDoController < ApplicationController
     @available = StuffToDo.available(@user, @project, get_filters)
 
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'right_panes', :layout => false}
+      format.html { redirect_to action: 'index'}
+      format.js { render partial: 'right_panes', layout: false}
     end
   end
 
   def clear
-    StuffToDo.where(:user_id => @user).destroy_all
+    StuffToDo.where(user_id: @user).destroy_all
 
     respond_to do |format|
-      format.html { redirect_to :action => 'index', :user_id => @user }
-      format.js { redirect_to :action => 'index', :user_id => @user }
+      format.html { redirect_to action: 'index', user_id: @user }
+      format.js { redirect_to action: 'index', user_id: @user }
     end
   end
   
@@ -79,8 +84,8 @@ class StuffToDoController < ApplicationController
     get_time_grid
     Rails.logger.debug "get_time_grid issues = #{@spent_issues.inspect}"
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'time_grid', :layout => false}
+      format.html { redirect_to action: 'index'}
+      format.js { render partial: 'time_grid', layout: false}
     end
   end
 
@@ -115,7 +120,7 @@ class StuffToDoController < ApplicationController
         
         format.js { time_grid }
       else
-        format.js { render :text => @time_entry.errors.full_messages.join(', '), :status => 403, :layout => false }
+        format.js { render text: @time_entry.errors.full_messages.join(', '), status: 403, layout: false }
       end
     end
   end
@@ -124,7 +129,7 @@ class StuffToDoController < ApplicationController
   
   def get_project
     if params[:project_id] && !params[:project_id].empty?
-      @project = Project.where(:id => params[:project_id]).first
+      @project = Project.where(id: params[:project_id]).first
       if @project.nil?
         render_404
         return false
@@ -136,7 +141,7 @@ class StuffToDoController < ApplicationController
     render_403 unless User.current.logged?
     
     if params[:user_id] && params[:user_id] != User.current.id.to_s
-      if User.current.allowed_to?(:view_others_stuff_to_do, @project, :global => true)
+      if User.current.allowed_to?(:view_others_stuff_to_do, @project, global: true)
         @user = User.find(params[:user_id])
       else
         render_403
@@ -147,7 +152,7 @@ class StuffToDoController < ApplicationController
   end
   
   def filters_for_view
-    StuffToDoFilter.new(:user => @user)
+    StuffToDoFilter.new(user: @user)
   end
 
   def get_filters

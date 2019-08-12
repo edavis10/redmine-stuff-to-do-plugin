@@ -10,7 +10,7 @@ module StuffToDoUserPatch
 
   module InstanceMethods
       def allowed_to_view_all_reportees?
-        self.allowed_to?(:view_all_users_stuff_to_do, nil, :global => :true)
+        self.allowed_to?(:view_all_users_stuff_to_do, nil, global: :true)
       end
   end
 end

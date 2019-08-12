@@ -11,18 +11,18 @@ class StuffToDoReporteeTest < ActiveSupport::TestCase
 
   def test_create
     initial_size = StuffToDoReportee.count    
-    reportee = StuffToDoReportee.new(:user => @manager, :reportee => @reportee)
+    reportee = StuffToDoReportee.new(user: @manager, reportee: @reportee)
     assert_equal @manager, reportee.user, "initial user"
     assert_equal @reportee, reportee.reportee, "initial reportee"
     assert reportee.save
     assert_equal initial_size + 1, StuffToDoReportee.count, "size after create"
       
-    duplicate_reportee = StuffToDoReportee.new(:user => @manager, :reportee => @reportee)
+    duplicate_reportee = StuffToDoReportee.new(user: @manager, reportee: @reportee)
     assert !duplicate_reportee.save
     
-    assert !StuffToDoReportee.new(:user => nil, :reportee => @reportee).save
-    assert !StuffToDoReportee.new(:user => @manager, :reportee => nil).save
-    assert !StuffToDoReportee.new(:user => @manager, :reportee => @user).save
+    assert !StuffToDoReportee.new(user: nil, reportee: @reportee).save
+    assert !StuffToDoReportee.new(user: @manager, reportee: nil).save
+    assert !StuffToDoReportee.new(user: @manager, reportee: @user).save
 
   end
   
@@ -40,15 +40,15 @@ class StuffToDoReporteeTest < ActiveSupport::TestCase
     group = Group.first;
     initial_size = StuffToDoReportee.reportees_for(@manager2).count
 
-    assert StuffToDoReportee.new(:user => @manager2, :group => group).save
+    assert StuffToDoReportee.new(user: @manager2, group: group).save
     assert_equal 1, StuffToDoReportee.groups_for(@manager2).count, "group added"
     assert_equal initial_size + group.users.count, StuffToDoReportee.reportees_for(@manager2).count, "add members of a group,  do not add members repeatedly"
     
     assert_equal (Group.active - StuffToDoReportee.groups_for(@manager2)).count, StuffToDoReportee.available_groups_for(@manager2).count
     assert_equal (User.active - StuffToDoReportee.reportees_for(@manager2) - [@manager2]).count, StuffToDoReportee.available_reportees_for(@manager2).count
       
-    assert !StuffToDoReportee.new(:user => @manager2, :reportee =>  group.users.last).save
-    assert !StuffToDoReportee.new(:user => @manager2, :group => group).save
+    assert !StuffToDoReportee.new(user: @manager2, reportee: group.users.last).save
+    assert !StuffToDoReportee.new(user: @manager2, group: group).save
   end
   
 end

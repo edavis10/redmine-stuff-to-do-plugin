@@ -4,7 +4,7 @@ describe StuffToDoController, '#index' do
   include Redmine::I18n
 
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [])
+    @current_user = mock_model(User, admin?: false, logged?: true, language: :en, memberships: [])
     @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
     StuffToDo.stub!(:available)
@@ -64,11 +64,11 @@ end
 
 describe StuffToDoController, '#index for another user as an administrator' do
   def get_index
-    get :index, :user_id => @viewed_user.id
+    get :index, user_id: @viewed_user.id
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
+    @current_user = mock_model(User, admin?: true, logged?: true, language: :en)
     @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
     controller.stub!(:find_current_user).and_return(@current_user)
@@ -116,11 +116,11 @@ end
 
 describe StuffToDoController, '#index for another user as a user' do
   def get_index
-    get :index, :user_id => @viewed_user.id
+    get :index, user_id: @viewed_user.id
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project)
+    @current_user = mock_model(User, admin?: false, logged?: true, language: :en, memberships: [], anonymous?: false, name: "A Test User", projects: Project)
     @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
     @viewed_user = mock_model(User)

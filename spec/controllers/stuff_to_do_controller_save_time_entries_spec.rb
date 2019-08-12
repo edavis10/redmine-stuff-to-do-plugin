@@ -5,20 +5,20 @@ describe StuffToDoController, '#save_time_entries' do
   integrate_views
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en, :memberships => [], :anonymous? => false, :name => "A Test User", :projects => Project, :allowed_to? => true)
+    @current_user = mock_model(User, admin?: false, logged?: true, language: :en, memberships: [], anonymous?: false, name: "A Test User", projects: Project, allowed_to?: true)
     @current_user.stub!(:time_grid_issues).and_return(Issue)
     User.stub!(:current).and_return(@current_user)
 
     @project = mock_model(Project)
-    @issue = mock('issue', :project => @project)
+    @issue = mock('issue', project: @project)
   end
 
   def do_request(params={})
-    post :save_time_entry, {:format => 'js', :time_entry => []}.merge(params)
+    post :save_time_entry, { format: 'js', time_entry: []}.merge(params)
   end
 
   def make_time_entry_hash
-    {:comments => 'Test comment', :issue_id => '100', :activity_id => '1', :spent_on => '2009-08-05', :hours => '1'}
+    { comments: 'Test comment', issue_id: '100', activity_id: '1', spent_on: '2009-08-05', hours: '1'}
   end
 
   def make_time_entry_mock(entry)

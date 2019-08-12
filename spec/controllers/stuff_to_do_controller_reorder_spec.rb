@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe StuffToDoController, '#reorder' do
   def post_reorder
-    post :reorder, :stuff => @ordered_list
+    post :reorder, stuff: @ordered_list
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
+    @current_user = mock_model(User, admin?: false, logged?: true, language: :en)
     User.stub!(:current).and_return(@current_user)
     @ordered_list = ["500", "100", "300"]
   end
@@ -18,7 +18,7 @@ describe StuffToDoController, '#reorder' do
   
   it 'should be redirect to the index action' do
     post_reorder
-    response.should redirect_to(:action => 'index')
+    response.should redirect_to(action: 'index')
   end
   
   it 'should reorder the Next Issues' do
@@ -30,11 +30,11 @@ end
 # These intregrate the partial view
 describe StuffToDoController, '#reorder with the js format' do
   def post_reorder
-    post :reorder, :stuff => @ordered_list, :format => 'js'
+    post :reorder, stuff: @ordered_list, format: 'js'
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
+    @current_user = mock_model(User, admin?: false, logged?: true, language: :en)
     User.stub!(:current).and_return(@current_user)
     @ordered_list = ["500", "100", "300"]
     StuffToDo.stub!(:doing_now).and_return([])
@@ -69,11 +69,11 @@ end
 
 describe StuffToDoController, '#reorder for another user as an administrator' do
   def post_reorder
-    post :reorder, :stuff => @ordered_list, :user_id => @viewed_user.id
+    post :reorder, stuff: @ordered_list, user_id: @viewed_user.id
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
+    @current_user = mock_model(User, admin?: true, logged?: true, language: :en)
     User.stub!(:current).and_return(@current_user)
     controller.stub!(:find_current_user).and_return(@current_user)
     @viewed_user = mock_model(User)
@@ -88,7 +88,7 @@ describe StuffToDoController, '#reorder for another user as an administrator' do
   
   it 'should be redirect to the index action' do
     post_reorder
-    response.should redirect_to(:action => 'index')
+    response.should redirect_to(action: 'index')
   end
   
   it 'should reorder the Next Issues' do
@@ -100,11 +100,11 @@ end
 # These intregrate the partial view
 describe StuffToDoController, '#reorder for another user as an administrator with the js format' do
   def post_reorder
-    post :reorder, :stuff => @ordered_list, :user_id => @viewed_user.id, :format => 'js'
+    post :reorder, stuff: @ordered_list, user_id: @viewed_user.id, format: 'js'
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => true, :logged? => true, :language => :en)
+    @current_user = mock_model(User, admin?: true, logged?: true, language: :en)
     User.stub!(:current).and_return(@current_user)
     controller.stub!(:find_current_user).and_return(@current_user)
     @viewed_user = mock_model(User)
@@ -142,11 +142,11 @@ end
 
 describe StuffToDoController, '#reorder for another user as a user' do
   def post_reorder
-    post :reorder, :user_id => @viewed_user.id
+    post :reorder, user_id: @viewed_user.id
   end
   
   before(:each) do
-    @current_user = mock_model(User, :admin? => false, :logged? => true, :language => :en)
+    @current_user = mock_model(User, admin?: false, logged?: true, language: :en)
     User.stub!(:current).and_return(@current_user)
     @viewed_user = mock_model(User)
   end

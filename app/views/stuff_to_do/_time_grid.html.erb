@@ -5,9 +5,9 @@
 <div id="time-grid-warning" class="flash warning time-grid-flash" style="display:none"><%= h flash[:time_grid_warning] %></div>
 <div id="time-grid-notice" class="flash notice time-grid-flash" style="display:none"><%= h flash[:time_grid_notice] %></div>
 
-<%= render :partial => 'time_grid_form' %>
+<%= render partial: 'time_grid_form' %>
 
-<%= submit_tag l(:button_save), :class => 'save-time-grid', :style => 'display:none;' %>
+<%= submit_tag l(:button_save), class: 'save-time-grid', style: 'display:none;' %>
 
 <table class="cal" id="time-grid-table">
   <thead>
@@ -30,10 +30,10 @@
     <% @spent_issues.each do |issue| %>
     <%= content_tag_for(:tr, issue) do %>
       <td class="time-grid-project">
-        <%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
+        <%= link_to(h(issue.project), controller: 'projects', action: 'show', id: issue.project) %>
       </td>
       <td class="time-grid-issue">
-        <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
+        <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), controller: 'issues', action: 'show', id: issue) %>
         - <%= h(issue.project.name) %> -
         <%= h(issue.subject) %>
       </td>
@@ -68,33 +68,33 @@
   </tbody>
 </table>
 
-<%= submit_tag l(:button_save), :class => 'save-time-grid', :style => 'display:none;' %>
+<%= submit_tag l(:button_save), class: 'save-time-grid', style: 'display:none;' %>
 
 </div>
 
 <ul id="time-grid-menu" class="context-menu" style="display:none;">
     <li>
-      <%= content_tag(:a, l(:button_log_time), :class => 'icon-time-add', :id => 'log-time', :href => '#logtime') %>
+      <%= content_tag(:a, l(:button_log_time), class: 'icon-time-add', id: 'log-time', href: '#logtime') %>
     </li>
 </ul>
 
 <div id="logtime" style="display:none;">
 <h2><%= l(:label_spent_time) %></h2>
 
-<%= labelled_form_for 'time_entry[]'.to_sym, @time_entry, :url => {}, :html => {:id => 'new-time-entry'} do |f| %>
+<%= labelled_form_for 'time_entry[]'.to_sym, @time_entry, url: {}, html: { id: 'new-time-entry'} do |f| %>
 <%= error_messages_for 'time_entry' %>
 <%= back_url_hidden_field_tag %>
 
 <div class="box">
-  <p><%= f.text_field :issue_id, :required => true, :size => 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
-  <p><%= f.date_field :spent_on, :size => 10, :required => true %><%= calendar_for('time_entry_spent_on') %></p>
-  <p><%= f.text_field :hours, :size => 6, :required => true %></p>
-  <p><%= f.text_field :comments, :size => 100, :required => true %></p>
-  <p><%= f.select :activity_id, activity_collection_for_select_options, :required => true %></p>
+  <p><%= f.text_field :issue_id, required: true, size: 6 %> <em><%= h("#{@time_entry.issue.tracker.name} ##{@time_entry.issue.id}: #{@time_entry.issue.subject}") if @time_entry.issue %></em></p>
+  <p><%= f.date_field :spent_on, size: 10, required: true %><%= calendar_for('time_entry_spent_on') %></p>
+  <p><%= f.text_field :hours, size: 6, required: true %></p>
+  <p><%= f.text_field :comments, size: 100, required: true %></p>
+  <p><%= f.select :activity_id, activity_collection_for_select_options, required: true %></p>
 <% @time_entry.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :time_entry, value %></p>
 <% end %>
-<%= call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) %>
+<%= call_hook(:view_timelog_edit_form_bottom, { time_entry: @time_entry, form: f }) %>
 </div>
 
 <%= submit_tag l(:button_save) %>

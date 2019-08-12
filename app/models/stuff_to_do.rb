@@ -4,7 +4,7 @@
 # Supported objects:
 # * Issue
 # * Project
-class StuffToDo < ActiveRecord::Base
+class StuffToDo < ApplicationRecord
   USE = {
     'All' => '0',
     'Only Issues' => '1',
@@ -13,20 +13,20 @@ class StuffToDo < ActiveRecord::Base
 
   belongs_to :stuff, polymorphic: true
   belongs_to :user
-  acts_as_list :scope => :user
+  acts_as_list scope: :user
   
   if Rails::VERSION::MAJOR >= 3
     scope :doing_now, ->(user) {
-      where( :user_id => user.id )
+      where( user_id: user.id )
       .order('position ASC')
       .limit(5)
     }
   else
     named_scope :doing_now, lambda { |user|
       {
-        :conditions => { :user_id => user.id },
-        :order => 'position ASC',
-        :limit => 5
+        conditions: { user_id: user.id },
+        order: 'position ASC',
+        limit: 5
       }
     }
   end
@@ -40,7 +40,7 @@ class StuffToDo < ActiveRecord::Base
   #
   if Rails::VERSION::MAJOR >= 3
     scope :recommended, ->(user) {
-      where( :user_id => user.id )
+      where( user_id: user.id )
         .order('position ASC')
         .limit(self.count)
         .offset(5)
@@ -48,10 +48,10 @@ class StuffToDo < ActiveRecord::Base
   else
     named_scope :recommended, lambda { |user|
       {
-        :conditions => [ "user_id = ?", user.id ],
-        :order => 'position ASC',
-        :limit => self.count,
-        :offset => 5
+        conditions: [ "user_id = ?", user.id ],
+        order: 'position ASC',
+        limit: self.count,
+        offset: 5
       }
     }
   end
@@ -70,7 +70,7 @@ class StuffToDo < ActiveRecord::Base
     if filter.is_a?(Project)
       potential_stuff_to_do = active_and_visible_projects(user).sort
     else
-      if User.current.allowed_to?(:view_all_reportee_issues, nil, { :global => true }) or (User == User.current)
+      if User.current.allowed_to?(:view_all_reportee_issues, nil, { global: true }) or (User == User.current)
         visible_issues =  Issue
       else
         visible_issues =  Issue.visible       
@@ -81,14 +81,14 @@ class StuffToDo < ActiveRecord::Base
                                      .order("#{Issue.table_name}.created_on DESC")
     end
 
-    stuff_to_do = StuffToDo.where( :user_id => user.id ).collect(&:stuff)
+    stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
     
     return potential_stuff_to_do - stuff_to_do
   end
   
   def self.assigned(user)
 
-    return StuffToDo.where( :user_id => user.id ).collect(&:stuff)
+    return StuffToDo.where( user_id: user.id ).collect(&:stuff)
   end
 
   def self.using_projects_as_items?
@@ -113,7 +113,7 @@ class StuffToDo < ActiveRecord::Base
       if Rails::VERSION::MAJOR >= 3
         count = self.select( "user_id = %d" % user_id ).count( :id )
       else
-        count = self.count(:conditions => { :user_id => user_id})
+        count = self.count(conditions: { user_id: user_id})
       end
 
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
@@ -220,18 +220,18 @@ class StuffToDo < ActiveRecord::Base
   def self.remove_missing_records(user, ids_found_in_database, ids_to_use)
     removed = ids_found_in_database - ids_to_use
     removed.each do |id|
-      removed_stuff_to_do = self.find_by(:user_id => user.id, :stuff_id => id)
+      removed_stuff_to_do = self.find_by(user_id: user.id, stuff_id: id)
       removed_stuff_to_do.destroy
     end
   end
   
   def self.remove(user_id, id)
-    removed_stuff_to_do = self.find_by(:user_id => user_id, :stuff_id => id)
+    removed_stuff_to_do = self.find_by(user_id: user_id, stuff_id: id)
     removed_stuff_to_do.destroy
   end
   
   def self.add(user_id, id, to_front)
-    if (find_by(:user_id => user_id, :stuff_id => id).nil?) #make sure it's not already there
+    if (find_by(user_id: user_id, stuff_id: id).nil?) #make sure it's not already there
       stuff_to_do = self.new
       stuff_to_do.stuff_id = id
       stuff_to_do.stuff_type = 'Issue'

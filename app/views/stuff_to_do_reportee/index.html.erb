@@ -7,9 +7,9 @@
 <% end %>
 
 <div id='reportees'>
-	<%= render :partial => 'reportee_list' %>
+	<%= render partial: 'reportee_list' %>
 </div>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
+  <%= stylesheet_link_tag "stuff_to_do.css", plugin: "stuff_to_do_plugin", media: 'all' %>
 <% end %>

@@ -6,15 +6,15 @@ class StuffToDoFilter
   def initialize(params = {})
     self.users = [params[:user]]
     self.priorities = get_priorites
-    self.statuses = IssueStatus.where(:is_closed => false)
+    self.statuses = IssueStatus.where(is_closed: false)
   end
   
   def each
     if StuffToDo.using_issues_as_items?
       {
-        :users => self.users.sort,
-        :priorities => self.priorities.sort,
-        :statuses => self.statuses ? self.statuses.sorted : []
+        users: self.users.sort,
+        priorities: self.priorities.sort,
+        statuses: self.statuses ? self.statuses.sorted : []
       }.each do |group, items|
         yield group, items
       end

@@ -1,13 +1,13 @@
 <div id="panes">
-<%= form_tag({}, :data => {:cm_url => issues_context_menu_path}) do -%>
-<%= hidden_field_tag 'back_url', url_for(:params => request.query_parameters), :id => nil %>
+<%= form_tag({}, data: { cm_url: issues_context_menu_path}) do -%>
+<%= hidden_field_tag 'back_url', url_for(params: request.query_parameters), id: nil %>
 
 <div class="splitcontentleft">
-  <%= render :partial => 'left_panes' %>
+  <%= render partial: 'left_panes' %>
 </div>
 
 <div class="splitcontentright">
-  <%= render :partial => 'right_panes' %>
+  <%= render partial: 'right_panes' %>
 </div>
 
 <% end %>

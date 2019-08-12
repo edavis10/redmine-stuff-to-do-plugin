@@ -6,9 +6,9 @@
           </div>
         <% else %>
           <div class="issue-details">
-          <%= check_box_tag 'ids[]', issue.id, false, :id => nil %>
+          <%= check_box_tag 'ids[]', issue.id, false, id: nil %>
           <% if User.current.allowed_to? :view_issues, issue.project %>
-            <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), :controller => 'issues', :action => 'show', :id => issue) %>
+            <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), controller: 'issues', action: 'show', id: issue) %>
           <% else %>
             <%= image_tag('ticket.png') + '#' + h(issue.id) %>
           <% end %>
@@ -24,7 +24,7 @@
           <div class="estimate"><%= h(l_hours_short(issue.estimated_hours)) %> &nbsp;</div>
           <% end %>
   
-          <div class="progress"><%= progress_bar(issue.done_ratio, :width => '100%', :legend => due) %></div>
+          <div class="progress"><%= progress_bar(issue.done_ratio, width: '100%', legend: due) %></div>
           </div>
 
         <% end %>

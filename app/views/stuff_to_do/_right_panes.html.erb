@@ -3,7 +3,7 @@
 
     <ol id="available">
       <% unless @available.empty? %>
-      <%= render :partial => 'item', :collection => @available %>
+      <%= render partial: 'item', collection: @available %>
       <% else %>
       <li class="empty-list">
         <%= l(:stuff_to_do_drag_issue_remove_list) %>
@@ -13,7 +13,7 @@
 
     <div class="pane-summary">
       <div id="available-total-progress">
-        <%= progress_bar_sum(@available, :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+        <%= progress_bar_sum(@available, :done_ratio, { width: '200px', legend:  l(:stuff_to_do_text_total_progress) }) %>
       </div>
 
       <div id="available-estimates">

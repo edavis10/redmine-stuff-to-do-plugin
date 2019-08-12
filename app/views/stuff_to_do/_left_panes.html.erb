@@ -7,7 +7,7 @@
 
     <ol id="doing-now">
       <% unless stuff_for(@doing_now).empty? %>
-      <%= render :partial => 'item', :collection => stuff_for(@doing_now) %>
+      <%= render partial: 'item', collection: stuff_for(@doing_now) %>
       <% else %>
       <li class="empty-list">
         <%= l(:stuff_to_do_drag_issue_create_list) %>
@@ -17,7 +17,7 @@
 
     <div class="pane-summary">
       <div id="doing-now-total-progress">
-        <%= progress_bar_sum(issues_for(@doing_now), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+        <%= progress_bar_sum(issues_for(@doing_now), :done_ratio, { width: '200px', legend: l(:stuff_to_do_text_total_progress) }) %>
       </div>
 
       <div id="doing-now-estimates">
@@ -34,12 +34,12 @@
     </h3>
 
     <ol id="recommended">
-      <%= render :partial => 'item', :collection => stuff_for(@recommended) %>
+      <%= render partial: 'item', collection: stuff_for(@recommended) %>
     </ol>
 
     <div class="pane-summary">
       <div id="recommended-total-progress">
-        <%= progress_bar_sum(issues_for(@recommended), :done_ratio, { :width => '200px', :legend =>  l(:stuff_to_do_text_total_progress) }) %>
+        <%= progress_bar_sum(issues_for(@recommended), :done_ratio, { width: '200px', legend: l(:stuff_to_do_text_total_progress) }) %>
       </div>
 
       <div id="recommended-estimates">
@@ -47,7 +47,7 @@
       </div>
     </div>
 
-    <%= link_to l(:button_clear), url_for(:controller => :stuff_to_do, :action => :clear, :user_id => @user), :confirm => l(:stuff_to_do_clear_confirm), :class => 'icon icon-del' %>
+    <%= link_to l(:button_clear), url_for(controller: :stuff_to_do, action: :clear, user_id: @user), confirm: l(:stuff_to_do_clear_confirm), class: 'icon icon-del' %>
   </div>
 
 

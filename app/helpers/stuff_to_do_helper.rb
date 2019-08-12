@@ -22,12 +22,12 @@ module StuffToDoHelper
         # Projects only needs a single item
         html << content_tag(:option,
                             filter_group.to_s.capitalize,
-                            :value => 'projects',
-                            :style => 'font-weight: bold')
+                            value: 'projects',
+                            style: 'font-weight: bold')
       else
         html << content_tag(:optgroup,
                             options_for_select(options.collect { |item| [item.to_s, filter_group.to_s + '-' + item.id.to_s]}, selected),
-                            :label => filter_group.to_s.capitalize )
+                            label: filter_group.to_s.capitalize )
       end
     end
     
@@ -37,8 +37,8 @@ module StuffToDoHelper
   def project_options(projects, selected = nil)
     html = options_for_select([[l(:label_project_all), '']]) # Blank
 
-    html << project_tree_options_for_select(projects, :selected => selected) do |p|
-      { :value => p.id }
+    html << project_tree_options_for_select(projects, selected: selected) do |p|
+      { value: p.id }
     end      
     
     return html
@@ -105,7 +105,7 @@ module StuffToDoHelper
       columns << l(:field_description)
     end
   
-    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
+    export = FCSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv title
       csv << [ l(:stuff_to_do_title) ]
       csv << [ l(:field_user) + ": " + user.name ]
