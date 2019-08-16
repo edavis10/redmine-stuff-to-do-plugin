@@ -257,7 +257,7 @@ class StuffToDo < ApplicationRecord
   end
 
   def self.conditions_for_available(user, filter_by, project)
-    scope = self
+    #scope = self
     #for Postgres:# conditions = "#{IssueStatus.table_name}.is_closed = false"
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     trackers = Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do']
