@@ -1,11 +1,7 @@
 class StuffToDoReporteeController < ApplicationController
   unloadable
 
-  if Rails::VERSION::MAJOR < 3
-    before_filter :get_user
-  else
-    before_action :get_user
-  end
+  before_action :get_user
 
   def index
     render :index, locals: { from_admin_menu: false }

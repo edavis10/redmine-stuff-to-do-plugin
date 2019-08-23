@@ -3,19 +3,12 @@
 require 'redmine'
 
 # Patches to the Redmine core.
-# Including dispatcher.rb in case of Rails 2.x
-require 'dispatcher' unless Rails::VERSION::MAJOR >= 3
 
+#dependency: Rails::VERSION::MAJOR >= 3
 # Rails 5.1/Rails 4
 reloader = defined?(ActiveSupport::Reloader) ? ActiveSupport::Reloader : ActionDispatch::Reloader
-if Rails::VERSION::MAJOR < 3
-  Dispatcher.to_prepare do
-    require 'stuff_to_do_dispatch'
-  end
-else
-  reloader.to_prepare do
-    require 'stuff_to_do_dispatch'
-  end
+reloader.to_prepare do
+  require 'stuff_to_do_dispatch'
 end
 
 # This is the important line.
@@ -28,9 +21,9 @@ Redmine::Plugin.register :stuff_to_do_plugin do
   url 'https://github.com/neffets/redmine-stuff-to-do-plugin'
   author_url 'https://github.com/neffets'
   description "The Stuff To Do plugin allows a user to order and prioritize the issues they are doing into a specific order. It will also allow other privilged users to reorder the user's workload. compatible redmine 2.x - 4.x"
-  version '0.7.0'
+  version '0.7.1'
 
-  requires_redmine version_or_higher: '2.0.0'
+  requires_redmine version_or_higher: '3.0.0'
 
   settings(partial: 'settings/stuff_to_do_settings',
            default: {

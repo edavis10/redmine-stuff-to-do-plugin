@@ -4,7 +4,14 @@ require File.expand_path('../../test_helper', __FILE__)
 #  (create "test" entry in config/databases.ymli for test-db)
 #  bundle install --with test
 #  ENV=test RAILS_ENV=test bin/rake redmine:load_default_data
+#
+#  Weiter Rails4 (redmine3)
 #  ENV=test RAILS_ENV=test bin/rake redmine:plugins:test 2>&1 |tee LOG
+#
+#  Weiter Rails5 (redmine4)
+#  bin/rails db:environment:set RAILS_ENV=test
+#  ENV=test RAILS_ENV=test bin/rake redmine:plugins:test 2>&1 |tee LOG
+#  ENV=test RAILS_ENV=test bin/rake redmine:plugins:test:units 2>&1 |tee LOG
 
 class StuffToDoTest < ActiveSupport::TestCase
   fixtures :users, :issues, :projects, :trackers, :projects_trackers, 

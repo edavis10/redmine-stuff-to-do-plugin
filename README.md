@@ -1,7 +1,7 @@
 # Redmine Stuff To Do Plugin
 
 The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload.
-Master branch supports redmine version 2.x only. Previous versions use 0.4.0.
+Master branch supports redmine version 3.x and up. For previous versions use the compatible branches.
 
 ![StuffToDo](img/StuffToDo.png "Stuff to Do")
 
@@ -24,11 +24,9 @@ A copy of the plugin can be downloaded for original versions from [Little Stream
 ## Installation and Setup
 
 1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
-   * for redmine1.x/rails2: Make sure the plugin is installed to: *vendor/plugins/stuff_to_do_plugin*
-   * for redmine2.x/rails3: Make sure the plugin is installed to: *plugins/stuff_to_do_plugin*
+   * for redmine>=2.x/>=rails3: Make sure the plugin is installed to: *plugins/stuff_to_do_plugin*
 2. Run the plugin migrations
-   * for redmine1.x/rails2: *rake db:migrate_plugins*
-   * for redmine2.x/rails3: *rake redmine:plugins:migrate*
+   * for redmine>=2.x/>=rails3: *rake redmine:plugins:migrate*
 3. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
 4. Login and configure the plugin (Administration > Plugins > Configure)
 5. Setup permissions
@@ -73,7 +71,7 @@ If the user is an Administrator, they have the permission to edit other users' l
 
 ## License
 
-This plugin is licensed under the GNU GPL v2.  See COPYRIGHT.txt and GPL.txt for details.
+This plugin is licensed under the GNU GPL v3.  See COPYRIGHT.txt and GPL.txt for details.
 
 ## Project help
 

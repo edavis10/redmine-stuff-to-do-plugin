@@ -15,21 +15,11 @@ class StuffToDo < ApplicationRecord
   belongs_to :user
   acts_as_list scope: :user
   
-  if Rails::VERSION::MAJOR >= 3
-    scope :doing_now, ->(user) {
-      where( user_id: user.id )
-      .order('position ASC')
-      .limit(5)
-    }
-  else
-    named_scope :doing_now, lambda { |user|
-      {
-        conditions: { user_id: user.id },
-        order: 'position ASC',
-        limit: 5
-      }
-    }
-  end
+  scope :doing_now, ->(user) {
+    where( user_id: user.id )
+    .order('position ASC')
+    .limit(5)
+  }
   
   # TODO: Rails bug
   #
@@ -38,23 +28,12 @@ class StuffToDo < ApplicationRecord
   #
   # http://dev.rubyonrails.org/ticket/7257
   #
-  if Rails::VERSION::MAJOR >= 3
-    scope :recommended, ->(user) {
-      where( user_id: user.id )
-        .order('position ASC')
-        .limit(self.count)
-        .offset(5)
-    }
-  else
-    named_scope :recommended, lambda { |user|
-      {
-        conditions: [ "user_id = ?", user.id ],
-        order: 'position ASC',
-        limit: self.count,
-        offset: 5
-      }
-    }
-  end
+  scope :recommended, ->(user) {
+    where( user_id: user.id )
+      .order('position ASC')
+      .limit(self.count)
+      .offset(5)
+  }
   
   # Filters the issues that are available to be added for a user.
   #
@@ -110,11 +89,7 @@ class StuffToDo < ApplicationRecord
 
     # Deliver an email for each user who is below the threshold
     user_ids.uniq.each do |user_id|
-      if Rails::VERSION::MAJOR >= 3
-        count = self.select( "user_id = %d" % user_id ).count( :id )
-      else
-        count = self.count(conditions: { user_id: user_id})
-      end
+      count = self.select( "user_id = %d" % user_id ).count( :id )
 
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
 

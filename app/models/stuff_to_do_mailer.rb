@@ -13,32 +13,19 @@ class StuffToDoMailer < Mailer
     set_language_if_valid Setting.default_language
     Rails.logger.error "Language user = #{user.language}"
     set_language_if_valid user.language
-    if Rails::VERSION::MAJOR >= 3
-      @to = Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
-      @subject = "What's Recommended is below the threshold"
+    @to = Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
+    @subject = "What's Recommended is below the threshold"
 
-      @threshold = Setting.plugin_stuff_to_do_plugin['threshold']
-      @count = number_of_next_items
-      @user = user
+    @threshold = Setting.plugin_stuff_to_do_plugin['threshold']
+    @count = number_of_next_items
+    @user = user
 
-      mail(to: @to,
-        subject: @subject,
-        threshold: @threshold,
-        count: @count,
-        user: @user,
-        template_name: "recommended_below_threshold")
-    else
-      recipients Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
-      subject "What's Recommended is below the threshold"
-
-      body(
-        threshold: Setting.plugin_stuff_to_do_plugin['threshold'],
-        count: number_of_next_items,
-        user: user
-      )
-
-      render_multipart("recommended_below_threshold", body)
-    end
+    mail(to: @to,
+      subject: @subject,
+      threshold: @threshold,
+      count: @count,
+      user: @user,
+      template_name: "recommended_below_threshold")
   end
 
   def periodic(user, doing_now, recommended)

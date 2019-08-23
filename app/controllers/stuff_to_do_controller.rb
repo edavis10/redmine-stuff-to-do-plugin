@@ -3,13 +3,8 @@ class StuffToDoController < ApplicationController
 
   include StuffToDoHelper
 
-  if Rails::VERSION::MAJOR < 3
-    before_filter :get_user, :get_project
-    before_filter :get_time_grid, only: [:index, :time_grid]
-  else
-    before_action :get_user, :get_project
-    before_action :get_time_grid, only: [:index, :time_grid]
-  end
+  before_action :get_user, :get_project
+  before_action :get_time_grid, only: [:index, :time_grid]
   helper :stuff_to_do
   helper :custom_fields
   helper :timelog
