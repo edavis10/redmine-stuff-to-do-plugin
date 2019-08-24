@@ -35,12 +35,12 @@
 <div style="clear:both;"></div>
 
 <% other_formats_links do |f| %>
-  <%= f.link_to 'CSV', url: params, onclick: "showModal('csv-export-options', '330px'); return false;" %>
+  <%= f.link_to 'CSV', url: params.permit([:controller, :action, :format]), onclick: "showModal('csv-export-options', '330px'); return false;" %>
 <% end %>
 
 <div id="csv-export-options" style="display:none;">
   <h3 class="title"><%= l(:label_export_options, export_format: 'CSV') %></h3>
-  <%= form_tag(params.merge({format: 'csv', page: nil}), method: :get, id: 'csv-export-form') do %>
+  <%= form_tag(params.permit([:controller, :action, :format]).merge({format: 'csv', page: nil}), method: :get, id: 'csv-export-form') do %>
   <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, global: true) %>
     <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
     <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { name: 'user_id'}) %>

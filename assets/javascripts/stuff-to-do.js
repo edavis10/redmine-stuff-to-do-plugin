@@ -96,7 +96,6 @@ jQuery(function($) {
 
   var saveOrder = function() {
     data = 'user_id=' + user_id + '&' + $("#doing-now").sortable('serialize') + '&' + $("#recommended").sortable('serialize');
-alert(data);
     if (filter != null) {
       data = data + '&filter=' + filter;
     }

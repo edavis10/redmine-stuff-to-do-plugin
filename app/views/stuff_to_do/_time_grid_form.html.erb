@@ -6,7 +6,7 @@
 </fieldset>
 
 <p style="float:right; margin:0px;">
-<%= link_to("« #{l(:label_previous)} #{l(:label_week).downcase}",
+<%= link_to("« #{l(:label_previous)} #{l(:label_week)}",
                    { url: { action: 'time_grid', date: @date - 7 },
                      remote: true,
                      update: "time-grid"

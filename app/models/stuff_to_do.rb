@@ -95,7 +95,7 @@ class StuffToDo < ApplicationRecord
 
       if threshold && threshold.to_i >= count
         user = User.find_by_id(user_id)
-        StuffToDoMailer.recommended_below_threshold(user, count)
+        StuffToDoMailer.recommended_below_threshold(user, count) unless user.is_a?(User)
       end
     end
     

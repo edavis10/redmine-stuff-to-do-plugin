@@ -105,7 +105,8 @@ class StuffToDoController < ApplicationController
     @time_entry = TimeEntry.new
     @time_entry.user = User.current
     if params[:time_entry] &&  params[:time_entry].first
-      @time_entry.attributes = params[:time_entry].first
+      @time_entry.safe_attributes = params[:time_entry].first
+      # [ :issue_id, :spent_on, :hours, :comments, :activity_id ]
     end
     @time_entry.project = @time_entry.issue.project if @time_entry.issue
     respond_to do |format|

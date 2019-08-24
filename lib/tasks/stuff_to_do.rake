@@ -11,7 +11,7 @@ namespace :redmine do
           StuffToDoMailer.periodic(user, doing_now, recommended).deliver
         end
       end
-      StuffToDoMailer.periodic_summary(sent).deliver
+      StuffToDoMailer.periodic_summary(User.current, sent).deliver
     end
   end
 end
