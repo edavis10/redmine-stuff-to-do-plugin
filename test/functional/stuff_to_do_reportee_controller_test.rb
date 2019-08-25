@@ -2,7 +2,11 @@ require File.expand_path('../../test_helper', __FILE__)
 
 class StuffToDoReporteeControllerTest < ActionController::TestCase
   fixtures :users, :stuff_to_do_reportees, :groups_users
-  
+
+  def setup
+    @controller = StuffToDoReporteeController.new
+  end
+
   def test_index
     get :index, params: { user_id: StuffToDoReportee.first.user_id }
     assert_response 302, "return error if no permission"
