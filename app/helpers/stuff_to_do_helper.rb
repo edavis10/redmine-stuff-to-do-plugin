@@ -105,7 +105,7 @@ module StuffToDoHelper
       columns << l(:field_description)
     end
   
-    export = FCSV.generate(col_sep: l(:general_csv_separator)) do |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv title
       csv << [ l(:stuff_to_do_title) ]
       csv << [ l(:field_user) + ": " + user.name ]
