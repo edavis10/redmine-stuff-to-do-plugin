@@ -5,7 +5,7 @@
             <em><%= l(:stuff_to_do_issue_unathorized) %></em>
           </div>
         <% else %>
-          <div class="issue-details">
+          <div class="issue-details" title="<%= h(issue.project.name) %> - <%= h((defined? issue.subject_combined) ? issue.subject_combined : issue.subject) %>">
           <%= check_box_tag 'ids[]', issue.id, false, id: nil %>
           <% if User.current.allowed_to? :view_issues, issue.project %>
             <%= link_to(image_tag('ticket.png') + '#' + h(issue.id), controller: 'issues', action: 'show', id: issue) %>
