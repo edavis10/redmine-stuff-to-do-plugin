@@ -14,16 +14,16 @@ class StuffToDo < ApplicationRecord
   belongs_to :stuff, polymorphic: true
   belongs_to :user
   acts_as_list scope: :user
-  
+
   scope :doing_now, ->(user) {
     where( user_id: user.id )
     .order('position ASC')
     .limit(5)
   }
-  
+
   # TODO: Rails bug
   #
-  # ActiveRecord ignores :offset if :limit isn't added also.  But since we 
+  # ActiveRecord ignores :offset if :limit isn't added also.  But since we
   # want all the records, we need to provide a limit that will include everything
   #
   # http://dev.rubyonrails.org/ticket/7257
@@ -34,7 +34,7 @@ class StuffToDo < ApplicationRecord
       .limit(self.count)
       .offset(5)
   }
-  
+
   # Filters the issues that are available to be added for a user.
   #
   # A filter can be a record:
@@ -45,14 +45,14 @@ class StuffToDo < ApplicationRecord
   #
   def self.available(user, project, filter=nil)
     return [] if filter.blank?
-      
+
     if filter.is_a?(Project)
       potential_stuff_to_do = active_and_visible_projects(user).sort
     else
       if User.current.allowed_to?(:view_all_reportee_issues, nil, { global: true }) or (User == User.current)
         visible_issues =  Issue
       else
-        visible_issues =  Issue.visible       
+        visible_issues =  Issue.visible
       end
       potential_stuff_to_do = visible_issues
                                      .where( conditions_for_available(user, filter, project) )
@@ -61,13 +61,12 @@ class StuffToDo < ApplicationRecord
     end
 
     stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
-    
+
     return potential_stuff_to_do - stuff_to_do
   end
-  
-  def self.assigned(user)
 
-    return StuffToDo.where( user_id: user.id ).collect(&:stuff)
+  def self.assigned(user)
+    return StuffToDo.where(user_id: user.id).collect(&:stuff)
   end
 
   def self.using_projects_as_items?
@@ -89,7 +88,7 @@ class StuffToDo < ApplicationRecord
 
     # Deliver an email for each user who is below the threshold
     user_ids.uniq.each do |user_id|
-      count = self.select( "user_id = %d" % user_id ).count( :id )
+      count = self.select("user_id = %d" % user_id).count(:id)
 
       threshold = Setting.plugin_stuff_to_do_plugin['threshold']
 
@@ -98,10 +97,10 @@ class StuffToDo < ApplicationRecord
         StuffToDoMailer.recommended_below_threshold(user, count) unless user.is_a?(User)
       end
     end
-    
+
     return true
   end
-  
+
   # Destroys all +NextIssues+ on an +issue+ that are not the assigned to user
   def self.remove_stale_assignments(issue)
     if issue.assigned_to_id.nil?
@@ -112,7 +111,7 @@ class StuffToDo < ApplicationRecord
                              issue.assigned_to_id])
     end
   end
-  
+
   # Reorders the list of StuffToDo items for +user+ to be in the order of
   # +ids+.  New StuffToDos will be created if needed and old
   # StuffToDos will be removed if they are unassigned.
@@ -181,13 +180,13 @@ class StuffToDo < ApplicationRecord
         stuff_to_do.user_id = user.id
 
         stuff_to_do.save # TODO: Check return
-        
+
         # Have to resave next_issue since acts_as_list automatically moves it
         # to the bottom on create
         stuff_to_do.insert_at(position + 1)  # acts_as_list is 1 based
       end
     end
-  
+
   end
 
   # Destroys saved records that are +ids_found_in_database+ but are
@@ -199,12 +198,12 @@ class StuffToDo < ApplicationRecord
       removed_stuff_to_do.destroy
     end
   end
-  
+
   def self.remove(user_id, id)
     removed_stuff_to_do = self.find_by(user_id: user_id, stuff_id: id)
     removed_stuff_to_do.destroy
   end
-  
+
   def self.add(user_id, id, to_front)
     if (find_by(user_id: user_id, stuff_id: id).nil?) #make sure it's not already there
       stuff_to_do = self.new
@@ -212,7 +211,7 @@ class StuffToDo < ApplicationRecord
       stuff_to_do.stuff_type = 'Issue'
       stuff_to_do.user_id = user_id
       stuff_to_do.save # TODO: Check return
-              
+
       if to_front == true
         stuff_to_do.insert_at(1)
       end
@@ -237,22 +236,19 @@ class StuffToDo < ApplicationRecord
     conditions = "#{IssueStatus.table_name}.is_closed = false"
     trackers = Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do']
     if not trackers.nil? and not trackers.include? 'all'
-      conditions << " AND (#{IssueStatus.table_name}.id IN (#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
+      conditions["#{IssueStatus.table_name}.id"] = "#{Setting.plugin_stuff_to_do_plugin['statuses_for_stuff_to_do'].join(',')}))"
     end
-    conditions << " AND (" << "#{Project.table_name}.status = %d" % [Project::STATUS_ACTIVE] << ")"
-    conditions << " AND ((" << "assigned_to_id = %d" % [user.id] << ")"
-    if(user.is_a?(User))
-      user.group_ids.each do |group_id|
-        conditions << " OR (" << "assigned_to_id = %d" % [group_id] << ")"
-      end
-    end
-    conditions << ")"
-    case 
+
+    conditions["projects"] = {"status" => Project::STATUS_ACTIVE}
+    conditions["assigned_to_id"] = user.id
+    conditions["assigned_to_id"] = [user.id] + user.group_ids if(user.is_a?(User))
+
+    case
     when filter_by.is_a?(IssueStatus), filter_by.is_a?(Enumeration)
       table_name = filter_by.class.table_name
-      conditions << " AND (" << "#{table_name}.id = (%d)" % [filter_by.id] << ")"
+      conditions["#{table_name}.id"] = filter_by.id
     end
-    conditions << ( " AND (" << "#{Issue.table_name}.project_id = %d" % [project.id] << ")" ) unless project.nil?
+    conditions["#{Issue.table_name}.project_id"] = project.id unless project.nil?
     conditions
   end
 end
