@@ -108,8 +108,8 @@ input.save-time-grid { float: right; margin-top: 10px; margin-bottom: 10px; }
 .context-menu a.disabled, .context-menu a.disabled:hover {color: #ccc;}
 .context-menu li a.submenu { background:url("../images/sub.gif") right no-repeat; }
 .context-menu a:hover { border-color:gray; background-color:#eee; color:#2A5685; }
-.context-menu li.folder a:hover { background-color:#eee; }  
-.context-menu li.folder:hover { z-index:40; }    
+.context-menu li.folder a:hover { background-color:#eee; }
+.context-menu li.folder:hover { z-index:40; }
 .context-menu ul ul, .context-menu  li:hover ul ul { display:none; }
 .context-menu li:hover ul, .context-menu li:hover li:hover ul {  display:block; }
 
