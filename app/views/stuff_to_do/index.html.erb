@@ -15,7 +15,7 @@
     <% end %>
   </div>
   <% else %>
-  	<%= hidden_field_tag "user_id", @user.id %>
+    <%= hidden_field_tag "user_id", @user.id %>
   <% end %>
 
   <div class="filter">
@@ -45,7 +45,7 @@
     <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
     <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { name: 'user_id'}) %>
   <% end %>
-  
+
   <label><%= check_box_tag 'available', 'yes', true %> <%= l(:stuff_to_do_what_is_available) %></label><br />
   <label><%= check_box_tag 'description', 'no', false %> <%= l(:field_description) %></label>
   </p>

@@ -4,21 +4,21 @@ ru:
   stuff_to_do_what_is_recommended: "Рекомендовано к выполению далее"
   stuff_to_do_what_is_available: "доступно"
   stuff_to_do_text_order_im_doing_it: "По порядку выполнения мною"
-  stuff_to_do_text_by_project_manager: Управляющим проектом
+  stuff_to_do_text_by_project_manager: "Управляющим проектом"
   stuff_to_do_label_view_user_list: "Просмотреть список задач другого пользователя:"
   stuff_to_do_text_total_progress: "Всего выполнено"
   stuff_to_do_text_total_estimates: "Всего затрачено времени"
-  stuff_to_do_label_project_manager_emails: Отсылка сообщений руководителю
-  stuff_to_do_label_threshold: Крайнее значение
-  stuff_to_do_label_email_to: Адреса для отсылки
+  stuff_to_do_label_project_manager_emails: "Отсылка сообщений руководителю"
+  stuff_to_do_label_threshold: "Крайнее значение"
+  stuff_to_do_label_email_to: "Адреса для отсылки"
   stuff_to_do_text_settings: "Если число следующих задач, заданных для выполнения пользователю, превысит заданное ниже значение, то будет отослано письмо руководителю. Можно задать несколько адресов получателей, разделяя их запятыми"
-  stuff_to_do_label_filter: Фильтр
-  stuff_to_do_label_filter_by: Фильтровать по ...
-  stuff_to_do_drag_issue_create_list: Назначенные задачи
-  stuff_to_do_drag_issue_create_list: Drag issues here to create a new list.
-  stuff_to_do_drag_issue_remove_list: Drag issues here to remove them from a list.
-  stuff_to_do_use_as_stuff_to_do: Use as Stuff To Do items
-  stuff_to_do_statuses_available: Statuses available as Stuff To Do Items
+  stuff_to_do_label_filter: "Фильтр"
+  stuff_to_do_label_filter_by: "Фильтровать по ..."
+  stuff_to_do_drag_issue_create_list: "Назначенные задачи"
+  stuff_to_do_drag_issue_create_list: "Drag issues here to create a new list."
+  stuff_to_do_drag_issue_remove_list: "Drag issues here to remove them from a list."
+  stuff_to_do_use_as_stuff_to_do: "Use as Stuff To Do items"
+  stuff_to_do_statuses_available: "Statuses available as Stuff To Do Items"
   field_stuff_to_do_enabled: "Включить"
   stuff_to_do_add_to_front: "Добавить в начало"
   stuff_to_do_add_to_back: "Добавить в конец"
@@ -38,7 +38,6 @@ ru:
   permission_manage_stuff_to_do_reportees: "Manage own reportees"
   permission_view_all_reportee_issues: "See all available issues of reportees"
   permission_view_all_reportee_stuff_to_do: "See all issues of reportees with name"
-
   stuff_to_do_manage_managers: "Настроить руководителей"
   stuff_to_do_manager: "Руководитель"
   stuff_to_do_manager_new: "Новые руководители"
