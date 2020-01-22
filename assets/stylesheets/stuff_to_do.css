@@ -23,6 +23,8 @@ div.pane-summary { text-align: right; }
 div.pane-summary p { font-size: 80% }
 div.pane-summary table.progress { float: right; margin: 1px 6px;}
 
+div#panes form { display: flex; }
+
 /* Port of the issue coloring on the alternate.css theme */
 .odd.priority-highest, .odd.priority-highest:hover { color: #900; font-weight: bold; }
 .odd.priority-highest { background: #ffc4c4; }
