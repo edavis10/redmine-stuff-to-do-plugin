@@ -31,28 +31,28 @@ div#panes form { display: flex; }
 .even.priority-highest, .even.priority-highest:hover { color: #900; font-weight: bold; }
 .even.priority-highest { background: #ffd4d4; }
 .priority-highest a, .priority-5:hover a { color: #900; }
-.odd.priority-highest , .even.priority-highest { border-color: #ffb4b4; }
+.odd.priority-highest, .even.priority-highest { border-color: #ffb4b4; }
 
 .odd.priority-high2, .odd.priority-high4:hover { color: #900; }
 .odd.priority-high2 { background: #ffc4c4; }
 .even.priority-high2, .even.priority-high4:hover { color: #900; }
 .even.priority-high2 { background: #ffd4d4; }
 .priority-high2 a { color: #900; }
-.odd.priority-high2 , .even.priority-high4 { border-color: #ffb4b4; }
+.odd.priority-high2, .even.priority-high4 { border-color: #ffb4b4; }
 
 .odd.priority-high3, .odd.priority-high3:hover { color: #900; }
 .odd.priority-high3 { background: #fee; }
 .even.priority-high3, .even.priority-high3:hover { color: #900; }
 .even.priority-high3 { background: #fff2f2; }
 .priority-high3 a { color: #900; }
-.odd.priority-high3 , .even.priority-high3 { border-color: #fcc; }
+.odd.priority-high3, .even.priority-high3 { border-color: #fcc; }
 
 .odd.priority-lowest, .odd.priority-lowest:hover { color: #559; }
 .odd.priority-lowest { background: #eaf7ff; }
 .even.priority-lowest, .even.priority-lowest:hover { color: #559; }
 .even.priority-lowest { background: #f2faff; }
 .priority-lowest a { color: #559; }
-.odd.priority-lowest , .even.priority-lowest { border-color: #add7f3; }
+.odd.priority-lowest, .even.priority-lowest { border-color: #add7f3; }
 /* */
 
 /* Time Grid */
