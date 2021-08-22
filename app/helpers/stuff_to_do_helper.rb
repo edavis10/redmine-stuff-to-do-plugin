@@ -47,7 +47,13 @@ module StuffToDoHelper
   # Returns the stuff for a collection of StuffToDo items, removing anything
   # that have been deleted.
   def stuff_for(stuff_to_do_items)
-    return stuff_to_do_items.collect(&:stuff)
+    return remove_deleted(stuff_to_do_items.collect(&:stuff))
+  end
+
+  # Returns the items for a collection of StuffToDo items, removing anything
+  # that have been deleted
+  def remove_deleted(stuff_to_do_items)
+    stuff_to_do_items.reject {|item| item.nil? || item.class.nil? }
   end
 
   # Returns the issues for a collection of StuffToDo items, removing anything
