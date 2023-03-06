@@ -2,7 +2,7 @@
 class StuffToDoMailer < Mailer
   add_template_helper(StuffToDoHelper)
 
-  default to: Setting.plugin_stuff_to_do_plugin['email_to'].split(',')
+  default to: (Setting.plugin_stuff_to_do_plugin['email_to'] || "").split(',')
 
   def index
   end
