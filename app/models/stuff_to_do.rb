@@ -57,7 +57,7 @@ class StuffToDo < ApplicationRecord
       potential_stuff_to_do = visible_issues
                                      .where( conditions_for_available(user, filter, project) )
                                      .eager_load( :status, :priority, :project )
-                                     .order("#{Issue.table_name}.created_on DESC")
+                                     .order("#{IssuePriority.table_name}.position DESC, #{Issue.table_name}.created_on DESC")
     end
 
     stuff_to_do = StuffToDo.where( user_id: user.id ).collect(&:stuff)
