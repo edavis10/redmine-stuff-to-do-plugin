@@ -10,6 +10,8 @@ en:
   stuff_to_do_text_total_estimates: "Total Estimates"
   stuff_to_do_label_project_manager_emails: "Project Manager Emails"
   stuff_to_do_label_threshold: "Threshold"
+  stuff_to_do_label_threshold_cnt: "stuff todo count limit"
+  stuff_to_do_doing_now_threshold_cnt_setting: "set the doing now max limit."
   stuff_to_do_label_email_to: "Email addresses"
   stuff_to_do_text_settings: "A email is sent to the Project Manager when a user's Recommended item count reaches the threshold below.  Multiple email recipients can be specified by separating the email addresses with commas."
   stuff_to_do_label_filter: "Filter"

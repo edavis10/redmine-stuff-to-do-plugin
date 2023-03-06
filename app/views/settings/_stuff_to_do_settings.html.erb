@@ -5,6 +5,13 @@
 </p>
 
 <p>
+  <%= l(:stuff_to_do_doing_now_threshold_cnt_setting) %>
+</p>
+<p>
+  <label><%= l(:stuff_to_do_label_threshold_cnt) %></label><%= text_field_tag 'settings[threshold_cnt]', @settings['threshold_cnt'] %>
+</p>
+
+<p>
   <label><%= l(:stuff_to_do_label_threshold) %></label><%= text_field_tag 'settings[threshold]', @settings['threshold'] %>
 </p>
 

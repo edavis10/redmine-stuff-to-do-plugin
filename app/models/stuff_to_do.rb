@@ -18,7 +18,7 @@ class StuffToDo < ApplicationRecord
   scope :doing_now, ->(user) {
     where( user_id: user.id )
     .order('position ASC')
-    .limit(5)
+    .limit( (Setting.plugin_stuff_to_do_plugin['threshold_cnt']  || 5) )
   }
 
   # TODO: Rails bug
@@ -32,7 +32,7 @@ class StuffToDo < ApplicationRecord
     where( user_id: user.id )
       .order('position ASC')
       .limit(self.count)
-      .offset(5)
+      .offset( (Setting.plugin_stuff_to_do_plugin['threshold_cnt']  || 5) )
   }
 
   # Filters the issues that are available to be added for a user.
