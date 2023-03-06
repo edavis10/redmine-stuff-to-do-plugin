@@ -1,6 +1,10 @@
 
 class StuffToDoMailer < Mailer
-  add_template_helper(StuffToDoHelper)
+  if Rails::VERSION::MAJOR > 5
+    helper StuffToDoHelper
+  else
+    add_template_helper(StuffToDoHelper)
+  end
 
   default to: (Setting.plugin_stuff_to_do_plugin['email_to'] || "").split(',')
 

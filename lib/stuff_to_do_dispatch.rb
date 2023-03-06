@@ -6,8 +6,9 @@ require_dependency 'user_preference'
 
 #require 'stuff_to_do_project_patch';
 #require 'stuff_to_do_issue_patch';
-require 'stuff_to_do_user_patch';
-require 'stuff_to_do_user_preference_patch';
+#require 'stuff_to_do_user_patch';
+#require 'stuff_to_do_user_preference_patch';
+StuffToDoDispatch = 'done';
 
 #Project.send(:include, StuffToDoProjectPatch)
 #Issue.send(:include, StuffToDoIssuePatch)
