@@ -3,11 +3,11 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe StuffToDoMailer, 'recommended_below_threshold' do
 
   before(:each) do
-    @settings = {'email_to' => 'user1@example.com,user2@example.com', 'threshold' => '5'}
+    @settings = {'email_to': 'user1@example.com,user2@example.com', 'threshold': '5'}
     Setting.stub!(:plugin_stuff_to_do_plugin).and_return(@settings)
     Setting.stub!(:host_name).and_return('example.com')
     Setting.stub!(:protocol).and_return('https')
-    @user = mock_model(User, :name => "Example User", :id => 100)
+    @user = mock_model(User, name: "Example User", id: 100)
     @next_item_count = 2
 
     @mail = StuffToDoMailer.create_recommended_below_threshold(@user, @next_item_count)

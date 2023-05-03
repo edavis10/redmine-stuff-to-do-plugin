@@ -1,16 +1,16 @@
 # Compatibiliy class used by migrations
 class NextIssue < ActiveRecord::Base
-  set_table_name 'next_issues'
+  self.table_name = 'next_issues'
 end
 
-class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
+class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration[4.2]
   def self.up
-    NextIssue.find(:all).each do |next_issue|
+    NextIssue.find_each do |next_issue|
       StuffToDo.create!({
-                          :user_id => next_issue.user_id,
-                          :position => next_issue.position,
-                          :stuff_id => next_issue.issue_id,
-                          :stuff_type => 'Issue'
+                          user_id: next_issue.user_id,
+                          position: next_issue.position,
+                          stuff_id: next_issue.issue_id,
+                          stuff_type: 'Issue'
                         })
     end
 
@@ -18,11 +18,11 @@ class ConvertNextIssuesToStuffToDos < ActiveRecord::Migration
   end
   
   def self.down
-    StuffToDo.find_all_by_stuff_type('Issue').each do |stuff_to_do|
+    StuffToDo.where(stuff_type: 'Issue').each do |stuff_to_do|
       NextIssue.create!({
-                          :user_id => stuff_to_do.user_id,
-                          :position => stuff_to_do.position,
-                          :issue_id => stuff_to_do.stuff_id
+                          user_id: stuff_to_do.user_id,
+                          position: stuff_to_do.position,
+                          issue_id: stuff_to_do.stuff_id
                         })
     end
 

@@ -5,6 +5,13 @@
 </p>
 
 <p>
+  <%= l(:stuff_to_do_doing_now_threshold_cnt_setting) %>
+</p>
+<p>
+  <label><%= l(:stuff_to_do_label_threshold_cnt) %></label><%= text_field_tag 'settings[threshold_cnt]', @settings['threshold_cnt'] %>
+</p>
+
+<p>
   <label><%= l(:stuff_to_do_label_threshold) %></label><%= text_field_tag 'settings[threshold]', @settings['threshold'] %>
 </p>
 
@@ -21,7 +28,15 @@
 </p>
 
 <p>
+  <label><%= l(:stuff_to_do_statuses_available) %></label>
+  <%= select_tag('settings[statuses_for_stuff_to_do]',
+  options_for_select(IssueStatus.where(is_closed: false).sorted.collect{ |s| [s.name, s.id] }.unshift(['All Open Statuses', 'all']), @settings['statuses_for_stuff_to_do']),
+  multiple: true) %>
+</p>
+
+<p>
   <label><%= l(:stuff_to_do_use_time_grid) %></label>
   <%= hidden_field_tag 'settings[use_time_grid]', 0 %>
   <%= check_box_tag 'settings[use_time_grid]', 1, @settings['use_time_grid'].to_i == 1 %>
 </p>
+

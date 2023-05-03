@@ -1,4 +1,4 @@
-class AddIndexesToNextIssues < ActiveRecord::Migration
+class AddIndexesToNextIssues < ActiveRecord::Migration[4.2]
   def self.up
     add_index :next_issues, :issue_id
     add_index :next_issues, :user_id

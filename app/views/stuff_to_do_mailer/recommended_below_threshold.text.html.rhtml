@@ -1,1 +1,0 @@
-<%= link_to @user.name, :controller => 'stuff_to_do', :action => 'index', :user_id => @user.id, :only_path => false %> has only <%= @count %> recommended items left in their <%= link_to "Stuff to Do", :controller => 'stuff_to_do', :action => 'index', :user_id => @user.id, :only_path => false %> which is below the threshold of <%= @threshold %>.

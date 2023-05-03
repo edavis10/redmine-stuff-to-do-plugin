@@ -5,19 +5,20 @@
 
 Gem::Specification.new do |s|
   s.name = %q{stuff_to_do_plugin}
-  s.version = "0.4.0"
+  s.version = "0.7.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Eric Davis"]
-  s.date = %q{2010-04-11}
-  s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload.}
-  s.email = %q{edavis@littlestreamsoftware.com}
+  s.authors = ["Eric Davis, Steffen Schüssler"]
+  s.date = %q{2019-08-23}
+  s.description = %q{The Stuff To Do plugin allows a user to order and prioritize the issues and projects they are doing into a specific order. It will also allow other privileged users to reorder the user's workload. compatible redmine 3.x and 4.x}
+  s.email = %q{software@neffets.de}
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
   s.files = [
     "COPYRIGHT.txt",
      "CREDITS.txt",
+     "Gemfile",
      "GPL.txt",
      "README.rdoc",
      "Rakefile",
@@ -37,8 +38,8 @@ Gem::Specification.new do |s|
      "app/views/stuff_to_do/_time_grid.html.erb",
      "app/views/stuff_to_do/_time_grid_form.html.erb",
      "app/views/stuff_to_do/index.html.erb",
-     "app/views/stuff_to_do_mailer/recommended_below_threshold.erb",
-     "app/views/stuff_to_do_mailer/recommended_below_threshold.text.html.rhtml",
+     "app/views/stuff_to_do_mailer/recommended_below_threshold.text.erb",
+     "app/views/stuff_to_do_mailer/recommended_below_threshold.html.erb",
      "assets/images/b.png",
      "assets/images/bl.png",
      "assets/images/br.png",
@@ -47,7 +48,9 @@ Gem::Specification.new do |s|
      "assets/images/tl.png",
      "assets/images/tr.png",
      "assets/javascripts/facebox.js",
-     "assets/javascripts/jquery-1.2.6.min.js",
+     "assets/javascripts/jquery-1.10.1.js",
+     "assets/javascripts/jquery-1.10.1.min.js",
+     "assets/javascripts/jquery-ui.min.js",
      "assets/javascripts/jquery-ui.js",
      "assets/javascripts/jquery.contextMenu.js",
      "assets/javascripts/semantic.cache",
@@ -156,16 +159,17 @@ Gem::Specification.new do |s|
      "lang/tr.yml",
      "lib/redmine_stuff_to_do/stuff_to_do_compatibility.rb",
      "lib/stuff_to_do_array_patch.rb",
+     "lib/stuff_to_do_dispatch.rb",
      "lib/stuff_to_do_issue_patch.rb",
      "lib/stuff_to_do_project_patch.rb",
      "lib/stuff_to_do_user_patch.rb",
      "rails/init.rb"
   ]
-  s.homepage = %q{https://projects.littlestreamsoftware.com/projects/redmine-stuff-to-do}
+  s.homepage = %q{https://github.com/neffets/redmine-stuff-to-do-plugin}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{stuff_to_do_plugin}
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.8.15}
   s.summary = %q{A Redmine plugin to order and prioritize tasks to do using drag and drop.}
   s.test_files = [
     "spec/models/stuff_to_do_mailer_spec.rb",

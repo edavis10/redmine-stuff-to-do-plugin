@@ -1,0 +1,15 @@
+<% html_title(l(:stuff_to_do_reportees)) %>
+
+<% if from_admin_menu == true %>
+<h2><%= link_to l(:label_user_plural), users_path %> &#187; <%=h link_to @user.login , edit_user_path(@user) %> &#187; <%= l(:stuff_to_do_reportees) %></h2>
+<% else %>
+<h2> <%= link_to l(:label_my_account) , "/my/account" %>  &#187; <%= l(:stuff_to_do_reportees) %></h2>
+<% end %>
+
+<div id='reportees'>
+	<%= render partial: 'reportee_list' %>
+</div>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag "stuff_to_do.css", plugin: "stuff_to_do_plugin", media: 'all' %>
+<% end %>

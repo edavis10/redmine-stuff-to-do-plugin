@@ -1,44 +1,72 @@
 <% html_title(l(:stuff_to_do_title)) %>
-<h1><%= l(:stuff_to_do_title) %></h1>
+<h2><%= l(:stuff_to_do_title) %></h2>
 
 <div id="stuff-to-do-error" class="flash error" style="display:none">
 
 </div>
 
+<fieldset id="filters">
 <div class="menu">
-  <% if User.current.admin? %>
+  <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, global: true) %>
   <div class="user">
-    <% form_tag({ :controller => 'stuff_to_do', :action => 'index'}, :method => :get, :id => 'user_switch' ) do  %>
+    <%= form_tag({ controller: 'stuff_to_do', action: 'index'}, method: :get, id: 'user_switch' ) do  %>
     <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
-    <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { :name => 'user_id'}) %>
+    <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { name: 'user_id'}) %>
     <% end %>
   </div>
+  <% else %>
+    <%= hidden_field_tag "user_id", @user.id %>
+  <% end %>
 
   <div class="filter">
-    <% form_tag({}, :id => 'filter_form') do %>
+    <%= form_tag({}, id: 'filter_form') do %>
     <label for="filter"><%= l(:stuff_to_do_label_filter) %></label>
     <%= select_tag("filter", filter_options(@filters, params[:filter])) %>
+    <label for="project_id"><%= l(:label_project_plural) %></label>
+    <%= select_tag("project_id", project_options(StuffToDo.active_and_visible_projects(@user), params[:project_id])) %>
     <% end %>
   </div>
-  <% end %>
 </div>
+</fieldset>
 <div style="clear:right;"></div>
 
-<%= render :partial => 'panes' %>
+<%= render partial: 'panes' %>
 
 <div style="clear:both;"></div>
 
-<%= render :partial => 'time_grid' if !Setting.plugin_stuff_to_do_plugin['use_time_grid'].blank? && Setting.plugin_stuff_to_do_plugin['use_time_grid'] != "0" %>
+<% other_formats_links do |f| %>
+  <%= f.link_to 'CSV', url: params.permit([:controller, :action, :format]), onclick: "showModal('csv-export-options', '330px'); return false;" %>
+<% end %>
+
+<div id="csv-export-options" style="display:none;">
+  <h3 class="title"><%= l(:label_export_options, export_format: 'CSV') %></h3>
+  <%= form_tag(params.permit([:controller, :action, :format]).merge({format: 'csv', page: nil}), method: :get, id: 'csv-export-form') do %>
+  <% if User.current.allowed_to?(:view_others_stuff_to_do, @project, global: true) %>
+    <label for="user_id"><%= l(:stuff_to_do_label_view_user_list) %></label>
+    <%= collection_select(:user, :id, @users.sort, :id, :name, { }, { name: 'user_id'}) %>
+  <% end %>
+
+  <label><%= check_box_tag 'available', 'yes', true %> <%= l(:stuff_to_do_what_is_available) %></label><br />
+  <label><%= check_box_tag 'description', 'no', false %> <%= l(:field_description) %></label>
+  </p>
+  <p class="buttons">
+    <%= submit_tag l(:button_export), name: nil, onclick: "hideModal(this);" %>
+    <%= submit_tag l(:button_cancel), name: nil, onclick: "hideModal(this);", type: 'button' %>
+  </p>
+  <% end %>
+</div>
 
 <% content_for :header_tags do %>
-  <%= stylesheet_link_tag "stuff_to_do.css", :plugin => "stuff_to_do_plugin", :media => 'all' %>
-  <%= javascript_include_tag 'jquery-1.2.6.min.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'ui/ui.core.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'ui/ui.sortable.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'jquery.contextMenu.js', :plugin => 'stuff_to_do_plugin' %>
-  <%= javascript_include_tag 'facebox.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= stylesheet_link_tag "stuff_to_do.css", plugin: "stuff_to_do_plugin", media: 'all' %>
+  <%= javascript_include_tag 'jquery-1.10.1.js', plugin: 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery-ui.js', plugin: 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'jquery.contextMenu.js', plugin: 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'facebox.js', plugin: 'stuff_to_do_plugin' %>
   <%= javascript_tag("jQuery.noConflict();") %>
-  <%= javascript_include_tag 'stuff-to-do.js', :plugin => 'stuff_to_do_plugin' %>
+  <%= javascript_include_tag 'stuff-to-do.js', plugin: 'stuff_to_do_plugin' %>
   <%= javascript_tag("var user_id = #{@user.id};") %>
   <%= javascript_tag "window._token = '#{form_authenticity_token}'" %>
 <% end %>
+
+<%= render partial: 'time_grid' if !Setting.plugin_stuff_to_do_plugin['use_time_grid'].blank? && Setting.plugin_stuff_to_do_plugin['use_time_grid'] != "0" %>
+

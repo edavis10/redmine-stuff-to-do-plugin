@@ -1,4 +1,4 @@
-class CreateTimeGridIssuesUsers < ActiveRecord::Migration
+class CreateTimeGridIssuesUsers < ActiveRecord::Migration[4.2]
   def self.up
     create_table :time_grid_issues_users do |t|
       t.column :issue_id, :integer

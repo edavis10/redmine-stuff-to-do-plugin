@@ -1,9 +1,10 @@
 class StuffToDoController < ApplicationController
   unloadable
 
-  before_filter :get_user
-  before_filter :get_time_grid, :only => [:index, :time_grid]
-  before_filter :require_admin, :only => :available_issues
+  include StuffToDoHelper
+
+  before_action :get_user, :get_project
+  before_action :get_time_grid, only: [:index, :time_grid]
   helper :stuff_to_do
   helper :custom_fields
   helper :timelog
@@ -11,44 +12,82 @@ class StuffToDoController < ApplicationController
   def index
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
-    @available = StuffToDo.available(@user, default_filters )
-    
-    @users = User.active
+    @available = StuffToDo.available(@user, @project, default_filters )
+
+    @users = StuffToDoReportee.reportees_for(User.current)
+    @users << User.current unless @users.include?(User.current)
     @filters = filters_for_view
+
+    respond_to do |format|
+      format.html { render template: 'stuff_to_do/index', layout: !request.xhr? }
+      format.csv  { send_data(stuff_to_do_to_csv(@doing_now, @recommended, @available, @user, params), type: 'text/csv; header=present', filename: 'export.csv') }
+    end
+  end
+
+  def delete
+    if !params[:issue_id].nil? && !params[:user_id].nil?
+      StuffToDo.remove(params[:user_id],  params[:issue_id] )
+    end
+     
+    respond_to do |format|
+      format.html { redirect_to_referer_or { render text: ('Deleting Issue from stuff-to-do.'), layout: true} }
+      format.js { render partial: 'stuff-to-do', layout: false}
+    end
   end
   
+  def add
+    if !params[:issue_id].nil? && !params[:user_id].nil?
+      StuffToDo.add(params[:user_id], params[:issue_id], params[:to_front] == "true")         
+    end
+    respond_to do |format|
+      format.html { redirect_to_referer_or { render text: ('Adding issue to stuff-to-do.'), layout: true} }
+      format.js { render partial: 'stuff-to-do', layout: false}
+    end
+  end
+
   def reorder
     StuffToDo.reorder_list(@user, params[:stuff])
     @doing_now = StuffToDo.doing_now(@user)
     @recommended = StuffToDo.recommended(@user)
-    @available = StuffToDo.available(@user, get_filters )
+    @available = StuffToDo.available(@user, @project, get_filters )
 
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'panes', :layout => false}
+      format.html { redirect_to action: 'index'}
+      format.js { render partial: 'panes', layout: false}
     end
   end
   
   def available_issues
-    @available = StuffToDo.available(@user, get_filters)
+    @available = StuffToDo.available(@user, @project, get_filters)
 
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'right_panes', :layout => false}
+      format.html { redirect_to action: 'index'}
+      format.js { render partial: 'right_panes', layout: false}
+    end
+  end
+
+  def clear
+    StuffToDo.where(user_id: @user).destroy_all
+
+    respond_to do |format|
+      format.html { redirect_to action: 'index', user_id: @user }
+      format.js { redirect_to action: 'index', user_id: @user }
     end
   end
   
   def time_grid
+    get_time_grid
+    Rails.logger.debug "get_time_grid issues = #{@spent_issues.inspect}"
     respond_to do |format|
-      format.html { redirect_to :action => 'index'}
-      format.js { render :partial => 'time_grid', :layout => false}
+      format.html { redirect_to action: 'index'}
+      format.js { render partial: 'time_grid', layout: false}
     end
   end
 
   def add_to_time_grid
     issue = Issue.visible.find_by_id(params[:issue_id])
     # Issue exists and isn't already in user's list
-    if issue && !User.current.time_grid_issues.exists?(issue)
+    if issue && !User.current.time_grid_issues.exists?(issue.id)
       User.current.time_grid_issues << issue
     end
     get_time_grid
@@ -66,7 +105,8 @@ class StuffToDoController < ApplicationController
     @time_entry = TimeEntry.new
     @time_entry.user = User.current
     if params[:time_entry] &&  params[:time_entry].first
-      @time_entry.attributes = params[:time_entry].first
+      @time_entry.safe_attributes = params[:time_entry].first
+      # [ :issue_id, :spent_on, :hours, :comments, :activity_id ]
     end
     @time_entry.project = @time_entry.issue.project if @time_entry.issue
     respond_to do |format|
@@ -76,18 +116,28 @@ class StuffToDoController < ApplicationController
         
         format.js { time_grid }
       else
-        format.js { render :text => @time_entry.errors.full_messages.join(', '), :status => 403, :layout => false }
+        format.js { render text: @time_entry.errors.full_messages.join(', '), status: 403, layout: false }
       end
     end
   end
 
   private
   
+  def get_project
+    if params[:project_id] && !params[:project_id].empty?
+      @project = Project.where(id: params[:project_id]).first
+      if @project.nil?
+        render_404
+        return false
+      end
+    end
+  end
+  
   def get_user
     render_403 unless User.current.logged?
     
     if params[:user_id] && params[:user_id] != User.current.id.to_s
-      if User.current.admin?
+      if User.current.allowed_to?(:view_others_stuff_to_do, @project, global: true)
         @user = User.find(params[:user_id])
       else
         render_403
@@ -98,11 +148,11 @@ class StuffToDoController < ApplicationController
   end
   
   def filters_for_view
-    StuffToDoFilter.new
+    StuffToDoFilter.new(user: @user)
   end
 
   def get_filters
-    return default_filters unless params[:filter]
+    return default_filters if params[:filter].nil? or params[:filter].empty?
 
     id = params[:filter].split('-')[-1]
 
@@ -133,7 +183,8 @@ class StuffToDoController < ApplicationController
   def get_time_grid
     @date = parse_date_from_params
     @calendar = Redmine::Helpers::Calendar.new(@date, current_language, :week)
-    @issues = User.current.time_grid_issues.visible.all(:order => "#{Issue.table_name}.id ASC")
+    @spent_issues = User.current.time_grid_issues.visible.order("#{Issue.table_name}.id ASC").to_a
+    #Rails.logger.debug "get_time_grid issues = #{@spent_issues.inspect}"
     @time_entry = TimeEntry.new
   end
 
@@ -159,4 +210,24 @@ class StuffToDoController < ApplicationController
     date ||= Date.civil(params[:year].to_i, params[:month].to_i, params[:day].to_i) if params[:year] && params[:month] && params[:day]
     date ||= Date.today
   end
+
+  def default_filters
+    if StuffToDo.using_issues_as_items?
+      return @user
+    elsif StuffToDo.using_projects_as_items?
+      return Project.new
+    else
+    # Edge case
+    return { }
+    end
+  end
+
+  def load_stuff(filters=nil)
+    filters ||= default_filters
+
+    @doing_now = StuffToDo.doing_now(@user)
+    @recommended = StuffToDo.recommended(@user)
+    @available = StuffToDo.available(@user, @project, filters )
+  end
+
 end

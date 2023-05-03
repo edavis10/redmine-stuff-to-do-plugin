@@ -10,11 +10,11 @@ When /^I follow "(.*)"$/ do |link|
 end
 
 When /^I fill in "(.*)" with "(.*)"$/ do |field, value|
-  fill_in(field, :with => value) 
+  fill_in(field, with: value) 
 end
 
 When /^I select "(.*)" from "(.*)"$/ do |value, field|
-  select(value, :from => field) 
+  select(value, from: field) 
 end
 
 # Use this step in conjunction with Rail's datetime_select helper. For example:
@@ -33,7 +33,7 @@ end
 # When I select "November 23, 2004 11:20" as the "Preferred" data and time
 # And I select "November 25, 2004 10:30" as the "Alternative" data and time
 When /^I select "(.*)" as the "(.*)" date and time$/ do |datetime, datetime_label|
-  select_datetime(datetime, :from => datetime_label)
+  select_datetime(datetime, from: datetime_label)
 end
 
 # Use this step in conjuction with Rail's time_select helper. For example:
@@ -48,7 +48,7 @@ end
 # specify the name of the time on the form.  For example:
 # When I select "7:30AM" as the "Gym" time
 When /^I select "(.*)" as the "(.*)" time$/ do |time, time_label|
-  select_time(time, :from => time_label)
+  select_time(time, from: time_label)
 end
 
 # Use this step in conjuction with Rail's date_select helper.  For example:
@@ -61,7 +61,7 @@ end
 # you want to specify the name of the date on the form. For example:
 # When I select "April 26, 1982" as the "Date of Birth" date
 When /^I select "(.*)" as the "(.*)" date$/ do |date, date_label|
-  select_date(date, :from => date_label)
+  select_date(date, from: date_label)
 end
 
 When /^I check "(.*)"$/ do |field|

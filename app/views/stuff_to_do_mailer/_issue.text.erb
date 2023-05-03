@@ -1,0 +1,10 @@
+<% if !@bypass_user_allowed_to_view  and !@user.allowed_to? :view_issues, issue.project and !@user.allowed_to_globally?(:view_all_reportee_stuff_to_do, {}) %>
+  <%= l(:stuff_to_do_issue_unathorized) %>
+<% else %>
+  - <%= h(issue.project.name) %> - <%= h(issue.status.name) %> - <%= h(issue.subject) %>
+  <% if issue.estimated_hours && issue.estimated_hours > 0 %>
+  - <%= h(l_hours(issue.estimated_hours)) %>
+  <% end %>
+  - <%= issue.done_ratio %>
+
+<% end %>

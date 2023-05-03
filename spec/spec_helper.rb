@@ -83,7 +83,7 @@ end
 
 include AssociationMatcher
 
-describe 'get_time_grid_data', :shared => true do
+describe 'get_time_grid_data', shared: true do
   it 'should set @date for the view' do
     do_request
     assigns[:date].should_not be_nil
@@ -112,15 +112,15 @@ describe 'get_time_grid_data', :shared => true do
     date_from = date - (date.cwday - first_workday)%7
     date_to = date + (last_workday - date.cwday)%7
 
-    project = mock_model(Project, :name => 'ABC Test')
+    project = mock_model(Project, name: 'ABC Test')
     issues = [
-              mock_model(Issue, :project => project, :subject => 'Testing', :time_entries => []),
-              mock_model(Issue, :project => project, :subject => 'Testing', :time_entries => [])
+              mock_model(Issue, project: project, subject: 'Testing', time_entries: []),
+              mock_model(Issue, project: project, subject: 'Testing', time_entries: [])
              ]
     User.current.should_receive(:time_grid_issues).and_return(Issue)
     Issue.should_receive(:visible).at_least(:once).and_return(Issue)
     Issue.should_receive(:all).
-      with(:order => "#{Issue.table_name}.id ASC").
+      with(order: "#{Issue.table_name}.id ASC").
       and_return(issues)
                                                           
     do_request

@@ -1,4 +1,4 @@
-class CreateStuffToDos < ActiveRecord::Migration
+class CreateStuffToDos < ActiveRecord::Migration[4.2]
   def self.up
     create_table :stuff_to_dos do |t|
       t.column :user_id, :integer
