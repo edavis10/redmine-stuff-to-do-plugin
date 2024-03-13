@@ -18,12 +18,12 @@ Master branch supports redmine version 3.x and up. For previous versions use the
 
 ## Getting the plugin
 
-A copy of the plugin can be downloaded for original versions from [Little Stream Software](https://projects.littlestreamsoftware.com/projects/redmine-stuff-to-do/files) or for newer versions from [GitHub](http://github.com/neffets/redmine-stuff-to-do-plugin). 
+A copy of the plugin can be downloaded for original versions from Little Stream Software or for newer versions from [GitHub](http://github.com/neffets/redmine-stuff-to-do-plugin). 
 
 
 ## Installation and Setup
 
-1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins
+1. Follow the Redmine plugin installation steps at: https://www.redmine.org/projects/redmine/wiki/Plugins
    * for redmine>=2.x/>=rails3: Make sure the plugin is installed to: *plugins/stuff_to_do_plugin*
 2. Run the plugin migrations
    * for redmine>=2.x/>=rails3: *rake redmine:plugins:migrate*
