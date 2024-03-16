@@ -18,7 +18,7 @@ Master branch supports redmine version 3.x and up. For previous versions use the
 
 ## Getting the plugin
 
-A copy of the plugin can be downloaded for original versions from Little Stream Software or for newer versions from [GitHub](http://github.com/neffets/redmine-stuff-to-do-plugin). 
+A copy of the plugin can be downloaded for original versions from Little Stream Software or for newer versions from [GitHub](https://github.com/neffets/redmine-stuff-to-do-plugin). 
 
 
 ## Installation and Setup
